@@ -2,8 +2,8 @@
 node_modules
 /dist
 /im
-/im.zip
 /dist.zip
+/im.zip
 
 
 # local env files
