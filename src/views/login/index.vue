@@ -61,7 +61,10 @@ export default defineComponent({
     })
     const rules = reactive(function() {
       return {
-        username: [{ required: true, message: '账户不能为空', trigger: 'blur' }],
+        username: [
+          { required: true, message: '账户不能为空', trigger: 'blur' },
+          { pattern: /^[0-9A-Za-z]{6,12}$/, message: '请输入6-12位字母或数字或字母数字的组合' }
+        ],
         password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       }
     }())
