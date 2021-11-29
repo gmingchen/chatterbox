@@ -123,3 +123,8 @@ npm run build:test  # 测试环境
 [vue3-element-plus-admin](https://github.com/gmingchen/vue3-element-plus-admin)
 
 是一个管理后台基础功能框架，基于 [vue3](https://github.com/vuejs/vue-next) 、 [element-plus](https://github.com/element-plus/element-plus) 和 [typescript](https://github.com/microsoft/TypeScript) 实现。内置了 i18n 国际化，动态路由，权限验证。-[私活神器]
+
+
+[java-admin-base](https://github.com/gmingchen/java-admin-base)
+
+是一个管理后台基础功能框架 [base-refactoring](https://github.com/gmingchen/vue3-element-plus-admin/tree/base-refactoring) 分支的后端代码，基于 __`java`__ 的 __`springboot`__
