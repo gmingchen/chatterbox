@@ -46,11 +46,11 @@ export default defineComponent({
     const store = useStore()
     const icons = reactive(['chat', 'friend', 'group', 'bell', 'contact'])
     const urls = reactive([
-      { label: '公众号', url: 'http://139.196.182.46:8800/material/official-account-qr-code.jpg' },
-      { label: 'QQ交流群', url: 'http://139.196.182.46:8800/material/qq-group-qr-code.jpg' },
-      { label: '微信交流群', url: 'http://139.196.182.46:8800/material/wechat-group-qr-code.jpg' },
-      { label: '微信', url: 'http://139.196.182.46:8800/material/wechat-qr-code-1.jpg' },
-      { label: 'QQ', url: 'http://139.196.182.46:8800/material/qq-qr-code.jpg' }
+      { label: '公众号', url: 'http://oss.gumingchen.icu/image/official-account-qr-code.jpg' },
+      { label: 'QQ交流群', url: 'http://oss.gumingchen.icu/image/qq-group-qr-code.jpg' },
+      { label: '微信交流群', url: 'http://oss.gumingchen.icu/image/wechat-group-qr-code.jpg' },
+      { label: '微信', url: 'http://oss.gumingchen.icu/image/wechat-qr-code-1.jpg' },
+      { label: 'QQ', url: 'http://oss.gumingchen.icu/image/qq-qr-code.jpg' }
     ])
 
     const active = computed({
