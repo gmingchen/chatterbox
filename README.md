@@ -96,6 +96,7 @@ npm run build:test  # 测试环境
   <tr align="center">
     <td>公众号</td>
     <td>QQ交流群</td>
+    <td>微信交流群</td>
     <td>微信</td>
     <td>QQ</td>
   </tr>
