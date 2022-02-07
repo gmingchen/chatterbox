@@ -90,10 +90,6 @@ npm run build:prod  # 正式环境
 npm run build:test  # 测试环境
 ```
 
-### 广告
-
-![领红包](http://oss.gumingchen.icu/image/red-envelopes.jpg)
-
 ### 联系方式
 
 <table>
@@ -125,10 +121,13 @@ npm run build:test  # 测试环境
 
 ### 其它开源项目
 
+[java-im](https://github.com/gmingchen/java-im)
+
+是[vue3-element-plus-im](https://github.com/gmingchen/vue3-element-plus-im)即时聊天系统的 __`java`__ 后端代码，__`springboot`__ 基于 [netty](https://github.com/netty/netty) 、 [shiro](https://github.com/apache/shiro) 实现。
+
 [vue3-element-plus-admin](https://github.com/gmingchen/vue3-element-plus-admin)
 
 是一个管理后台基础功能框架，基于 [vue3](https://github.com/vuejs/vue-next) 、 [element-plus](https://github.com/element-plus/element-plus) 和 [typescript](https://github.com/microsoft/TypeScript) 实现。内置了 i18n 国际化，动态路由，权限验证。-[私活神器]
-
 
 [java-admin-base](https://github.com/gmingchen/java-admin-base)
 
