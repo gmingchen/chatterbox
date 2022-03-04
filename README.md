@@ -131,3 +131,6 @@ npm run build:test  # 测试环境
 [java-admin-base](https://github.com/gmingchen/java-admin-base)
 
 是一个管理后台基础功能框架 [base-refactoring](https://github.com/gmingchen/vue3-element-plus-admin/tree/base-refactoring) 分支的后端代码，基于 __`java`__ 的 __`springboot`__
+
+[nod-server](https://github.com/gmingchen/node-server)
+是一个基于 node 开发的后端服务框架，只要你会 SQL 就也可以写接口了，再也不用看后端的脸色了。
