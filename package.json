@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --mode production",
+    "deploy": "vue-cli-service build --mode production && cross-env NODE_ENV=production node ./deploy",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -30,10 +31,12 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "scp2": "^0.5.0",
     "unplugin-vue-components": "^0.17.0",
     "webpack-bundle-analyzer": "^4.4.2"
   }
