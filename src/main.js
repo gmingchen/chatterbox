@@ -1,22 +1,15 @@
+
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
 import App from './App.vue'
-import Router from './router'
-import Store from './store'
-import './registerServiceWorker'
-import '@/assets/sass/index.scss'
-import * as ElIconModules from '@element-plus/icons'
-import { ElIcon } from 'element-plus'
+import router from './router'
+import pinia from './stores'
+
+import '@/assets/sass/index.scss' // 全局样式
 
 const app = createApp(App)
 
-// todo: 使用element icon
-for (const iconName in ElIconModules) {
-  app.component(`${ iconName }`, ElIconModules[iconName])
-}
-
-app.use(Router)
-  .use(Store)
-  .component('ElIcon', ElIcon) // todo: 全局注册一下组件 规避 Failed to resolve component
+app.use(router)
+  .use(pinia)
   .mount('#app')
-
-app.config.globalProperties.$ELEMENT = { size: 'small', zIndex: 3000 }
