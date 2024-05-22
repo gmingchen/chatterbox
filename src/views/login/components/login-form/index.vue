@@ -1,19 +1,39 @@
 <template>
-  <UI :form="form" :loading="loading" @submit="login"></UI>
+  <UI :form="form" :loading="loading" @send="sendCaptcha" @submit="login"></UI>
 </template>
 
 <script setup>
 import UI from './ui/index.vue'
 
+import { loginCaptchaApi } from '@/api/auth'
+
+const authStore = useAuthStore()
+
+const router = useRouter()
+
 const form = ref({
-  email: '',
+  email: '1240235512@qq.com',
   captcha: '',
 })
 
 const loading = ref(false)
 
-const login = () => {
-  console.log('login');
+const sendCaptcha = () => {
+  const params = {
+    email: form.value.email
+  }
+  loginCaptchaApi(params)
+}
+
+const login = async () => {
+  loading.value = true
+  const r = await authStore.login(form.value)
+  if (r) {
+    router.push({ name: 'conversation' })
+  }
+  nextTick(() => {
+    loading.value = false
+  })
 }
 
 </script>

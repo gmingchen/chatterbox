@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { bindExposed } from '@utils'
+import useBindExposed from '@/hooks/bind-exposed'
 
 const emits = defineEmits(['send'])
 
@@ -31,7 +31,7 @@ const sendHandle = () => {
 }
 
 onMounted(() => {
-  bindExposed(refCaptchaInput)
+  useBindExposed(refCaptchaInput)
 })
 </script>
 

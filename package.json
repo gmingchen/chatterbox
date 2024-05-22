@@ -13,6 +13,8 @@
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.6.8",
     "element-plus": "^2.7.2",
+    "js-cookie": "^3.0.5",
+    "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
@@ -24,6 +26,7 @@
     "@vitejs/plugin-vue-jsx": "^3.1.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
+    "qs": "^6.12.1",
     "sass": "^1.77.1",
     "sass-loader": "^14.2.1",
     "unplugin-auto-import": "^0.17.6",

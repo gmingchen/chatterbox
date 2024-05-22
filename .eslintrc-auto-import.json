@@ -82,6 +82,8 @@
     "watchPostEffect": true,
     "watchSyncEffect": true,
     "stores": true,
-    "useAuthStore": true
+    "useAuthStore": true,
+    "useUserStore": true,
+    "useRootStore": true
   }
 }

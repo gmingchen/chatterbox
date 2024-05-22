@@ -8,3 +8,8 @@ export const sexList = [
   { label: '女', value: SEX.FEMALE },
   { label: '保密', value: SEX.UNKNOWN },
 ]
+
+export const EDIT_TYPE = {
+  INFO: 'info',
+  EMAIL: 'email',
+}

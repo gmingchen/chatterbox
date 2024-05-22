@@ -33,3 +33,8 @@
 );
 
 @import "element-plus/theme-chalk/src/index.scss";
+@import 'element-plus/theme-chalk/dark/css-vars.css';
+
+.el-dialog {
+  border-radius: var(--box-border-radius) !important;
+}

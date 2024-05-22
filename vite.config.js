@@ -55,6 +55,7 @@ export default defineConfig(({ mode }) => {
         '@': aliasPath('./src'),
         '@utils': aliasPath('./src/common/utils'),
         '@enums': aliasPath('./src/common/enums'),
+        '@constants': aliasPath('./src/common/constants'),
         '@props': aliasPath('./src/common/props'),
         '@rules': aliasPath('./src/common/rules'),
       }
@@ -81,10 +82,12 @@ export default defineConfig(({ mode }) => {
       open: false,
       // 代理。
       proxy: {
-        '^/proxy': {
-          target: 'http://api.admin.gumingchen.icu',
+        '^/chatterbox/api': {
+          target: 'http://localhost:8820',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/proxy/, '/')
+          rewrite: (path) => {
+            return path.replace(/\/api\//, '/')
+          }
         }
       },
       // 为开发服务器配置 CORS。
