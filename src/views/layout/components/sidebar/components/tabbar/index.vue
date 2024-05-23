@@ -13,22 +13,29 @@
 </template>
 
 <script setup>
-import { ChatDotRound, User, More, Bell } from '@element-plus/icons-vue'
+import { ChatDotRound, User, More, Bell, SwitchButton } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
+const rootStore = useRootStore()
 
 const tabs = ref([
   { label: '会话', value: 'conversation', icon: markRaw(ChatDotRound) },
   { label: '好友', value: 'friend', icon: markRaw(User) },
   { label: '群组', value: 'group', icon: markRaw(More) },
   { label: '验证', value: 'verify', icon: markRaw(Bell) },
+  { label: '退出', value: 'login', icon: markRaw(SwitchButton) },
 ])
 
 const active = computed(() => route.name)
 
-const clickHandle = (item) => {
+const clickHandle = async (item) => {
   const { value } = item
+  if (value === 'login') {
+    await authStore.logout()
+    rootStore.clearData()
+  }
   router.push({ name: value })
 }
 </script>
@@ -48,6 +55,9 @@ const clickHandle = (item) => {
     }
     & + & {
       margin-top: 10px;
+    }
+    &:last-child {
+      margin-top: 30px;
     }
   }
 }

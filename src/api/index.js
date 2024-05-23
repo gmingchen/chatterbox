@@ -31,13 +31,11 @@ const prompt = (message) => {
  */
 const codeHandle = (code, message) => {
   switch (code) {
-    case 4000:
-    case 4001:
-      router.replace({
-        name: 'login'
-      })
+    case 4006:
+    case 4007:
+      router.replace({ name: 'login' })
       prompt(message)
-      useAuthStore().clear()
+      useRootStore().clearData()
       break
     case 401:
       router.replace({
