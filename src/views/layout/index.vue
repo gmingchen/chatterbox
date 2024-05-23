@@ -1,8 +1,8 @@
 <template>
   <div class="layout flex-item_f-1">
-    <div class="wrap height-full flex">
+    <div class="wrap height-full padding-20-n flex">
       <Sidebar></Sidebar>
-      <Router class="flex-item_f-1"></Router>
+      <Router class="flex-item_f-1" :keepalives="['Conversation', 'Friend', 'Group', 'Verify']"></Router>
     </div>
   </div>
 </template>

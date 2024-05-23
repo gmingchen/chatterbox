@@ -47,11 +47,11 @@ const clickHandle = async (item) => {
     font-size: 12px;
     border-radius: var(--box-border-radius);
     &:hover {
-      background-color: var(--item-hover-color)
+      background-color: var(--tabbar-hover-color)
     }
     &.active {
       color: var(--el-color-primary);
-      background-color: var(--item-background-color);
+      background-color: var(--tabbar-background-color);
     }
     & + & {
       margin-top: 10px;
