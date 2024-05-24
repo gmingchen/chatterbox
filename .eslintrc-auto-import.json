@@ -86,6 +86,8 @@
     "useUserStore": true,
     "useRootStore": true,
     "useConversationStore": true,
-    "useGroupingStore": true
+    "useGroupingStore": true,
+    "useMessageStore": true,
+    "useRoomStore": true
   }
 }

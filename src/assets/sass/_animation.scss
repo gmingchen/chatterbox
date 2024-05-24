@@ -1,0 +1,23 @@
+
+// 旋转
+@keyframes rotate {
+  from {
+      transform: rotate(0deg)
+  }
+  to {
+      transform: rotate(360deg)
+  }
+}
+
+// 点
+@keyframes dots {
+  33.33% {
+    content: ".";
+  }
+  66.67% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}

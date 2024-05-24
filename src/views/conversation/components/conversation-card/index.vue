@@ -20,7 +20,7 @@ const avatar = computed(() => {
   if (group) {
     return group.avatar
   }
-  return
+  return ''
 })
 
 const name = computed(() => {
@@ -31,7 +31,7 @@ const name = computed(() => {
   if (group) {
     return group.name
   }
-  return
+  return ''
 })
 
 const message = computed(() => {

@@ -10,11 +10,13 @@
         @click="clickHandle(item)">
       </ConversationCard>
     </el-scrollbar>
+    <MessagePanel class="flex-item_f-1"></MessagePanel>
   </div>
 </template>
 
 <script setup>
 import ConversationCard from './components/conversation-card/index.vue'
+import MessagePanel from './components/message-panel/index.vue'
 
 defineOptions({
   name: 'Conversation'
