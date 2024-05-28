@@ -1,4 +1,4 @@
-import { dayjs } from 'element-plus'
+import { dayjs, ElMessage } from 'element-plus'
 import { MESSAGE_TYPE, messageTypeList } from '@enums/message'
 
 /**
@@ -86,4 +86,39 @@ export function dateFormat(date) {
   }
 
   return currentDate.format('YYYY-MM')
+}
+
+/**
+ * 获取语音
+ * @param {*} callback 回调
+ */
+export function getVoice(start = () => {}, stop = () => {}) {
+  if (navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then((stream) => {
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+      start(mediaRecorder)
+
+      let chunks = [];
+      mediaRecorder.addEventListener('dataavailable', (e) => {
+        chunks.push(e.data);
+      });
+
+      mediaRecorder.addEventListener('stop', () => {
+        const blob = new Blob(chunks, { 'type' : 'audio/wav' });
+        stop(blob)
+      });
+    }).catch(() => {
+      ElMessage({
+        message: '无法访问到麦克风，请检查您的设备~',
+        type: 'warning'
+      })
+    });
+  } else {
+    ElMessage({
+      message: '您的环境暂时不支持语音哦~',
+      type: 'warning'
+    })
+  }
 }

@@ -46,3 +46,37 @@ export function uploadAvatarApi(params) {
 export function uploadAvatarUrl() {
   return `${ service.defaults.baseURL }/${ uploadAvatar }`
 }
+
+
+const uploadImage = '/file/upload/image'
+/**
+ * 上传图片消息
+ * @param {*} params
+ * @returns
+ */
+export function uploadImageApi(params) {
+  return serviceHandle(uploadImage, params)
+}
+/**
+ * 上传图片消息
+ */
+export function uploadImageUrl() {
+  return `${ service.defaults.baseURL }/${ uploadImage }`
+}
+
+
+const uploadFile = '/file/upload/file'
+/**
+ * 上传图片消息
+ * @param {*} params
+ * @returns
+ */
+export function uploadFileApi(params) {
+  return serviceHandle(uploadFile, params)
+}
+/**
+ * 上传图片消息
+ */
+export function uploadFileUrl() {
+  return `${ service.defaults.baseURL }/${ uploadFile }`
+}

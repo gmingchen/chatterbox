@@ -14,6 +14,7 @@
 </template>
 
 <script setup>
+import { ElMessage } from 'element-plus'
 import useModel from '@/hooks/model'
 import { uploadAvatarUrl } from '@/api/file'
 
@@ -35,7 +36,10 @@ const beforeUploadHandle = (file) => {
     return true
   }
   
-  console.log(file);
+  ElMessage({
+    message: '请上传正确类型的文件',
+    type: 'warning'
+  })
   return false
 }
 

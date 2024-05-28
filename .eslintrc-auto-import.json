@@ -88,6 +88,8 @@
     "useConversationStore": true,
     "useGroupingStore": true,
     "useMessageStore": true,
-    "useRoomStore": true
+    "useRoomStore": true,
+    "useExpressionStore": true,
+    "ElMessage": true
   }
 }

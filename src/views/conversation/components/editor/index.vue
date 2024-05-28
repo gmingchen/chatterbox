@@ -1,38 +1,58 @@
 <template>
   <div class="editor  padding-15">
-    <div class="tool flex">
-      <el-icon class="icon cursor-pointer" size="20" v-for="(item, index) in tools" :key="index">
-        <component :is="item.icon"></component>
-      </el-icon>
+    <div class="tools flex">
+      <Expression @select="expressionSelectHandle"></Expression>
+      <Image class="tool" @select="imageSelectHandle"></Image>
+      <File class="tool" @select="fileSelectHandle"></File>
+      <VoiceCall class="tool"></VoiceCall>
+      <VideoCall class="tool"></VideoCall>
     </div>
-    <div class="margin_t-10">
-      <el-input v-model="text" type="textarea" rows="2" resize="none" placeholder="善语结善缘，恶言伤人心~" />
+    <div class="margin_t-10 flex flex_a_i-flex-end">
+      <el-input
+        class="flex-item_f-1"
+        v-model="text"
+        type="textarea"
+        rows="3"
+        resize="none"
+        placeholder="善语结善缘，恶言伤人心~"
+        maxlength="500"
+        show-word-limit />
+      <div>
+        <el-icon class="cursor-pointer" size="20"><EpPromotion /></el-icon>
+        <Voice></Voice>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { PictureRounded, Picture, Folder, Mic, VideoCamera, Microphone, } from '@element-plus/icons-vue'
-
-const tools = ref([
-  { label: '', icon: PictureRounded },
-  { label: '', icon: Picture },
-  { label: '', icon: Folder },
-  { label: '', icon: Mic },
-  { label: '', icon: VideoCamera },
-])
+import Expression from './components/expression/index.vue'
+import Image from './components/image/index.vue'
+import File from './components/file/index.vue'
+import VoiceCall from './components/voice-call/index.vue'
+import VideoCall from './components/video-call/index.vue'
+import Voice from './components/voice/index.vue'
 
 const text = ref('')
+
+const expressionSelectHandle = (content) => {
+  console.log(content);
+}
+const imageSelectHandle = (url) => {
+  console.log(url);
+}
+const fileSelectHandle = (url) => {
+  console.log(url);
+}
+
 </script>
 
 <style lang="scss" scoped>
 .editor {
   padding: 10px 15px 10px 15px;
-  // border-radius: var(--box-border-radius);
-  // background-color: var(--wrap-background-color);
-  .tool {
+  .tools {
     color: var(--el-color-info-dark-2);
-    .icon + .icon {
+    .tool {
       margin-left: 10px;
     }
   }
