@@ -89,10 +89,10 @@ export function dateFormat(date) {
 }
 
 /**
- * 获取语音
+ * 录制语音
  * @param {*} callback 回调
  */
-export function getVoice(start = () => {}, stop = () => {}) {
+export function recordVoice(start = () => {}, stop = () => {}) {
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ audio: true })
     .then((stream) => {
