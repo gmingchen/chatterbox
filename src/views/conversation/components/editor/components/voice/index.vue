@@ -7,10 +7,10 @@
 </template>
 
 <script setup>
-import { getVoice } from '@utils'
+import { recordVoice } from '@utils'
 
 const mousedownHandle = () => {
-  getVoice(
+  recordVoice(
     (mediaRecorder) => {
       console.log('start', mediaRecorder);
       const stop = () => {

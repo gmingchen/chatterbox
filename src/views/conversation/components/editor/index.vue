@@ -9,6 +9,7 @@
     </div>
     <div class="margin_t-10 flex flex_a_i-flex-end">
       <el-input
+        ref="refTextarea"
         class="flex-item_f-1"
         v-model="text"
         type="textarea"
@@ -16,7 +17,8 @@
         resize="none"
         placeholder="善语结善缘，恶言伤人心~"
         maxlength="500"
-        show-word-limit />
+        show-word-limit
+        @keydown="textareaListener" />
       <div>
         <el-icon class="cursor-pointer" size="20"><EpPromotion /></el-icon>
         <Voice></Voice>
@@ -33,10 +35,17 @@ import VoiceCall from './components/voice-call/index.vue'
 import VideoCall from './components/video-call/index.vue'
 import Voice from './components/voice/index.vue'
 
+const refTextarea = ref()
 const text = ref('')
 
 const expressionSelectHandle = (content) => {
-  console.log(content);
+  const index = refTextarea.value.ref.selectionStart
+  text.value = text.value.slice(0, index) + content + text.value.slice(index)
+  refTextarea.value.focus()
+  nextTick(() => {
+    const endIndex = index + content.length
+    refTextarea.value.ref.setSelectionRange(endIndex, endIndex)
+  })
 }
 const imageSelectHandle = (url) => {
   console.log(url);
@@ -45,6 +54,20 @@ const fileSelectHandle = (url) => {
   console.log(url);
 }
 
+const sendHandle = () => {}
+
+/**
+ * 监听textarea 键盘事件 取消回车换行 改为 shift+回车 换行
+ */
+const textareaListener = (e) => {
+  if (e.keyCode === 13) {
+    if (!e.shiftKey) {
+      sendHandle()
+      e.preventDefault()
+      return false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
