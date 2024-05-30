@@ -88,7 +88,14 @@ const uploadAudio = '/file/upload/audio'
 export function uploadAudioApi(blob) {
   const formData = new FormData()
   formData.append('file', blob,'.mp3');
-  return serviceHandle(uploadAudio, formData)
+  return service({
+    url: uploadAudio,
+    method: 'post',
+    data: formData,
+    headers: {
+      'Content-Type': ContentType.UPLOAD
+    }
+  })
 }
 /**
  * 上传音频消息

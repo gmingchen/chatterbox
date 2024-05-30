@@ -31,10 +31,10 @@ const mousedownHandle = (event) => {
       startTime = dayjs()
       const stop = () => {
         mediaRecorder.stop()
-        document.removeEventListener('mousemove', stop)
+        document.removeEventListener('mouseup', stop)
       }
-      document.addEventListener('mousemove', stop)
-      setTimeout(() => stop(), 10000)
+      document.addEventListener('mouseup', stop)
+      setTimeout(() => stop(), 60 * 1000)
     },
     // 录制完成
     async (blob) => {
