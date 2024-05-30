@@ -38,3 +38,16 @@ export function updateEmailApi(data) {
     data
   })
 }
+
+/**
+ * 获取用户列表
+ * @param {*} params
+ * @returns
+ */
+export function getUserListApi(params) {
+  return service({
+    url: '/user/search',
+    method: 'get',
+    params
+  })
+}

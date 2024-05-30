@@ -7,6 +7,7 @@
       </div>
       <TextMessage :text="message.text" v-if="message.type === MESSAGE_TYPE.TEXT"></TextMessage>
       <ImageMessage :image="message.image" v-if="message.type === MESSAGE_TYPE.IMAGE"></ImageMessage>
+      <FileMessage :file="message.file" v-if="message.type === MESSAGE_TYPE.FILE"></FileMessage>
     </div>
   </div>
 </template> 
@@ -14,6 +15,7 @@
 <script setup>
 import TextMessage from './components/text-message/index.vue'
 import ImageMessage from './components/image-message/index.vue'
+import FileMessage from './components/file-message/index.vue'
 
 import { MESSAGE_TYPE } from '@enums/message'
 

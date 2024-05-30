@@ -47,7 +47,6 @@ export function uploadAvatarUrl() {
   return `${ service.defaults.baseURL }/${ uploadAvatar }`
 }
 
-
 const uploadImage = '/file/upload/image'
 /**
  * 上传图片消息
@@ -64,7 +63,6 @@ export function uploadImageUrl() {
   return `${ service.defaults.baseURL }/${ uploadImage }`
 }
 
-
 const uploadFile = '/file/upload/file'
 /**
  * 上传图片消息
@@ -79,4 +77,22 @@ export function uploadFileApi(params) {
  */
 export function uploadFileUrl() {
   return `${ service.defaults.baseURL }/${ uploadFile }`
+}
+
+const uploadAudio = '/file/upload/audio'
+/**
+ * 上传音频消息
+ * @param {*} params
+ * @returns
+ */
+export function uploadAudioApi(blob) {
+  const formData = new FormData()
+  formData.append('file', blob,'.mp3');
+  return serviceHandle(uploadAudio, formData)
+}
+/**
+ * 上传音频消息
+ */
+export function uploadAudioUrl() {
+  return `${ service.defaults.baseURL }/${ uploadAudio }`
 }

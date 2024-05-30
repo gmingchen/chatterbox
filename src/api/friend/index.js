@@ -11,3 +11,16 @@ export function listApi() {
     method: 'get',
   })
 }
+
+/**
+ * 删除好友
+ * @param {*} params
+ * @returns
+ */
+export function deleteApi(data) {
+  return service({
+    url: '/friend/delete',
+    method: 'post',
+    data
+  })
+}

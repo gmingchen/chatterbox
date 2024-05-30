@@ -12,3 +12,16 @@ export function pageApi(params) {
     params
   })
 }
+
+/**
+ * 发送消息
+ * @param {*} data
+ * @returns
+ */
+export function sendApi(data) {
+  return service({
+    url: '/message/create',
+    method: 'post',
+    data
+  })
+}

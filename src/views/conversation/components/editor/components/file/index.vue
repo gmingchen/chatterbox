@@ -24,7 +24,7 @@ const beforeUploadHandle = (file) => {
     return true
   }
   ElMessage({
-    message: '请上传正确类型的文件',
+    message: '请上传正确类型的文件~',
     type: 'warning'
   })
   return false

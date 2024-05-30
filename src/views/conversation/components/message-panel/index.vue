@@ -1,17 +1,17 @@
 <template>
   <div class="message-panel flex flex_d-column">
-      <template v-if="active && active.id">
-        <div class="header padding-15">{{ name }}</div>
-        <el-scrollbar ref="refScrollbar" @scroll="scrollHandle">
-          <div ref="refInner" class="flex-item_f-1 padding-15">
-            <Loading text="消息加载中" v-show="loading"></Loading>
-            <div class="message-wrap" v-for="item in messages" :key="item.id" >
-              <Message :message="item" :reverse="item.userId === userId"></Message>
-            </div>
+    <template v-if="active && active.id">
+      <div class="header padding-15">{{ name }}</div>
+      <el-scrollbar ref="refScrollbar" @scroll="scrollHandle">
+        <div ref="refInner" class="flex-item_f-1 padding-15">
+          <Loading text="消息加载中" v-show="loading"></Loading>
+          <div class="message-wrap" v-for="item in messages" :key="item.id" >
+            <Message :message="item" :reverse="item.userId === userId"></Message>
           </div>
-        </el-scrollbar>
-        <Editor class="editor"></Editor>
-      </template>
+        </div>
+      </el-scrollbar>
+      <Editor class="editor"></Editor>
+    </template>
   </div>
 </template>
 
@@ -76,14 +76,34 @@ const getData = async () => {
   nextTick(() => loading.value = false)
 }
 
+/**
+ * 滚动条滚动到底部
+ */
+const scrollToBottom = () => {
+  const scrollTop = refInner.value.clientHeight - refScrollbar.value.wrapRef.clientHeight
+  refScrollbar.value.setScrollTop(scrollTop)
+}
+
 watch(active, async () => {
-  await getData()
-  // 滚动到底部
-  refScrollbar.value.setScrollTop(refInner.value.clientHeight)
+  if (!messages.value.length) {
+    await getData()
+    scrollToBottom()
+  }
 })
 
+watch(messages, () => {
+  if (refScrollbar.value) {
+    nextTick(() => {
+      const difference = refInner.value.clientHeight - refScrollbar.value.wrapRef.clientHeight - refScrollbar.value.wrapRef.scrollTop
+      if (difference < refScrollbar.value.wrapRef.clientHeight) {
+        scrollToBottom()
+      }
+    })
+  }
+}, { deep: true })
+
 const scrollHandle = async ({ scrollTop }) => {
-  if (scrollTop < 100 && !loading.value && !finished.value) {
+  if (scrollTop < 1 && !loading.value && !finished.value) {
     loading.value = true
     setTimeout(async () => {
       const height = refInner.value.clientHeight

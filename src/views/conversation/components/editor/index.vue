@@ -4,8 +4,10 @@
       <Expression @select="expressionSelectHandle"></Expression>
       <Image class="tool" @select="imageSelectHandle"></Image>
       <File class="tool" @select="fileSelectHandle"></File>
-      <VoiceCall class="tool"></VoiceCall>
-      <VideoCall class="tool"></VideoCall>
+      <template v-if="active.friend">
+        <VoiceCall class="tool"></VoiceCall>
+        <VideoCall class="tool"></VideoCall>
+      </template>
     </div>
     <div class="margin_t-10 flex flex_a_i-flex-end">
       <el-input
@@ -19,24 +21,56 @@
         maxlength="500"
         show-word-limit
         @keydown="textareaListener" />
-      <div>
-        <el-icon class="cursor-pointer" size="20"><EpPromotion /></el-icon>
-        <Voice></Voice>
+      <div class="send-wrap">
+        <el-icon class="cursor-pointer" size="20" @click="textSendHandle"><EpPromotion /></el-icon>
+        <Audio @complete="audioCompleteHandle"></Audio>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ElMessage } from 'element-plus'
+
 import Expression from './components/expression/index.vue'
 import Image from './components/image/index.vue'
 import File from './components/file/index.vue'
 import VoiceCall from './components/voice-call/index.vue'
 import VideoCall from './components/video-call/index.vue'
-import Voice from './components/voice/index.vue'
+import Audio from './components/audio/index.vue'
 
+import { MESSAGE_TYPE } from '@enums/message'
+import { sendApi } from '@/api/message'
+
+const conversationStore = useConversationStore()
+const rootStore = useRootStore()
+
+const active = computed(() => conversationStore.active)
+
+const loading = ref(false)
 const refTextarea = ref()
 const text = ref('')
+
+const sendHandle = async (type, content) => {
+  if (!content.trim()) {
+    ElMessage({
+      message: '消息内容不能为空~',
+      type: 'warning',
+      grouping: true
+    })
+    return
+  }
+
+  text.value = ''
+  loading.value = true
+  const roomId = conversationStore.active.roomId
+  const params = { roomId, type, content }
+  const r = await sendApi(params)
+  if (r) {
+    rootStore.addMessage(r.data)
+  }
+  loading.value = false
+}
 
 const expressionSelectHandle = (content) => {
   const index = refTextarea.value.ref.selectionStart
@@ -48,21 +82,25 @@ const expressionSelectHandle = (content) => {
   })
 }
 const imageSelectHandle = (url) => {
-  console.log(url);
+  sendHandle(MESSAGE_TYPE.IMAGE, url)
 }
 const fileSelectHandle = (url) => {
-  console.log(url);
+  sendHandle(MESSAGE_TYPE.FILE, url)
 }
-
-const sendHandle = () => {}
+const audioCompleteHandle = (url) => {
+  sendHandle(MESSAGE_TYPE.AUDIO, url)
+}
+const textSendHandle = () => {
+  sendHandle(MESSAGE_TYPE.TEXT, text.value)
+}
 
 /**
  * 监听textarea 键盘事件 取消回车换行 改为 shift+回车 换行
  */
 const textareaListener = (e) => {
-  if (e.keyCode === 13) {
+  if (e.keyCode === 13 && !loading.value) {
     if (!e.shiftKey) {
-      sendHandle()
+      textSendHandle()
       e.preventDefault()
       return false
     }
@@ -78,6 +116,9 @@ const textareaListener = (e) => {
     .tool {
       margin-left: 10px;
     }
+  }
+  .send-wrap {
+    color: var(--el-color-info-dark-2);
   }
   ::v-deep(.el-textarea__inner) {
     padding: 0;

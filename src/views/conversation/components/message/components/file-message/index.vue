@@ -1,8 +1,8 @@
 <template>
-  <el-image class="image-message width-120 height-120" :src="image" :preview-src-list="[image]">
+  <el-image class="file-message width-120 height-120" :src="file" :preview-src-list="[file]">
     <template #error>
       <div class="error-wrap height-full flex_j_c-center flex_a_i-center">
-        <el-icon :size="50"><EpPicture /></el-icon>
+        <el-icon :size="50"><EpDocument /></el-icon>
       </div>
     </template>
   </el-image>
@@ -10,7 +10,7 @@
 
 <script setup>
 defineProps({
-  image: {
+  file: {
     type: String,
     default: () => ''
   }
@@ -18,7 +18,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-.image-message {
+.file-message {
   border-radius: var(--box-border-radius);
   .error-wrap {
     background-color: var(--card-hover-background-color); 

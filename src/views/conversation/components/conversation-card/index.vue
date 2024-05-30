@@ -15,7 +15,7 @@ const props = defineProps({
 const avatar = computed(() => {
   const { friend, group } = props.conversation
   if (friend) {
-    return friend.name
+    return friend.avatar
   }
   if (group) {
     return group.avatar

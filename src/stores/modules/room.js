@@ -31,6 +31,23 @@ export const useRoomStore = defineStore('room', {
       }
     },
     /**
+     * 新增房间 存在则新增消息
+     * @param {*} roomId 
+     * @param {*} message 
+     */
+    addRoom(roomId, message) {
+      const room = this.list.find(item => item.id === roomId)
+      if (room) {
+        room.messages.push(message)
+      } else {
+        this.list.push({
+          id: roomId,
+          messages: [message],
+          users: []
+        })
+      }
+    },
+    /**
      * 清除数据
      */
     clear() {

@@ -20,6 +20,19 @@ export const useConversationStore = defineStore('conversation', {
       }
     },
     /**
+     * 新增会话 存在则更新消息
+     * @param {*} conversation 
+     */
+    addConversation(conversation) {
+      const { roomId, message } = conversation
+      const exist = this.list.find(item => item.roomId === roomId) 
+      if (exist) {
+        exist.message = message
+      } else {
+        this.list.unshift(conversation)
+      }
+    },
+    /**
      * 清除数据
      */
     clear() {

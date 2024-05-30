@@ -92,7 +92,7 @@ export function dateFormat(date) {
  * 录制语音
  * @param {*} callback 回调
  */
-export function recordVoice(start = () => {}, stop = () => {}) {
+export function recordAudio(start = () => {}, stop = () => {}, fail = () => {}) {
   if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ audio: true })
     .then((stream) => {
@@ -106,19 +106,21 @@ export function recordVoice(start = () => {}, stop = () => {}) {
       });
 
       mediaRecorder.addEventListener('stop', () => {
-        const blob = new Blob(chunks, { 'type' : 'audio/wav' });
+        const blob = new Blob(chunks, { 'type' : 'audio/mp3' });
         stop(blob)
       });
-    }).catch(() => {
+    }).catch((error) => {
       ElMessage({
         message: '无法访问到麦克风，请检查您的设备~',
         type: 'warning'
       })
+      fail(error)
     });
   } else {
     ElMessage({
       message: '您的环境暂时不支持语音哦~',
       type: 'warning'
     })
+    fail()
   }
 }

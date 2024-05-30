@@ -1,35 +1,48 @@
 <template>
   <div class="friend flex">
-    <el-scrollbar class="width-280 padding-n-10">
-      <el-collapse v-model="active">
-        <el-collapse-item v-for="group in list" :key="group.id" :title="group.name" :name="group.id">
-          <FriendCard
-            class="card"
-            v-for="friend in group.friends"
-            :key="friend.id"
-            :friend="friend"
-            @click="clickHandle(friend)">
-          </FriendCard>
-        </el-collapse-item>
-      </el-collapse>
-    </el-scrollbar>
+    <div class="flex flex_d-column">
+      <Headbar class="padding-n-10"></Headbar>
+      <el-scrollbar class="width-280 padding-n-10">
+        <el-collapse v-model="collapseActive">
+          <el-collapse-item v-for="group in list" :key="group.id" :title="group.name" :name="group.fixed ? 'default' : group.id">
+            <FriendCard
+              class="card"
+              v-for="friend in group.friends"
+              :key="friend.id"
+              :friend="friend"
+              @click="clickHandle(friend)">
+            </FriendCard>
+          </el-collapse-item>
+        </el-collapse>
+      </el-scrollbar>
+    </div>
+    <FriendPanel class="flex-item_f-1"></FriendPanel>
   </div>
 </template>
 
 <script setup>
+import Headbar from './components/headbar/index.vue'
 import FriendCard from './components/friend-crad/index.vue'
+import FriendPanel from './components/friend-panel/index.vue'
 
 defineOptions({
   name: 'Friend'
 })
+
 const groupingStore = useGroupingStore()
 
-const active = ref()
+const list = computed(() => groupingStore.filterList)
 
-const list = computed(() => groupingStore.list)
+const collapseActive = ref('default')
+
+const active = computed({
+  get: () => groupingStore.active,
+  set: value => groupingStore.active = value
+})
+
 
 const clickHandle = (row) => {
-  console.log(row);
+  active.value = row
 }
 
 onBeforeMount(() => {
