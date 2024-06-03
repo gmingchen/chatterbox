@@ -51,3 +51,16 @@ export function getUserListApi(params) {
     params
   })
 }
+
+/**
+ * 获取用户信息
+ * @param {*} params 
+ * @returns 
+ */
+export function getUserInfoApi(params) {
+  return service({
+    url: '/user/info',
+    method: 'get',
+    params
+  })
+}

@@ -2,16 +2,16 @@
   <el-dialog
     class="search-dialog"
     v-model="visible"
-    width="500"
+    width="660px"
     :close-on-click-modal="false"
     draggable>
     <el-tabs v-model="active" type="card">
       <el-tab-pane label="找好友" name="user">
         <UserPanel></UserPanel>
       </el-tab-pane>
-      <el-tab-pane label="找群聊" name="group">
+      <!-- <el-tab-pane label="找群聊" name="group">
         <GroupPanel></GroupPanel>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
   </el-dialog>
 </template>

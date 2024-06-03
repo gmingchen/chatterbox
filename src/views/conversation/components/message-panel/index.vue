@@ -12,6 +12,7 @@
       </el-scrollbar>
       <Editor class="editor"></Editor>
     </template>
+    <Empty v-else></Empty>
   </div>
 </template>
 

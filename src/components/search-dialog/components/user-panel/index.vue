@@ -2,11 +2,21 @@
   <div class="user-panel">
     <div class="header flex">
       <el-input class="keyword-input margin_r-10" v-model="keyword" placeholder="输入昵称或邮箱搜索"></el-input>
-      <el-button type="primary" plain @click="searchHandle" :disabled="!keyword">查找</el-button>
+      <el-button type="primary" plain @click="searchHandle" :disabled="!keyword || loading">查找</el-button>
     </div>
-    <div class="content margin_t-10 flex_w-wrap">
-      <Card v-for="item in list" :key="item.id" :image="item.avatar" :name="item.nickname" :sex="item.sex"></Card>
-    </div>
+
+    <el-scrollbar ref="refScrollbar" class="margin_t-10" height="250px" @scroll="scrollHandle">
+      <div ref="refInner" class="flex_w-wrap">
+        <div class="card-wrap" v-for="item in list" :key="item.id">
+          <Card class="margin_r-5 margin_b-5" :image="item.avatar" :name="item.nickname" :sex="item.sex" @add="applyHandle"></Card>
+        </div>
+        <div class="margin_t-10 width-full height-20" v-show="loading">
+          <Loading text="数据加载中"></Loading>
+        </div>
+        <Empty text="暂无数据" absolute v-show="!loading && list.length === 0"></Empty>
+      </div>
+    </el-scrollbar>
+    <ApplyFriendDialog ref="refApplyFriendDialog"></ApplyFriendDialog>
   </div>
 </template>
 
@@ -15,16 +25,18 @@ import Card from '../card/index.vue'
 
 import { getUserListApi } from '@/api/user'
 
-const keyword = ref('')
+const loading = ref(false)
+const keyword = ref('好')
 const page = reactive({
   current: 1,
-  size: 10,
+  size: 20,
   total: 0
 })
-
 const list = ref([])
 
 const getList = async () => {
+  loading.value = true
+
   const { current, size } = page
   const params = {
     keyword: keyword.value,
@@ -35,11 +47,13 @@ const getList = async () => {
   if (r) {
     if (current === 1) {
       list.value = r.data.list
-    } else {
-      list.value.push(r.data.list)
+    } else if (r.data.list.length) {
+      list.value.push(...r.data.list)
     }
     page.total = r.data.total
   }
+
+  nextTick(() => loading.value = false)
 }
 
 const searchHandle = () => {
@@ -51,6 +65,23 @@ const nextPage = () => {
   page.current += 1
   getList()
 }
+
+const refScrollbar = ref()
+const refInner = ref()
+const scrollHandle = ({ scrollTop }) => {
+  const height = refInner.value.clientHeight - refScrollbar.value.wrapRef.clientHeight
+  if (scrollTop === height && !loading.value && list.value.length < page.total) {
+    loading.value = true
+    setTimeout(async () => {
+      nextPage()
+    }, 3000)
+  }
+}
+
+const refApplyFriendDialog = ref()
+const applyHandle = () => {
+  refApplyFriendDialog.value.open()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -60,6 +91,5 @@ const nextPage = () => {
       width: 200px;
     }
   }
-  .content {}
 }
 </style>

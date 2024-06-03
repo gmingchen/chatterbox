@@ -11,3 +11,16 @@ export function listApi() {
     method: 'get',
   })
 }
+
+
+/**
+ * 分组选择列表
+ * @param {*} params
+ * @returns
+ */
+export function selectListApi() {
+  return service({
+    url: '/grouping/select',
+    method: 'get',
+  })
+}

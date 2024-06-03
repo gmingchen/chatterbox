@@ -1,16 +1,28 @@
 <template>
-  <div class="card flex_a_i-center">
-    <el-avatar :size="60" :src="image"></el-avatar>
+  <div class="card width-150 flex_a_i-center">
+    <el-avatar :size="50" :src="image"></el-avatar>
     <div class="flex-item_f-1 margin_l-10">
-      <div class="name">{{ name }}</div>
-      <div class="sex margin_t-4">{{ sexLabel }}</div>
-      <el-button type="primary" plain circle ><el-icon><EpPlus /></el-icon></el-button>
+      <el-tooltip
+        class="box-item"
+        :content="name"
+        placement="top-start"
+        :show-after="1000"
+      >
+        <div class="name ellipse">{{ name }}</div>
+      </el-tooltip>
+      
+      <div class="margin_t-4 flex_j_c-space-between flex_a_i-center">
+        <div class="sex">{{ sexLabel }}</div>
+        <el-button type="primary" link round @click="addHandle"><el-icon size="14"><EpPlus /></el-icon></el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { SEX, sexList } from '@enums/user'
+
+const emits = defineEmits(['add'])
 
 const props = defineProps({
   image: {
@@ -31,6 +43,10 @@ const sexLabel = computed(() => {
   const sexItem = sexList.find(item => item.value === props.sex)
   return sexItem ? sexItem.label : ''
 })
+
+const addHandle = () => {
+  emits('add')
+}
 
 </script>
 
