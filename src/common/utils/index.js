@@ -137,3 +137,31 @@ export function getWebsocketOrigin() {
   }
   return `${protocol}//${ host }`
 }
+
+
+export function notification(title = '', content = '', icon = '', data = null, onclick = () => {}) {
+  const notification = new Notification(title, { body: content, data, icon });
+  notification.onclick = (e) => {
+    // console.log(e);
+    if (typeof onclick === 'function') {
+      onclick(e)
+    }
+  }
+  return notification
+}
+
+
+export function notificationPermission(title, content, icon, data, onclick = () => {}) {
+  console.log(title, content, icon, data, onclick);
+  if (window.Notification) {
+    if (Notification.permission === 'granted') {
+      notification(title, content, icon, data, onclick)
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          notification(title, content, icon, data, onclick)
+        }
+      });
+    }
+  }
+}

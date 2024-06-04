@@ -28,7 +28,7 @@ const conversationStore = useConversationStore()
 
 const active = computed({
   get: () => conversationStore.active || {},
-  set: (value) => conversationStore.setAcvite(value)
+  set: (value) => conversationStore.setActive(value)
 })
 
 const list = computed(() => conversationStore.list)

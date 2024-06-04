@@ -1,6 +1,8 @@
 <template>
   <div class="card padding-10 cursor-pointer flex flex_a_i-center">
-    <el-avatar :src="avatar"></el-avatar>
+    <el-badge :value="badge" :show-zero="false">
+      <el-avatar :src="avatar"></el-avatar>
+    </el-badge>
     <div class="flex-item_f-1 margin-n-10">
       <div class="name">{{ name }}</div>
       <div class="message margin_t-4 ellipse">{{ message }}</div>
@@ -26,6 +28,10 @@ defineProps({
   time: {
     type: String,
     default: () => '',
+  },
+  badge: {
+    type: Number,
+    default: () => 0
   }
 })
 </script>

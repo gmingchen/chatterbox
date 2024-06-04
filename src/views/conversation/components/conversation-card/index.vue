@@ -1,5 +1,5 @@
 <template>
-  <Card :avatar="avatar" :name="name" :message="message" :time="time"></Card>
+  <Card :avatar="avatar" :name="name" :message="message" :time="time" :badge="conversation.unread"></Card>
 </template>
 
 <script setup>

@@ -7,6 +7,11 @@ export const useConversationStore = defineStore('conversation', {
     active: null,
     list: [],
   }),
+  getters: {
+    hasUnread: ({ list }) => {
+      return list.some(item => item.unread > 0)
+    }
+  },
   actions: {
     /**
      * 获取会话列表

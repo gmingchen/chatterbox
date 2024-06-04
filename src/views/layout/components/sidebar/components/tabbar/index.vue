@@ -2,11 +2,15 @@
   <div class="tabbar">
     <div
       class="tabbar-item width-50 height-50 cursor-pointer flex_d-column flex_j_c-center flex_a_i-center"
-      v-for="item in tabs" :key="item.value" :class="item.value === active ? 'active' : ''"
+      v-for="item in tabs"
+      :key="item.value"
+      :class="item.value === active ? 'active' : ''"
       @click="clickHandle(item)">
-      <el-icon size="26">
-        <component :is="item.icon"></component>
-      </el-icon>
+      <el-badge :is-dot="item.value === 'conversation' && hasUnread">
+        <el-icon size="26">
+          <component :is="item.icon"></component>
+        </el-icon>
+      </el-badge>
       <div class="margin_t-4">{{ item.label }}</div>
     </div>
   </div>
@@ -19,6 +23,9 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const rootStore = useRootStore()
+const conversationStore = useConversationStore()
+
+const hasUnread = computed(() => conversationStore.hasUnread)
 
 const tabs = ref([
   { label: '会话', value: 'conversation', icon: markRaw(ChatDotRound) },
