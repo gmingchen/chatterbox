@@ -14,12 +14,12 @@ export const useGroupingStore = defineStore('grouping', {
       const { list, keyword } = state
       list.forEach(grouping => {
         const exist = grouping.friends.filter(({ nickname , remark }) => nickname.includes(keyword) || remark.includes(keyword))
-        if (exist.length) {
+        // if (exist.length) {
           result.push({
             ...grouping,
             friends: exist
           })
-        }
+        // }
       })
       return result
     }

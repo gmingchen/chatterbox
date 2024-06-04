@@ -4,7 +4,8 @@
     v-model="visible"
     width="350"
     :close-on-click-modal="false"
-    draggable>
+    draggable
+    append-to-body>
     <UI :form="form" :loading="loading" @submit="submit"></UI>
   </el-dialog>
 </template>

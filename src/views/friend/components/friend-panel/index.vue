@@ -46,7 +46,7 @@ const sendHandle = async () => {
   const r = await createApi({ userId })
   if (r) {
     conversationStore.addConversation(r.data)
-    conversationStore.active = r.data
+    conversationStore.setActive(r.data)
     router.push({ name: 'conversation' })
   }
 }

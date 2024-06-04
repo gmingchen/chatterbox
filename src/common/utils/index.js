@@ -124,3 +124,16 @@ export function recordAudio(start = () => {}, stop = () => {}, fail = () => {}) 
     fail()
   }
 }
+
+/**
+ * 获取websock链接地址
+ */
+export function getWebsocketOrigin() {
+  let { protocol, host } = window.location
+  if (protocol === 'http:') {
+    protocol = `ws:`
+  } else if (protocol === 'https:') {
+    protocol = 'wss:'
+  }
+  return `${protocol}//${ host }`
+}

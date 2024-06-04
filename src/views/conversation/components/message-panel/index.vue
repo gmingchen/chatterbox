@@ -69,7 +69,7 @@ const getData = async () => {
   if (messages.value.length) {
     lastId = messages.value[0].id
   }
-  const list = await roomStore.getList(roomId, lastId)
+  const list = await roomStore.getMessageList(roomId, lastId)
   if (!list.length) {
     finished.value = true
   }

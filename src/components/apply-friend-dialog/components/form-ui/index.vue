@@ -4,6 +4,7 @@
     :model="form"
     :rules="rules"
     label-width="auto"
+    label-position="top"
     :disabled="loading">
     <el-form-item label="备注" prop="remark">
       <el-input v-model="form.remark" maxlength="50" />
@@ -20,7 +21,7 @@
     <el-form-item label="申请内容" prop="content">
       <el-input v-model="form.content" type="textarea" resize="none" :rows="2" maxlength="100" show-word-limit />
     </el-form-item>
-    <el-button class="width-full" type="primary" @click="submit" :loading="loading">申请</el-button>
+    <el-button class="width-full" type="primary" plain @click="submit" :loading="loading">加为好友</el-button>
   </el-form>
 </template>
 
@@ -41,6 +42,10 @@ const submit = async () => {
     console.warn(error);
   }
 }
+
+defineExpose({
+  reset: () => refForm.value.resetFields()
+})
 </script>
 
 <style lang="scss" scoped>

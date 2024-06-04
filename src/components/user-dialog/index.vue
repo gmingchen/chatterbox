@@ -4,8 +4,10 @@
     v-model="visible"
     width="500"
     :close-on-click-modal="false"
-    draggable>
+    draggable
+    append-to-body>
     <UserPanel :user="user" v-bind="$attrs"></UserPanel>
+    <slot></slot>
   </el-dialog>
 </template>
 

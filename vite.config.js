@@ -82,6 +82,11 @@ export default defineConfig(({ mode }) => {
       open: false,
       // 代理。
       proxy: {
+        '^/chatterbox/websocket': {
+          target: 'http://localhost:8821',
+          changeOrigin: true,
+          ws: true
+        },
         '^/chatterbox/api': {
           target: 'http://localhost:8820',
           changeOrigin: true,

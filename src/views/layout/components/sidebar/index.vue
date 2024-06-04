@@ -5,7 +5,22 @@
       <Tabbar class="margin_t-20 flex-item_f-1"></Tabbar>
       <Publicize class="margin_t-20"></Publicize>
     </el-scrollbar>
-    <UserDialog ref="refUserDialog" :user="user" edit @edit="openEditDialog"></UserDialog>
+    <UserDialog ref="refUserDialog">
+      <div class="flex_j_c-space-around">
+        <el-button type="primary" plain round @click="openEditDialog(EDIT_TYPE.INFO)">
+          <el-icon class="margin_r-5">
+            <EpEditPen></EpEditPen>
+          </el-icon>
+          编辑资料
+        </el-button>
+        <el-button type="primary" plain round @click="openEditDialog(EDIT_TYPE.EMAIL)">
+          <el-icon class="margin_r-5">
+            <EpEditPen></EpEditPen>
+          </el-icon>
+          编辑邮箱
+        </el-button>
+      </div>
+    </UserDialog>
     <EditInfoDialog ref="refEditInfoDialog"></EditInfoDialog>
     <EditEmailDialog ref="refEditEmailDialog"></EditEmailDialog>
   </div>
@@ -27,7 +42,6 @@ const user = computed(() => {
 })
 
 const refUserDialog = ref()
-
 const openUserDialog = () => {
   refUserDialog.value.open(user.value)
 }

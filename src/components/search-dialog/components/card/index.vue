@@ -13,7 +13,7 @@
       
       <div class="margin_t-4 flex_j_c-space-between flex_a_i-center">
         <div class="sex">{{ sexLabel }}</div>
-        <el-button type="primary" link round @click="addHandle"><el-icon size="14"><EpPlus /></el-icon></el-button>
+        <el-button type="primary" link round @click.stop="addHandle"><el-icon size="14"><EpPlus /></el-icon></el-button>
       </div>
     </div>
   </div>

@@ -4,11 +4,13 @@
       <Sidebar></Sidebar>
       <Router class="flex-item_f-1" :keepalives="['Conversation', 'Friend', 'Group', 'Verify']"></Router>
     </div>
+    <Websocket></Websocket>
   </div>
 </template>
 
 <script setup>
 import Sidebar from './components/sidebar/index.vue'
+import Websocket from './components/websocket/index.vue'
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,7 @@
 import { clearJson } from '@utils'
 
 import { pageApi } from '@/api/message'
+import { roomGroupUserPageApi } from '@/api/room'
 
 export const useRoomStore = defineStore('room', {
   state: () => ({
@@ -8,11 +9,13 @@ export const useRoomStore = defineStore('room', {
   }),
   actions: {
     /**
-     * 获取会话列表
-     * @param {*} params
+     * 获取消息列表
+     * @param {*} roomId 房间ID
+     * @param {*} lastId 最后一个ID
+     * @param {*} size 数据量
      * @returns
      */
-    async getList(roomId, lastId, size = 10) {
+    async getMessageList(roomId, lastId, size = 10) {
       const r = await pageApi({ roomId, lastId, size })
       if (r) {
         const messageList = r.data.reverse()
@@ -28,6 +31,31 @@ export const useRoomStore = defineStore('room', {
           })
         }
         return messageList
+      }
+    },
+    /**
+     * 获取房间用户
+     * @param {*} roomId 房间ID
+     * @param {*} lastId 最后一个ID
+     * @param {*} size 数据量
+     * @returns 
+     */
+    async getUserList(roomId, lastId, size = 20) {
+      const r = await roomGroupUserPageApi({ roomId, lastId, size })
+      if (r) {
+        const userList = r.data
+        const room = this.list.find(room => room.id === roomId)
+        if (room) {
+          const { users } = room
+          users.push(...userList)
+        } else {
+          this.list.push({
+            id: roomId,
+            messages: [],
+            users: userList
+          })
+        }
+        return userList
       }
     },
     /**

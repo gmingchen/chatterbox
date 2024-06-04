@@ -4,21 +4,22 @@
     v-model="visible"
     width="660px"
     :close-on-click-modal="false"
-    draggable>
+    draggable
+    append-to-body>
     <el-tabs v-model="active" type="card">
       <el-tab-pane label="找好友" name="user">
-        <UserPanel></UserPanel>
+        <UserListPanel></UserListPanel>
       </el-tab-pane>
       <!-- <el-tab-pane label="找群聊" name="group">
-        <GroupPanel></GroupPanel>
+        <GroupListPanel></GroupListPanel>
       </el-tab-pane> -->
     </el-tabs>
   </el-dialog>
 </template>
 
 <script setup>
-import UserPanel from './components/user-panel/index.vue'
-import GroupPanel from './components/group-panel/index.vue'
+import UserListPanel from './components/user-list-panel/index.vue'
+import GroupListPanel from './components/group-list-panel/index.vue'
 
 const visible = ref(false)
 

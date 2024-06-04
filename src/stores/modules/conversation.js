@@ -24,13 +24,24 @@ export const useConversationStore = defineStore('conversation', {
      * @param {*} conversation 
      */
     addConversation(conversation) {
-      const { roomId, message } = conversation
+      const { id, roomId, message } = conversation
       const exist = this.list.find(item => item.roomId === roomId) 
       if (exist) {
         exist.message = message
+        if (!this.active || this.active.id !== id) {
+          exist.unread = exist.unread ? exist.unread + 1 : 1
+        }
       } else {
-        this.list.unshift(conversation)
+        this.list.unshift({ ...conversation, unread: message ? 1 : 0 })
       }
+    },
+    /**
+     * 设置选中
+     * @param {*} conversation 
+     */
+    setActive(conversation) {
+      conversation.unread = 0
+      this.active = conversation
     },
     /**
      * 清除数据
