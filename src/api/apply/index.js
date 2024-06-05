@@ -25,3 +25,17 @@ export function reviewFriendApi(data) {
     data
   })
 }
+
+
+/**
+ * 审核列表
+ * @param {*} params
+ * @returns
+ */
+export function pageApi(params) {
+  return service({
+    url: '/apply/page',
+    method: 'get',
+    params
+  })
+}

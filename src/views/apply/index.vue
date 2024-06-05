@@ -1,11 +1,15 @@
 <template>
-  <div class="verify">验证</div>
+  <div class="apply">申请</div>
 </template>
 
 <script setup>
+
+defineOptions({
+  name: 'Apply'
+})
 const router = useRouter()
 </script>
 
 <style lang="scss" scoped>
-.verify {}
+.apply {}
 </style>

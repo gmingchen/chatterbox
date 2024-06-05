@@ -91,6 +91,7 @@
     "useRoomStore": true,
     "useExpressionStore": true,
     "ElMessage": true,
-    "useWebsocketStore": true
+    "useWebsocketStore": true,
+    "useApplyStore": true
   }
 }

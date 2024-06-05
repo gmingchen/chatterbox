@@ -29,24 +29,42 @@ export const useConversationStore = defineStore('conversation', {
      * @param {*} conversation 
      */
     addConversation(conversation) {
-      const { id, roomId, message } = conversation
+      const { roomId, message } = conversation
       const exist = this.list.find(item => item.roomId === roomId) 
       if (exist) {
         exist.message = message
-        if (!this.active || this.active.id !== id) {
-          exist.unread = exist.unread ? exist.unread + 1 : 1
-        }
       } else {
-        this.list.unshift({ ...conversation, unread: message ? 1 : 0 })
+        this.list.unshift(conversation)
       }
+    },
+    /**
+     * 设置未读
+     * @param {*} id 
+     */
+    setUnread(id) {
+      const conversation = this.list.find(item => item.id === id)
+      if (conversation.unread) {
+        conversation.unread += 1
+      } else {
+        conversation.unread = 1
+      }
+    },
+    /**
+     * 设置已读
+     * @param {*} id 
+     * @returns 
+     */
+    setRead(id) {
+      const conversation = this.list.find(item => item.id === id)
+      conversation.unread = 0
+      return conversation
     },
     /**
      * 设置选中
      * @param {*} conversation 
      */
     setActive({ id }) {
-      const conversation = this.list.find(item => item.id === id)
-      conversation.unread = 0
+      const conversation = this.setRead(id)
       this.active = conversation
     },
     /**

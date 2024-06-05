@@ -94,8 +94,7 @@ export function dateFormat(date) {
  */
 export function recordAudio(start = () => {}, stop = () => {}, fail = () => {}) {
   if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ audio: true })
-    .then((stream) => {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorder.start();
       start(mediaRecorder)
@@ -107,6 +106,10 @@ export function recordAudio(start = () => {}, stop = () => {}, fail = () => {}) 
 
       mediaRecorder.addEventListener('stop', () => {
         const blob = new Blob(chunks, { 'type' : 'audio/mp3' });
+        // 关闭
+        stream.getTracks().forEach(track => {
+          track.stop();
+        });
         stop(blob)
       });
     }).catch((error) => {

@@ -88,8 +88,10 @@ const scrollToBottom = () => {
 watch(active, async () => {
   if (!messages.value.length) {
     await getData()
-    scrollToBottom()
   }
+  nextTick(() => {
+    scrollToBottom()
+  })
 })
 
 watch(messages, () => {
@@ -113,6 +115,13 @@ const scrollHandle = async ({ scrollTop }) => {
     }, 1000)
   }
 }
+
+onActivated(() => {
+  // 每次激活 设置当前会话消息已读
+  if (active.value) {
+    conversationStore.setRead(active.value.id)
+  }
+})
 </script>
 
 <style lang="scss" scoped>

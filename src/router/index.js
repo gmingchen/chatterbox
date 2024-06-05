@@ -31,9 +31,9 @@ const router = createRouter({
           component: () => import('../views/group/index.vue')
         },
         {
-          path: '/verify',
-          name: 'verify',
-          component: () => import('../views/verify/index.vue')
+          path: '/apply',
+          name: 'apply',
+          component: () => import('../views/apply/index.vue')
         },
       ],
       beforeEnter: async (to, from, next) => {

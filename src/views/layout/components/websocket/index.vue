@@ -20,11 +20,15 @@ export default defineComponent({
      * @param {*} data 
      */
     const chatHandler = (data) => {
-      rootStore.addMessage(data)
-
-      let content = '', icon = ''
+      // 判断是否需要设置未读消息
+      if (route.name === 'conversation' && conversationStore.active && conversationStore.active.id === data.id) {
+        rootStore.addMessage(data)
+      } else {
+        rootStore.addUnreadMessage(data)
+      }
 
       const { friend, group }  = data
+      let content = '', icon = ''
       if (friend) {
         const { nickname, avatar } = friend
         content = `${ nickname }给你发来一条消息`
@@ -34,6 +38,7 @@ export default defineComponent({
         content = `${ name }有一条新消息`
         icon = avatar
       }
+      
       if (route.name !== 'conversation') {
         const title = '有一条新消息'
         const onclick = () => {

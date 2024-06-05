@@ -2,7 +2,7 @@
   <div class="layout flex-item_f-1">
     <div class="wrap height-full flex">
       <Sidebar></Sidebar>
-      <Router class="flex-item_f-1" :keepalives="['Conversation', 'Friend', 'Group', 'Verify']"></Router>
+      <Router class="flex-item_f-1" :keepalives="['Conversation', 'Friend', 'Group', 'Apply']"></Router>
     </div>
     <Websocket></Websocket>
   </div>
