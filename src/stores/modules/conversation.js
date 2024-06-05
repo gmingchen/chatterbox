@@ -44,7 +44,8 @@ export const useConversationStore = defineStore('conversation', {
      * 设置选中
      * @param {*} conversation 
      */
-    setActive(conversation) {
+    setActive({ id }) {
+      const conversation = this.list.find(item => item.id === id)
       conversation.unread = 0
       this.active = conversation
     },

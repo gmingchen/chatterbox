@@ -4,7 +4,7 @@
       <div class="header padding-15">{{ name }}</div>
       <el-scrollbar ref="refScrollbar" @scroll="scrollHandle">
         <div ref="refInner" class="flex-item_f-1 padding-15">
-          <Loading text="消息加载中" v-show="loading"></Loading>
+          <Loading class="loading" text="消息加载中" v-show="loading"></Loading>
           <div class="message-wrap" v-for="item in messages" :key="item.id" >
             <Message :message="item" :reverse="item.userId === userId"></Message>
           </div>

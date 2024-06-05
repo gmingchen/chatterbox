@@ -138,30 +138,41 @@ export function getWebsocketOrigin() {
   return `${protocol}//${ host }`
 }
 
-
-export function notification(title = '', content = '', icon = '', data = null, onclick = () => {}) {
+/**
+ * 构建提示
+ * @param {*} title 标题
+ * @param {*} content 内容
+ * @param {*} icon 图标
+ * @param {*} data 数据
+ * @param {*} onclick 点击事件
+ * @returns 
+ */
+function notificationHandler(title = '', content = '', icon = '', data = null, onclick = () => {}) {
   const notification = new Notification(title, { body: content, data, icon });
-  notification.onclick = (e) => {
-    // console.log(e);
-    if (typeof onclick === 'function') {
-      onclick(e)
-    }
+  if (typeof onclick === 'function') {
+    notification.onclick = onclick
   }
   return notification
 }
 
-
-export function notificationPermission(title, content, icon, data, onclick = () => {}) {
-  console.log(title, content, icon, data, onclick);
+/**
+ * 授权提示 并 提示
+ * @param {*} title 标题
+ * @param {*} content 内容
+ * @param {*} icon 图标
+ * @param {*} data 数据
+ * @param {*} onclick 点击事件
+ */
+export function notification(title, content, icon, data, onclick = () => {}) {
   if (window.Notification) {
     if (Notification.permission === 'granted') {
-      notification(title, content, icon, data, onclick)
+      notificationHandler(title, content, icon, data, onclick)
     } else if (Notification.permission !== "denied") {
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
-          notification(title, content, icon, data, onclick)
+          notificationHandler(title, content, icon, data, onclick)
         }
-      });
+      })
     }
   }
 }

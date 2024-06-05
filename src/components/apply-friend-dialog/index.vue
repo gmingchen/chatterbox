@@ -24,6 +24,9 @@ import { selectListApi } from '@/api/grouping'
 import { applyFriendApi } from '@/api/apply'
 import { getUserInfoApi } from '@/api/user'
 
+const userStore = useUserStore()
+const nickname = computed(() => userStore.nickname)
+
 const visible = ref(false)
 
 const loading = ref(false)
@@ -50,6 +53,7 @@ const getUser = async () => {
   const r = await getUserInfoApi({ id: id.value })
   if (r) {
     user.value = r.data
+    form.value.content = `我是${ nickname.value }，想添加你为好友！`
   }
 }
 

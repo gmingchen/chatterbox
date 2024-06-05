@@ -59,7 +59,7 @@ export const useRoomStore = defineStore('room', {
       }
     },
     /**
-     * 新增房间 存在则新增消息
+     * 新增房间 存在则新增消息 不存在则获取消息列表
      * @param {*} roomId 
      * @param {*} message 
      */
@@ -68,11 +68,7 @@ export const useRoomStore = defineStore('room', {
       if (room) {
         room.messages.push(message)
       } else {
-        this.list.push({
-          id: roomId,
-          messages: [message],
-          users: []
-        })
+        this.getMessageList(roomId)
       }
     },
     /**
