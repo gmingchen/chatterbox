@@ -1,14 +1,7 @@
 <template>
   <div class="conversation flex">
     <el-scrollbar class="width-280 padding-n-10">
-      <ConversationCard
-        class="card"
-        :class="item.id === active.id ? 'active' : '' "
-        v-for="item in list"
-        :key="item.id"
-        :conversation="item"
-        @click="clickHandle(item)">
-      </ConversationCard>
+      <ConversationCard v-for="item in list" :key="item.id" :conversation="item"></ConversationCard>
     </el-scrollbar>
     <MessagePanel class="flex-item_f-1"></MessagePanel>
     <GroupUserPanel class="margin_l-10 width-200" v-if="active.group"></GroupUserPanel>
@@ -25,17 +18,12 @@ defineOptions({
 })
 
 const conversationStore = useConversationStore()
-
 const active = computed({
   get: () => conversationStore.active || {},
   set: (value) => conversationStore.setActive(value)
 })
 
 const list = computed(() => conversationStore.list)
-
-const clickHandle = (row) => {
-  active.value = row
-}
 
 onBeforeMount(() => {
   conversationStore.getList()
@@ -44,11 +32,5 @@ onBeforeMount(() => {
 
 <style lang="scss" scoped>
 .conversation {
-  .card.active, .card:hover {
-    background-color: var(--card-hover-background-color);
-  }
-  .card + .card {
-    margin-top: 4px;
-  }
 }
 </style>

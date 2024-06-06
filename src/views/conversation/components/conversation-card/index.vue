@@ -1,5 +1,14 @@
 <template>
-  <Card :avatar="avatar" :name="name" :message="message" :time="time" :badge="conversation.unread"></Card>
+  <el-badge class="conversation-card width-full" :value="conversation.unread" :show-zero="false">
+    <Card
+      :image="avatar"
+      :label="name"
+      :content="message"
+      :tips="time"
+      :active="conversation.id === active.id"
+      @click="clickHandle">
+    </Card>
+  </el-badge>
 </template>
 
 <script setup>
@@ -10,6 +19,12 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+})
+
+const conversationStore = useConversationStore()
+const active = computed({
+  get: () => conversationStore.active || {},
+  set: (value) => conversationStore.setActive(value)
 })
 
 const avatar = computed(() => {
@@ -49,7 +64,14 @@ const time = computed(() => {
   }
   return ''
 })
+
+const clickHandle = () => {
+  active.value = props.conversation
+}
 </script>
 
 <style lang="scss" scoped>
+.conversation-card + .conversation-card {
+  margin-top: 4px;
+}
 </style>

@@ -4,18 +4,15 @@
       <el-input class="keyword-input margin_r-10" v-model="keyword" placeholder="输入昵称或邮箱搜索"></el-input>
       <el-button type="primary" plain @click="searchHandle" :disabled="!keyword || loading">查找</el-button>
     </div>
-
     <el-scrollbar ref="refScrollbar" class="margin_t-10" height="250px" @scroll="scrollHandle">
       <div ref="refInner" class="flex_w-wrap">
-        <div class="card-wrap" v-for="item in list" :key="item.id" @click="applyHandle(item)">
-          <AddUserCard
-            class="margin_r-5 margin_b-5"
-            :image="item.avatar"
-            :name="item.nickname"
-            :sex="item.sex"
-            @add="applyHandle(item)">
-          </AddUserCard>
-        </div>
+        <UserCard
+          class="margin_r-5 margin_b-5"
+          v-for="item in list"
+          :key="item.id"
+          :user="item"
+          @click="applyHandle(item)">
+        </UserCard>
         <div class="margin_t-10 width-full height-20" v-show="loading">
           <Loading text="数据加载中"></Loading>
         </div>
@@ -27,7 +24,7 @@
 </template>
 
 <script setup>
-import AddUserCard from '../add-user-card/index.vue'
+import UserCard from '../user-card/index.vue'
 
 import { getUserListApi } from '@/api/user'
 

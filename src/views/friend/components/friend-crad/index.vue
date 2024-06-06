@@ -1,10 +1,8 @@
 <template>
-  <Card :avatar="avatar" :name="name" :message="message"></Card>
+  <Card :image="avatar" :label="name" :content="message"></Card>
 </template>
 
 <script setup>
-import { messageFormat, dateFormat } from '@utils'
-
 const props = defineProps({
   friend: {
     type: Object,
