@@ -20,13 +20,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-const conversationStore = useConversationStore()
-const active = computed({
-  get: () => conversationStore.active || {},
-  set: (value) => conversationStore.setActive(value)
-})
-
 const avatar = computed(() => {
   const { friend, group } = props.conversation
   if (friend) {
@@ -65,6 +58,12 @@ const time = computed(() => {
   return ''
 })
 
+
+const conversationStore = useConversationStore()
+const active = computed({
+  get: () => conversationStore.active || {},
+  set: (value) => conversationStore.setActive(value)
+})
 const clickHandle = () => {
   active.value = props.conversation
 }

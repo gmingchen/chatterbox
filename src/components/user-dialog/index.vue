@@ -6,7 +6,7 @@
     :close-on-click-modal="false"
     draggable
     append-to-body>
-    <UserPanel :user="user" v-bind="$attrs"></UserPanel>
+    <UserPanel :user="user"></UserPanel>
     <slot></slot>
   </el-dialog>
 </template>

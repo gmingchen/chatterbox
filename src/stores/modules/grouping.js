@@ -61,6 +61,21 @@ export const useGroupingStore = defineStore('grouping', {
       }
     },
     /**
+     * 设置选中
+     * @param {*} friend 
+     */
+    setActive({ id }) {
+      let friend = null
+      for (let i = 0; i < this.list.length; i++) {
+        const { friends } = this.list[i];
+        friend = friends.find(item => item.id === id)
+        if (friend) {
+          break
+        }
+      }
+      this.active = friend
+    },
+    /**
      * 清除数据
      */
     clear() {

@@ -4,6 +4,7 @@ import { pageApi } from '@/api/apply'
 
 export const useApplyStore = defineStore('apply', {
   state: () => ({
+    active: null,
     list: [],
   }),
   actions: {
@@ -19,6 +20,14 @@ export const useApplyStore = defineStore('apply', {
         this.list.push(...r.data)
         return this.list
       }
+    },
+    /**
+     * 设置选中
+     * @param {*} apply 
+     */
+    setActive({ id }) {
+      const apply = this.list.find(item => item.id === id)
+      this.active = apply
     },
     /**
      * 清除数据

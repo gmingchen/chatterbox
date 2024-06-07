@@ -9,8 +9,7 @@
               class="card"
               v-for="friend in group.friends"
               :key="friend.id"
-              :friend="friend"
-              @click="clickHandle(friend)">
+              :friend="friend">
             </FriendCard>
           </el-collapse-item>
         </el-collapse>
@@ -30,20 +29,8 @@ defineOptions({
 })
 
 const groupingStore = useGroupingStore()
-
 const list = computed(() => groupingStore.filterList)
-
 const collapseActive = ref('default')
-
-const active = computed({
-  get: () => groupingStore.active,
-  set: value => groupingStore.active = value
-})
-
-
-const clickHandle = (row) => {
-  active.value = row
-}
 
 onBeforeMount(() => {
   groupingStore.getList()

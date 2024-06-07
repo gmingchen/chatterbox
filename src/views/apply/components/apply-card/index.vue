@@ -1,10 +1,18 @@
 <template>
-  <Card :image="image" :content="content" :label="label" :tips="tips"></Card>
+  <Card
+    :image="image"
+    :content="content"
+    :label="label"
+    :tips="tips"
+    :active="apply.id === active.id"
+    @click="clickHandle">
+  </Card>
 </template>
 
 <script setup>
 import { APPLY_STATUS, applyStatusList } from '@enums/apply'
 import { dateFormat } from '@utils'
+
 const props = defineProps({
   apply: {
     type: Object,
@@ -47,8 +55,15 @@ const tips = computed(() => {
   }
 })
 
+const applyStore = useApplyStore()
+const active = computed({
+  get: () => applyStore.active || {},
+  set: (value) => applyStore.setActive(value)
+})
+const clickHandle = () => {
+  active.value = props.apply
+}
 </script>
 
 <style lang="scss" scoped>
-.apply-card {}
 </style>

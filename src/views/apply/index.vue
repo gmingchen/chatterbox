@@ -9,11 +9,13 @@
         </ApplyCard>
       </el-scrollbar>
     </div>
+    <ApplyPanel class="flex-item_f-1"></ApplyPanel>
   </div>
 </template>
 
 <script setup>
 import ApplyCard from './components/apply-card/index.vue'
+import ApplyPanel from './components/apply-panel/index.vue'
 
 defineOptions({
   name: 'Apply'

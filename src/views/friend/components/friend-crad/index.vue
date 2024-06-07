@@ -1,5 +1,11 @@
 <template>
-  <Card :image="avatar" :label="name" :content="message"></Card>
+  <Card
+    :image="avatar"
+    :label="name"
+    :content="message"
+    :active="friend.id === active.id"
+    @click="clickHandle()">
+  </Card>
 </template>
 
 <script setup>
@@ -24,6 +30,15 @@ const message = computed(() => {
   const { nickname, remark } = props.friend
   return remark ? nickname : ''
 })
+
+const groupingStore = useGroupingStore()
+const active = computed({
+  get: () => groupingStore.active || {},
+  set: (value) => groupingStore.setActive(value)
+})
+const clickHandle = () => {
+  active.value = props.friend
+}
 </script>
 
 <style lang="scss" scoped>
