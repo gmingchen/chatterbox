@@ -2,7 +2,7 @@
   <div class="friend-panel padding-15 flex_d-column flex_a_i-center">
     <template v-if="active">
       <UserPanel class="user-panel margin_t-50" :user="active"></UserPanel>
-      <div class="button-wrap margin_t-10">
+      <div class="margin_t-10">
         <el-button type="primary" plain round @click="sendHandle">
           <el-icon class="margin_r-5"><EpPromotion /></el-icon>
           发送消息
