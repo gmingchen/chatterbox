@@ -83,12 +83,14 @@ export default defineConfig(({ mode }) => {
       // 代理。
       proxy: {
         '^/chatterbox/websocket': {
-          target: 'http://localhost:8831',
+          target: 'https://chatterbox.gumingchen.icu',
+          // target: 'http://localhost:8831',
           changeOrigin: true,
           ws: true
         },
         '^/chatterbox': {
-          target: 'http://localhost:8830',
+          target: 'https://chatterbox.gumingchen.icu',
+          // target: 'http://localhost:8830',
           changeOrigin: true,
         }
       },

@@ -44,7 +44,7 @@ export function uploadAvatarApi(params) {
  * 上传头像
  */
 export function uploadAvatarUrl() {
-  return `${ service.defaults.baseURL }/${ uploadAvatar }`
+  return `${ service.defaults.baseURL }${ uploadAvatar }`
 }
 
 const uploadImage = '/file/upload/image'
@@ -60,7 +60,7 @@ export function uploadImageApi(params) {
  * 上传图片消息
  */
 export function uploadImageUrl() {
-  return `${ service.defaults.baseURL }/${ uploadImage }`
+  return `${ service.defaults.baseURL }${ uploadImage }`
 }
 
 const uploadFile = '/file/upload/file'
@@ -76,7 +76,7 @@ export function uploadFileApi(params) {
  * 上传图片消息
  */
 export function uploadFileUrl() {
-  return `${ service.defaults.baseURL }/${ uploadFile }`
+  return `${ service.defaults.baseURL }${ uploadFile }`
 }
 
 const uploadAudio = '/file/upload/audio'
@@ -101,5 +101,5 @@ export function uploadAudioApi(blob) {
  * 上传音频消息
  */
 export function uploadAudioUrl() {
-  return `${ service.defaults.baseURL }/${ uploadAudio }`
+  return `${ service.defaults.baseURL }${ uploadAudio }`
 }
