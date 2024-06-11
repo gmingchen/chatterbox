@@ -37,6 +37,19 @@ export const useGroupingStore = defineStore('grouping', {
       }
     },
     /**
+     * 新增好友
+     * @param {*} params 
+     */
+    addFriend(grouping) {
+      const { id, friends } = grouping
+      const exist = this.list.find(item => item.id === id)
+      if (exist) {
+        exist.friends.push(...friends)
+      } else {
+        this.list.push(grouping)
+      }
+    },
+    /**
      * 移除好友
      * @param {*} userId 
      */

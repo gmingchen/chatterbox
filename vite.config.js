@@ -83,12 +83,12 @@ export default defineConfig(({ mode }) => {
       // 代理。
       proxy: {
         '^/chatterbox/websocket': {
-          target: 'http://localhost:8821',
+          target: 'http://localhost:8831',
           changeOrigin: true,
           ws: true
         },
         '^/chatterbox/api': {
-          target: 'http://localhost:8820',
+          target: 'http://localhost:8830',
           changeOrigin: true,
           rewrite: (path) => {
             return path.replace(/\/api\//, '/')

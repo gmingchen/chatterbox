@@ -11,6 +11,8 @@
 </template>
 
 <script setup>
+import { ElMessage } from 'element-plus';
+
 const props = defineProps({
   label: {
     type: String,
@@ -31,6 +33,10 @@ const router = useRouter()
 const active = computed(() => route.name === props.value)
 
 const clickHandle = async () => {
+  if (props.value === 'group') {
+    ElMessage({ message: '功能正在开发中哦~~~', type: 'warning',})
+    return
+  }
   if (props.value) {
     await props.before()
     router.push({ name: props.value })

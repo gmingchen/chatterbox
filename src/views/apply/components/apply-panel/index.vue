@@ -31,10 +31,14 @@
       </div>
     </template>
     <Empty v-else></Empty>
+    <PassDialog ref="refPassDialog"></PassDialog>
   </div>
 </template>
 
 <script setup>
+import { dayjs } from 'element-plus'
+
+import PassDialog from '../pass-dialog/index.vue'
 import { APPLY_STATUS, applyStatusList } from '@enums/apply'
 import { sexList } from '@enums/user'
 
@@ -69,17 +73,25 @@ const list = computed(() => {
     result = [
       { label: '性别', value: sexItem ? sexItem.label : '-' },
       { label: '好友申请', value: content || '-' },
-      { label: '审核状态', value:  statusItem ? statusItem.label : '-' },
-      { label: '申请时间', value: createdAt || '-' },
+      { label: '审核状态', value: statusItem ? statusItem.label : '-' },
+      { label: '申请时间', value: dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss') || '-' },
     ]
   }
-
 
   return result
 })
 
-const reviewHandle = (status) => {
-
+const refPassDialog = ref()
+const reviewHandle = async (status) => {
+  const { id, userId } = active.value
+  if (status === APPLY_STATUS.PASS) {
+    refPassDialog.value.open({ id, userId })
+  } else if (status === APPLY_STATUS.REJECT) {
+    const r = await reviewFriendApi({ id, status})
+    if (r) {
+      active.value.status = status
+    }
+  }
 }
 
 const router = useRouter()

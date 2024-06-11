@@ -2,7 +2,9 @@
 import { ElMessage, ElNotification } from 'element-plus'
 
 import { WEBSOCKET_TYPE } from '@enums/websocket'
+import { APPLY_TYPE } from '@enums/apply'
 import { notification } from '@utils'
+import { useApplyStore } from '@/stores/modules/apply'
 
 export default defineComponent({
   render() { return '' },
@@ -12,6 +14,8 @@ export default defineComponent({
     const websocketStore = useWebsocketStore()
     const rootStore = useRootStore()
     const conversationStore = useConversationStore()
+    const applyStore = useApplyStore()
+    const groupingStore = useGroupingStore()
 
     const { response } = storeToRefs(websocketStore)
 
@@ -48,6 +52,51 @@ export default defineComponent({
         notification(title, content, icon, data, onclick)
       }
     }
+    /**
+     * 申请处理器-好友申请、
+     * @param {*} data 
+     */
+    const applyHandler = (data) => {
+      applyStore.addApply(data)
+
+      const { type, user: { nickname, avatar } } = data
+      let content = '', icon = avatar
+      if (type === APPLY_TYPE.FRIEND) {
+        content = `${ nickname }添加你为好友`
+      }
+
+      if (route.name !== 'apply') {
+        const title = '有一条新申请'
+        const onclick = () => {
+          applyStore.setActive(data)
+          router.push({ name: 'apply' })
+        }
+        notification(title, content, icon, data, onclick)
+      }
+      ElMessage({ message: content, type: 'success' })
+    }
+    /**
+     * 通过好友申请处理器
+     * @param {*} data 
+     */
+    const passFirendApplyHandler = (data) => {
+      groupingStore.addFriend(data)
+      
+      const { nickname, avatar } = data.friends[0]
+      const content = `${ nickname }通过了你的好友申请`
+      const icon = avatar
+
+      if (route.name !== 'friend') {
+        const title = '有一条新通知'
+        const onclick = () => {
+          rootStore.setActive(data)
+          router.push({ name: 'friend' })
+        }
+        notification(title, content, icon, data, onclick)
+      }
+      
+      ElMessage({ message: content, type: 'success' })
+    }
 
     watch(() => response.value, (newVal) => {
       newVal = JSON.parse(JSON.stringify(newVal))
@@ -56,17 +105,19 @@ export default defineComponent({
         chatHandler(body)
       } else if (type === WEBSOCKET_TYPE.GROUP_CHAT_MESSAGE) {
         chatHandler(body)
+      } else if (type === WEBSOCKET_TYPE.FRIEND_APPLY) {
+        applyHandler(body)
+      } else if (type === WEBSOCKET_TYPE.PASS_FRIEND_APPLY) {
+        passFirendApplyHandler(body)
       }
     }, { deep: true })
 
     onBeforeMount(() => {
       websocketStore.init()
     })
-
     onUnmounted(() => {
       websocketStore.close()
     })
-
     return {}
   }
 })

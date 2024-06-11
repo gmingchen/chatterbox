@@ -70,7 +70,13 @@ const clickHandle = () => {
 </script>
 
 <style lang="scss" scoped>
-.conversation-card + .conversation-card {
-  margin-top: 4px;
+.conversation-card {
+  ::v-deep(.el-badge__content.is-fixed){
+    right: calc(100% - 40px - var(--el-badge-size));
+    transform: translateY(20%)
+  }
+  & + & {
+    margin-top: 4px;
+  }
 }
 </style>

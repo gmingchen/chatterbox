@@ -10,16 +10,27 @@ export const useApplyStore = defineStore('apply', {
   actions: {
     /**
      * 获取消息列表
-     * @param {*} lastId 最后一个ID
      * @param {*} size 数据量
      * @returns
      */
-    async getList(lastId, size = 10) {
+    async getList(size = 10) {
+      let lastId = ''
+      const length = this.list.length
+      if (length) {
+        lastId = this.list[length - 1].id
+      }
       const r = await pageApi({ lastId, size })
       if (r) {
         this.list.push(...r.data)
-        return this.list
+        return r.data
       }
+    },
+    /**
+     * 新增需求
+     * @param {*} apply 
+     */
+    addApply(apply) {
+      this.list.unshift(apply)
     },
     /**
      * 设置选中
@@ -28,6 +39,15 @@ export const useApplyStore = defineStore('apply', {
     setActive({ id }) {
       const apply = this.list.find(item => item.id === id)
       this.active = apply
+    },
+    /**
+     * 设置状态
+     * @param {*} id 
+     * @param {*} status 
+     */
+    setStatus(id, status) {
+      const apply = this.list.find(item => item.id === id)
+      apply.status = status
     },
     /**
      * 清除数据

@@ -9,7 +9,7 @@
     :before-close="beforeClose">
     <div class="flex_j_c-space-between flex_a_i-center">
       <UserPanel class="margin_r-30 flex-item_f-3" :user="user"></UserPanel>
-      <FromUI ref="refForm" class="flex-item_f-4" :form="form" :groupings="groupings" :loading="loading" @submit="apply"></FromUI>
+      <FromUI ref="refForm" class="flex-item_f-4" :form="form" :groupings="groupings" :loading="loading" @submit="pass"></FromUI>
     </div>
   </el-dialog>
 
@@ -20,23 +20,20 @@ import { ElMessage } from 'element-plus';
 
 import FromUI from './components/form-ui/index.vue'
 
+import { APPLY_STATUS } from '@enums/apply'
+
 import { selectListApi } from '@/api/grouping'
-import { applyFriendApi } from '@/api/apply'
+import { reviewFriendApi } from '@/api/apply'
 import { getUserInfoApi } from '@/api/user'
 
-const userStore = useUserStore()
-const nickname = computed(() => userStore.nickname)
-
 const visible = ref(false)
-
 const loading = ref(false)
 
 const id = ref(null)
-
+const userId = ref(null)
 const form = ref({
   remark: '',
   groupingId: '',
-  content: '',
 })
 
 const groupings = ref([])
@@ -53,19 +50,22 @@ const getUser = async () => {
   const r = await getUserInfoApi({ id: id.value })
   if (r) {
     user.value = r.data
-    form.value.content = `我是${ nickname.value }，想添加你为好友！`
   }
 }
 
-const apply = async () => {
+const applyStore = useApplyStore()
+const groupingStore = useGroupingStore()
+const pass = async () => {
   loading.value = true
-  const params = { targetId: id.value, ...form.value}
-  const r = await applyFriendApi(params)
+  const params = { 
+    id: id.value,
+    status: APPLY_STATUS.PASS,
+    ...form.value
+  }
+  const r = await reviewFriendApi(params)
   if (r) {
-    ElMessage({
-      message: '你的好友添加请求已经发送成功，正在等待对方确认~',
-      type: 'success'
-    })
+    applyStore.setStatus(id.value, APPLY_STATUS.PASS)
+    groupingStore.addFriend(r.data)
   }
   nextTick(() => {
     loading.value = false
@@ -74,18 +74,17 @@ const apply = async () => {
 }
 
 const refForm = ref()
-
 const beforeClose = (done) => {
   refForm.value.reset()
   done()
 }
 
 defineExpose({
-  open: (userId) => {
+  open: (data) => {
     visible.value = true
     loading.value = false
-    id.value = userId
-    form.value.remark = ''
+    id.value = data.id
+    userId.value = data.userId
     getUser()
     getList()
   }
@@ -95,4 +94,3 @@ defineExpose({
 <style lang="scss" scoped>
 .apply-friend-dialog {}
 </style>
-./components/form-ui
