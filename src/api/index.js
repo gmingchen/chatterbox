@@ -65,7 +65,7 @@ const codeHandle = (code, message) => {
  * @author: gumingchen
  */
 const service = axios.create({
-  baseURL: `${ MAPPING }/api`,
+  baseURL: `${ MAPPING }`,
   withCredentials: true,
   timeout: TIME_OUT,
   headers: {

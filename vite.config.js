@@ -87,12 +87,9 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           ws: true
         },
-        '^/chatterbox/api': {
+        '^/chatterbox': {
           target: 'http://localhost:8830',
           changeOrigin: true,
-          rewrite: (path) => {
-            return path.replace(/\/api\//, '/')
-          }
         }
       },
       // 为开发服务器配置 CORS。
