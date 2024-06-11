@@ -14,6 +14,12 @@ dist-ssr
 coverage
 *.local
 
+dist/
+dist.zip
+chatterbox/
+chatterbox.zip
+deploy/
+
 /cypress/videos/
 /cypress/screenshots/
 

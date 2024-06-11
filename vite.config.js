@@ -108,7 +108,7 @@ export default defineConfig(({ mode }) => {
         polyfill: true
       },
       // 指定输出路径（相对于 项目根目录).
-      outDir: 'chatterbox',
+      outDir: 'dist',
       // 指定生成静态资源的存放路径（相对于 build.outDir）。
       assetsDir: 'assets',
       // 小于此阈值的导入或引用资源将内联为 base64 编码
