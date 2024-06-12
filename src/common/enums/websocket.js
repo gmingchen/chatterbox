@@ -7,4 +7,7 @@ export const WEBSOCKET_TYPE = {
   PASS_FRIEND_APPLY: 4, // 通过好友申请
   REJECT_FRIEND_APPLY: 5, // 拒绝好友申请
   DELETE_FRIEND: 6, // 删除好友
+
+  JOIN_GROUP: 11, // 加入群聊
+  EXIT_GROUP: 12, // 退出群聊
 }

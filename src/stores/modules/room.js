@@ -60,8 +60,8 @@ export const useRoomStore = defineStore('room', {
     },
     /**
      * 新增房间 存在则新增消息 不存在则获取消息列表
-     * @param {*} roomId 
-     * @param {*} message 
+     * @param {*} roomId 房间ID
+     * @param {*} message 消息
      */
     addRoom(roomId, message) {
       const room = this.list.find(item => item.id === roomId)
@@ -70,6 +70,38 @@ export const useRoomStore = defineStore('room', {
       } else {
         this.getMessageList(roomId)
       }
+    },
+    /**
+     * 添加用户
+     */
+    addUser(user) {
+      const room = this.list.find(room => room.id === user.roomId)
+      if (room) {
+        const { users } = room
+        const { roomUserId } = users[users.length - 1]
+        if (user.roomUserId === roomUserId + 1) {
+          users.push(user)
+        }
+      }
+    },
+    /**
+     * 更新用户信息
+     * @param {*} id 房间ID
+     * @param {*} nickname 消息
+     */
+    updateUser(user){
+      this.list.forEach(room => {
+        const { users } = room
+        for (let i = 0; i < users.length; i++) {
+          const item = users[i];
+          if (item.id === user.id) {
+            item.nickname = user.nickname,
+            item.avatar = user.avatar,
+            item.sex = user.sex
+            break
+          }
+        }
+      });
     },
     /**
      * 清除数据

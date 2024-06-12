@@ -57,7 +57,7 @@ const messages = computed(() => {
 
 const userId = computed(() => userStore.id) 
 
-
+const scrollTop = ref(0)
 const refScrollbar = ref()
 const refInner = ref()
 
@@ -105,21 +105,28 @@ watch(messages, () => {
   }
 }, { deep: true })
 
-const scrollHandle = async ({ scrollTop }) => {
-  if (scrollTop < 1 && !loading.value && !finished.value) {
+const scrollHandle = async (scroll) => {
+  scrollTop.value = scroll.scrollTop
+  if (scroll.scrollTop < 1 && !loading.value && !finished.value) {
     loading.value = true
     setTimeout(async () => {
       const height = refInner.value.clientHeight
       await getData()
-      refScrollbar.value.setScrollTop(refInner.value.clientHeight - height)
+      const top = refInner.value.clientHeight - height
+      scrollTop.value = top
+      refScrollbar.value.setScrollTop(top)
     }, 1000)
   }
+  
 }
 
 onActivated(() => {
   // 每次激活 设置当前会话消息已读
   if (active.value) {
     conversationStore.setRead(active.value.id)
+    nextTick(() => {
+      refScrollbar.value.setScrollTop(scrollTop.value)
+    })
   }
 })
 </script>

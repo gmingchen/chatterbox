@@ -16,6 +16,7 @@ import UI from './ui/index.vue'
 import { updateApi } from '@/api/user'
 
 const userStore = useUserStore()
+const roomStore = useRoomStore()
 
 const visible = ref(false)
 
@@ -32,9 +33,14 @@ const submit = async () => {
   const r = await updateApi(form.value)
   if (r) {
     await userStore.getUserInfo()
+    roomStore.updateUser({
+      id: userStore.id,
+      ...form.value
+    })
   }
   nextTick(() => {
     loading.value = false
+    visible.value = false
   })
 }
 

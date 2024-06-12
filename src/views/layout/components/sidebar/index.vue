@@ -5,7 +5,7 @@
       <Tabbar class="margin_t-20 flex-item_f-1"></Tabbar>
       <Publicize class="margin_t-20"></Publicize>
     </el-scrollbar>
-    <UserDialog ref="refUserDialog">
+    <UserDialog ref="refUserDialog" :user="user">
       <div class="flex_j_c-space-around">
         <el-button type="primary" plain round @click="openEditDialog(EDIT_TYPE.INFO)">
           <el-icon class="margin_r-5">

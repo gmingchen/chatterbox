@@ -6,21 +6,26 @@
     :close-on-click-modal="false"
     draggable
     append-to-body>
-    <UserPanel :user="user"></UserPanel>
+    <UserPanel :user="user || info"></UserPanel>
     <slot></slot>
   </el-dialog>
 </template>
 
 <script setup>
-
+const props = defineProps({
+  user: {
+    type: Object,
+    default: () => {}
+  }
+})
 const visible = ref(false)
 
-const user = ref({})
+const info = ref({})
 
 defineExpose({
   open: (data) => {
     visible.value = true
-    user.value = data
+    info.value = data
   }
 })
 </script>

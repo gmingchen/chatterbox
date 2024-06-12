@@ -2,7 +2,7 @@
   <Upload
     :accept="accept.join(',')"
     :show-file-list="false"
-    :action="uploadAvatarUrl()"
+    :action="uploadImageUrl()"
     :before-upload="beforeUploadHandle"
     @on-success="successHandle">
     <el-icon class="cursor-pointer" size="20" >
@@ -13,7 +13,7 @@
 
 <script setup>
 import { ElMessage } from 'element-plus'
-import { uploadAvatarUrl } from '@/api/file'
+import { uploadImageUrl } from '@/api/file'
 
 const emits = defineEmits(['select'])
 

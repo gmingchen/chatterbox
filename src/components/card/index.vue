@@ -1,6 +1,6 @@
 <template>
   <div class="card padding-10 cursor-pointer flex flex_a_i-center" :class="active ? 'active' : ''">
-    <el-avatar :src="image"></el-avatar>
+    <el-avatar :src="image">{{ label }}</el-avatar>
     <div class="flex-item_f-1 margin-n-10">
       <div class="label ellipse" v-if="label">
         <el-tooltip :content="label" placement="top-start" :show-after="1000">
@@ -17,7 +17,6 @@
 defineProps({
   image: {
     type: String,
-    required: true,
   },
   label: {
     type: String,

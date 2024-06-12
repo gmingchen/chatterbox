@@ -16,6 +16,7 @@ export default defineComponent({
     const conversationStore = useConversationStore()
     const applyStore = useApplyStore()
     const groupingStore = useGroupingStore()
+    const roomStore = useRoomStore()
 
     const { response } = storeToRefs(websocketStore)
 
@@ -97,6 +98,13 @@ export default defineComponent({
       
       ElMessage({ message: content, type: 'success' })
     }
+    /**
+     * 群组加入新成员
+     * @param {*} data 
+     */
+    const groupJoinUserHandler = (data) => {
+      roomStore.addUser(data)
+    }
 
     watch(() => response.value, (newVal) => {
       newVal = JSON.parse(JSON.stringify(newVal))
@@ -109,6 +117,8 @@ export default defineComponent({
         applyHandler(body)
       } else if (type === WEBSOCKET_TYPE.PASS_FRIEND_APPLY) {
         passFirendApplyHandler(body)
+      } else if (type === WEBSOCKET_TYPE.JOIN_GROUP) {
+        groupJoinUserHandler(body)
       }
     }, { deep: true })
 

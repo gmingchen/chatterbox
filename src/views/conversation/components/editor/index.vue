@@ -5,8 +5,8 @@
       <Image class="tool" @select="imageSelectHandle"></Image>
       <File class="tool" @select="fileSelectHandle"></File>
       <template v-if="active.friend">
-        <VoiceCall class="tool"></VoiceCall>
-        <VideoCall class="tool"></VideoCall>
+        <VoiceCall class="tool" :userId="active.friend.userId"></VoiceCall>
+        <VideoCall class="tool" :userId="active.friend.userId"></VideoCall>
       </template>
     </div>
     <div class="margin_t-10 flex flex_a_i-flex-end">
