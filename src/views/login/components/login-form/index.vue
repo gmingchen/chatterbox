@@ -12,7 +12,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const form = ref({
-  email: '1240235512@qq.com',
+  email: '',
   captcha: '',
 })
 

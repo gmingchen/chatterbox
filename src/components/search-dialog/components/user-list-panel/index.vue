@@ -29,7 +29,7 @@ import UserCard from '../user-card/index.vue'
 import { getUserListApi } from '@/api/user'
 
 const loading = ref(false)
-const keyword = ref('好')
+const keyword = ref('')
 const page = reactive({
   current: 1,
   size: 20,
