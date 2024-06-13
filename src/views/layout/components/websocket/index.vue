@@ -3,6 +3,7 @@ import { ElMessage, ElNotification } from 'element-plus'
 
 import { WEBSOCKET_TYPE } from '@enums/websocket'
 import { APPLY_TYPE } from '@enums/apply'
+import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 import { notification } from '@utils'
 import { useApplyStore } from '@/stores/modules/apply'
 
@@ -17,6 +18,7 @@ export default defineComponent({
     const applyStore = useApplyStore()
     const groupingStore = useGroupingStore()
     const roomStore = useRoomStore()
+    const mediaStore = useMediaStore()
 
     const { response } = storeToRefs(websocketStore)
 
@@ -99,11 +101,41 @@ export default defineComponent({
       ElMessage({ message: content, type: 'success' })
     }
     /**
-     * 群组加入新成员
+     * 群组加入新成员处理器
      * @param {*} data 
      */
     const groupJoinUserHandler = (data) => {
       roomStore.addUser(data)
+    }
+    /**
+     * 语音 视频 请求处理器
+     * @param {*} data 
+     */
+    const mediaApplyHandler = (data, type) => {
+      const { id, avatar, nickname, description } = data
+      const user = { 
+        id,
+        avatar,
+        name: nickname,
+        type,
+        status: MEDIA_STATUS.CALLING,
+        description: JSON.parse(description)
+      }
+      mediaStore.addUser(user)
+
+      const describe = type === MEDIA_TYPE.VOICE ? '语音' : '视频'
+      const title = `收到一条${ describe }邀请` 
+      const message = `${ data.nickname }想要邀请你进行${ describe }通话`
+
+      ElNotification({
+        title: title,
+        message: message,
+        duration: 60000,
+        onClick: () => {
+          mediaStore.open(user)
+        },
+        onClose: () => {}
+      })
     }
 
     watch(() => response.value, (newVal) => {
@@ -119,6 +151,8 @@ export default defineComponent({
         passFirendApplyHandler(body)
       } else if (type === WEBSOCKET_TYPE.JOIN_GROUP) {
         groupJoinUserHandler(body)
+      } else if (type === WEBSOCKET_TYPE.VOICE_APPLY) {
+        mediaApplyHandler(body, MEDIA_TYPE.VOICE)
       }
     }, { deep: true })
 

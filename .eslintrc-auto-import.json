@@ -92,6 +92,12 @@
     "useExpressionStore": true,
     "ElMessage": true,
     "useWebsocketStore": true,
-    "useApplyStore": true
+    "useApplyStore": true,
+    "useMediaStore": true,
+    "answerHandler": true,
+    "channel": true,
+    "connection": true,
+    "offerHandler": true,
+    "remoteHandler": true
   }
 }

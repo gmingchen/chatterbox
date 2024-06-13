@@ -10,4 +10,10 @@ export const WEBSOCKET_TYPE = {
 
   JOIN_GROUP: 11, // 加入群聊
   EXIT_GROUP: 12, // 退出群聊
+
+  VOICE_APPLY: 13, // 语音请求
+  VOICE_CANCEL: 14, // 取消语音请求
+  VOICE_ACCEPT: 15, // 接听语音
+  VOICE_REJECT: 16, // 拒绝语音
+  VOICE_CLOSE: 17, // 关闭语音
 }

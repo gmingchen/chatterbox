@@ -5,12 +5,14 @@
       <Router class="flex-item_f-1" :keepalives="['Conversation', 'Friend', 'Group', 'Apply']"></Router>
     </div>
     <Websocket></Websocket>
+    <MediaDialog></MediaDialog>
   </div>
 </template>
 
 <script setup>
 import Sidebar from './components/sidebar/index.vue'
 import Websocket from './components/websocket/index.vue'
+import MediaDialog from './components/media-dialog/index.vue'
 </script>
 
 <style lang="scss" scoped>
