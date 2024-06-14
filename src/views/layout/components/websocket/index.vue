@@ -5,7 +5,7 @@ import { WEBSOCKET_TYPE } from '@enums/websocket'
 import { APPLY_TYPE } from '@enums/apply'
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 import { notification } from '@utils'
-import { useApplyStore } from '@/stores/modules/apply'
+import { connection, remoteHandler } from '@utils/connection'
 
 export default defineComponent({
   render() { return '' },
@@ -113,29 +113,81 @@ export default defineComponent({
      */
     const mediaApplyHandler = (data, type) => {
       const { id, avatar, nickname, description } = data
+
+      const describe = type === MEDIA_TYPE.VOICE ? '语音' : '视频'
+      const title = `收到一条${ describe }邀请` 
+      const message = `${ data.nickname }想要邀请你进行${ describe }通话`
+
+      const notification = ElNotification({
+        title: title,
+        message: message,
+        duration: 50000,
+        showClose: false,
+        onClick: () => {
+          mediaStore.open(user)
+          notification.close()
+        },
+      })
+
       const user = { 
         id,
         avatar,
         name: nickname,
         type,
         status: MEDIA_STATUS.CALLING,
-        description: JSON.parse(description)
+        description: JSON.parse(description),
+        notification,
       }
       mediaStore.addUser(user)
-
+    }
+    /**
+     * 语音 视频 取消请求处理器
+     * @param {*} data 
+     * @param {*} type 
+     */
+    const mdeiaCancelHandler = (data, type) => {
+      const { name, notification } = mediaStore.getUser(data)
       const describe = type === MEDIA_TYPE.VOICE ? '语音' : '视频'
-      const title = `收到一条${ describe }邀请` 
-      const message = `${ data.nickname }想要邀请你进行${ describe }通话`
+      const message = `${ name }取消了${ describe }邀请`
+      ElMessage({ message, type: 'warning' })
+      if (notification) {
+        notification.close()
+      }
+      const active = mediaStore.active
+      if (active && active.id === data) {
+        mediaStore.updateStatus(data, MEDIA_STATUS.CANCELED)
+      } else {
+        mediaStore.remove(data)
+      }
+    }
 
-      ElNotification({
-        title: title,
-        message: message,
-        duration: 60000,
-        onClick: () => {
-          mediaStore.open(user)
-        },
-        onClose: () => {}
-      })
+    /**
+     * 语音 视频 被拒绝处理器
+     * @param {*} data 
+     * @param {*} type 
+     */
+    const mediaRejectHandler = (data, type) => {
+      const { name } = mediaStore.getUser(data)
+      const describe = type === MEDIA_TYPE.VOICE ? '语音' : '视频'
+      const message = `${ name }拒绝了${ describe }邀请`
+      ElMessage({ message, type: 'warning' })
+      mediaStore.updateStatus(data, MEDIA_STATUS.REJECTED)
+    }
+
+    /**
+     * 语音 视频 邀请被接受处理器
+     * @param {*} data 
+     * @param {*} type 
+     */
+    const acceptHandler = (data) => {
+      let { id, description } = data
+      description = JSON.parse(description)
+      remoteHandler(description)
+      mediaStore.updateStatus(id, MEDIA_STATUS.ING)
+      mediaStore.updateDescription(id, description)
+
+
+      console.log(connection);
     }
 
     watch(() => response.value, (newVal) => {
@@ -153,7 +205,14 @@ export default defineComponent({
         groupJoinUserHandler(body)
       } else if (type === WEBSOCKET_TYPE.VOICE_APPLY) {
         mediaApplyHandler(body, MEDIA_TYPE.VOICE)
+      } else if (type === WEBSOCKET_TYPE.VOICE_CANCEL) {
+        mdeiaCancelHandler(body, MEDIA_TYPE.VOICE)
+      } else if (type === WEBSOCKET_TYPE.VOICE_REJECT) {
+        mediaRejectHandler(body, MEDIA_TYPE.VOICE)
+      } else if (type === WEBSOCKET_TYPE.VOICE_ACCEPT) {
+        acceptHandler(body)
       }
+      
     }, { deep: true })
 
     onBeforeMount(() => {

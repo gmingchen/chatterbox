@@ -1,14 +1,17 @@
 let connection = new RTCPeerConnection()
+let channel = null
 
 const offerHandler = async () => {
   const offer = await connection.createOffer()
   connection.setLocalDescription(offer);
+  console.log('offer', offer);
   return offer
 }
 
 const answerHandler = async () => {
   const answer = await connection.createAnswer()
   connection.setLocalDescription(answer);
+  console.log('answer', answer);
   return answer
 }
 
@@ -28,13 +31,24 @@ const channelHandler = (channel) => {
   }
 }
 
+const createChannel = () => {
+  channel = connection.createDataChannel('channel')
+  channelHandler(channel)
+}
+
+connection.onicecandidate = (e) => {
+  console.log('SDP:', connection.localDescription);
+}
 connection.ondatachannel = (event) => {
+  console.log('ondatachannel');
   const { channel } = event
   channelHandler(channel)
 }
-const channel = connection.createDataChannel('channel')
+connection.onconnectionstatechange = () => {
+  console.log('onconnectionstatechange');
+}
 
 export {
-  connection, channel, offerHandler, answerHandler, remoteHandler
+  connection, channel, createChannel, offerHandler, answerHandler, remoteHandler
 }
 

@@ -17,7 +17,7 @@ const active = computed(() => conversationStore.active)
 const call = async () => {
   const { userId, avatar, remark, nickname } = active.value.friend
   const user = {
-    id: userId, avatar, name: remark || nickname, type: MEDIA_TYPE.VOICE
+    id: userId, avatar, name: nickname, type: MEDIA_TYPE.VOICE
   }
   mediaStore.call(user)
 }

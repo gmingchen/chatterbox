@@ -10,8 +10,8 @@
     :close-on-press-escape="false">
     <div class="height-400 flex_d-column flex_j_c-space-between">
       <UserBox :avatar="active.avatar" :name="active.name"></UserBox>
-      <Status :status="active.status"></Status>
-      <Operation></Operation>
+      <Status :active="active"></Status>
+      <Operation :active="active"></Operation>
     </div>
   </el-dialog>
 </template>
