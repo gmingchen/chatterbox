@@ -1,11 +1,14 @@
 <template>
   <div class="status flex_a_i-center flex_j_c-center">
     <div :class="padding ? 'padding' : ''">{{ text }}</div>
+    <div v-if="time">{{ time }}</div>
   </div>
   
 </template>
 
 <script setup>
+import { dayjs } from 'element-plus'
+
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 
 const props = defineProps({
@@ -19,6 +22,9 @@ const padding = computed(() => {
   const { status } = props.active
   return status === MEDIA_STATUS.INVITING || status === MEDIA_STATUS.CALLING
 })
+
+let timer = null
+const time = ref('')
 
 const text = computed(() => {
   let result = ''
@@ -34,6 +40,23 @@ const text = computed(() => {
     result = `对方已取消${ describe }邀请`
   }
   return result
+})
+
+watch(() => props.active.status, (newValue) => {
+  if (newValue === MEDIA_STATUS.ING) {
+    const start = dayjs()
+    time.value = '00:00'
+    timer = setInterval(() => {
+      time.value = dayjs(dayjs().diff(start)).format('mm:ss')
+    }, 1000)
+  } else {
+    clearInterval(timer)
+    time.value = ''
+  }
+})
+
+onBeforeUnmount(() => {
+  clearInterval(timer)
 })
 </script>
 

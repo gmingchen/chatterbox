@@ -1,5 +1,5 @@
 import { clearJson } from '@utils'
-import { connection, channel, createChannel, offerHandler, answerHandler, remoteHandler } from '@utils/connection'
+import { connection, channel, createChannel, offerHandler, answerHandler, remoteHandler, iceHandler } from '@utils/connection'
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 
 import { voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, videoCallApi } from '@/api/media'
@@ -32,20 +32,21 @@ export const useMediaStore = defineStore('media', {
     async call(user) {
       createChannel()
 
-      const { id, type } = user
-
-      const offer = await offerHandler()
-      const params = {
-        description: JSON.stringify(offer),
-        userId: id
-      }
-      const r = type === MEDIA_TYPE.VOICE ? await voiceCallApi(params) : await videoCallApi(params)
-      if (r) {
-        this.visible = true
-        user = { ...user, status: MEDIA_STATUS.INVITING }
-        this.open(user)
-      }    
-
+      iceHandler(async localDescription => {
+        const { id, type } = user
+        const params = {
+          description: JSON.stringify(localDescription),
+          userId: id
+        }
+        const r = type === MEDIA_TYPE.VOICE ? await voiceCallApi(params) : await videoCallApi(params)
+        if (r) {
+          this.visible = true
+          user = { ...user, status: MEDIA_STATUS.INVITING }
+          this.open(user)
+        }    
+      })
+      
+      await offerHandler()
     },
     /**
      * 取消呼叫
@@ -76,17 +77,19 @@ export const useMediaStore = defineStore('media', {
     async accept(id) {
       const { description } = this.getUser(id)
       remoteHandler(description)
-      const answer = await answerHandler()
-      const params = {
-        description: JSON.stringify(answer),
-        userId: id
-      }
-      const r = await voiceAcceptApi(params)
-      if (r) {
-        this.updateStatus(id, MEDIA_STATUS.ING)
-      }
+
+      iceHandler(async localDescription => {
+        const params = {
+          description: JSON.stringify(localDescription),
+          userId: id
+        }
+        const r = await voiceAcceptApi(params)
+        if (r) {
+          this.updateStatus(id, MEDIA_STATUS.ING)
+        }
+      })
       
-      console.log(connection);
+      await answerHandler()
     },
     
 

@@ -12,6 +12,7 @@
       <UserBox :avatar="active.avatar" :name="active.name"></UserBox>
       <Status :active="active"></Status>
       <Operation :active="active"></Operation>
+      <video id="video"></video>
     </div>
   </el-dialog>
 </template>
@@ -28,6 +29,20 @@ const visible = computed({
   set: (value) => mediaStore.visible = value
 })
 const active = computed(() => mediaStore.active || {})
+
+
+import { getUserMedia } from '@utils'
+
+watch(visible, async (value) => {
+  if(value) {
+      
+  }
+})
+
+onMounted(async () => {
+
+
+      })
 
 defineExpose({
 })

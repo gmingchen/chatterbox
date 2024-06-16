@@ -89,41 +89,54 @@ export function dateFormat(date) {
 }
 
 /**
+ * 获取用户媒体
+ * @param {*} audio 音频 
+ * @param {*} video 视频
+ * @returns 
+ */
+export async function getUserMedia(audio = false, video = false) {
+  if (navigator.mediaDevices.getUserMedia) {
+    try {
+      return await navigator.mediaDevices.getUserMedia({ audio, video })
+    } catch (error) {
+      ElMessage({
+        message: '未检测到您的设备，请检查您的设备哦~',
+        type: 'warning'
+      })
+    }
+  } else {
+    ElMessage({
+      message: '您的环境暂时不支持哦~',
+      type: 'warning'
+    })
+  }
+
+}
+/**
  * 录制语音
  * @param {*} callback 回调
  */
-export function recordAudio(start = () => {}, stop = () => {}, fail = () => {}) {
-  if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start();
-      start(mediaRecorder)
+export async function recordAudio(start = () => {}, stop = () => {}, fail = () => {}) {
+  const stream = await getUserMedia(true)
+  if (stream) {
+    const mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.start();
+    start(mediaRecorder)
 
-      let chunks = [];
-      mediaRecorder.addEventListener('dataavailable', (e) => {
-        chunks.push(e.data);
-      });
+    let chunks = [];
+    mediaRecorder.addEventListener('dataavailable', (e) => {
+      chunks.push(e.data);
+    });
 
-      mediaRecorder.addEventListener('stop', () => {
-        const blob = new Blob(chunks, { 'type' : 'audio/mp3' });
-        // 关闭
-        stream.getTracks().forEach(track => {
-          track.stop();
-        });
-        stop(blob)
+    mediaRecorder.addEventListener('stop', () => {
+      const blob = new Blob(chunks, { 'type' : 'audio/mp3' });
+      // 关闭
+      stream.getTracks().forEach(track => {
+        track.stop();
       });
-    }).catch((error) => {
-      ElMessage({
-        message: '无法访问到麦克风，请检查您的设备~',
-        type: 'warning'
-      })
-      fail(error)
+      stop(blob)
     });
   } else {
-    ElMessage({
-      message: '您的环境暂时不支持语音哦~',
-      type: 'warning'
-    })
     fail()
   }
 }
