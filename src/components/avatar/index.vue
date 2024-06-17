@@ -15,8 +15,16 @@ defineProps({
 
 const userStore = useUserStore()
 
-const nickname = computed(() => userStore.nickname)
+const nickname = computed(() => {
+  const name = userStore.nickname
+  const length = 3
+  if (name && name.length > length) {
+    return name.slice(0, length)
+  }
+  return name
+})
 const avatar = computed(() => userStore.avatar)
+
 </script>
 
 <style lang="scss" scoped>
