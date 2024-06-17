@@ -1,0 +1,19 @@
+import { ContentType, AuthKey, StorageType, SuccessCode, RequestMapping, WebsocketMapping, ModelBinding } from '@enums'
+
+// request Mapping
+export const MAPPING = RequestMapping.CHATTERBOX
+// websocket Mapping
+export const WEBSOCKET_MAPPING = RequestMapping.CHATTERBOX + WebsocketMapping.WEBSOCKET
+// 请求数据类型
+export const CONTENT_TYPE = ContentType.JSON
+// 请求超时时长
+export const TIME_OUT = 50000
+// 访问秘钥 存储
+export const AUTH_KEY = AuthKey.TOKEN
+// 秘钥本地存储类型
+export const AUTH_STORAGE = StorageType.SESSION
+// 请求成功响应code
+export const SUCCESS_CODE = [SuccessCode.ZERO, SuccessCode.TWO_HUNDRED]
+// 双向绑定方法名
+export const MODEL_NAME = 'modelValue'
+export const UPDATE_MODEL_EVENT = ModelBinding.MODEL_VALUE

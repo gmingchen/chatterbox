@@ -1,0 +1,11 @@
+@import 'nprogress/nprogress.css';
+
+#nprogress {
+  .bar {
+    background-color: var(--el-color-primary);
+  }
+  .spinner-icon {
+    border-top-color: var(--el-color-primary);
+    border-left-color: var(--el-color-primary);
+  }
+}
