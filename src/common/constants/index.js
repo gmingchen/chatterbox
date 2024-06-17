@@ -11,7 +11,7 @@ export const TIME_OUT = 50000
 // 访问秘钥 存储
 export const AUTH_KEY = AuthKey.TOKEN
 // 秘钥本地存储类型
-export const AUTH_STORAGE = StorageType.SESSION
+export const AUTH_STORAGE = StorageType.COOKIE
 // 请求成功响应code
 export const SUCCESS_CODE = [SuccessCode.ZERO, SuccessCode.TWO_HUNDRED]
 // 双向绑定方法名
