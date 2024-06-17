@@ -19,6 +19,7 @@ dist.zip
 chatterbox/
 chatterbox.zip
 deploy/
+.eslintrc-auto-import.json
 
 /cypress/videos/
 /cypress/screenshots/
