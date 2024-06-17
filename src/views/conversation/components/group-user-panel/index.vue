@@ -51,7 +51,7 @@ const getData = async () => {
 
   const list = await roomStore.getUserList(roomId, lastId)
   if (!list.length) {
-    finished.value = true
+    // finished.value = true
   }
 
   nextTick(() => loading.value = false)

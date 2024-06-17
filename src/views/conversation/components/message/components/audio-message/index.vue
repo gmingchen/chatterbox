@@ -36,8 +36,13 @@ const clickHandle = () => {
   }
 }
 
-const loadHandle = () => {
-  duration.value = Math.ceil(refAudio.value.duration)
+const loadHandle = async () => {
+  const audio = refAudio.value;
+  while (audio.duration === Infinity) {
+    await new Promise(r => setTimeout(r, 200));
+    audio.currentTime = 10000000 * Math.random();
+  }
+  duration.value = Math.ceil(audio.duration);
 }
 
 const playHandle = () => {

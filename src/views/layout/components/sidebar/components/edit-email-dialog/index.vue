@@ -20,8 +20,8 @@ const userStore = useUserStore()
 const visible = ref(false)
 
 const form = ref({
-  originalEmail: '1240235512@qq.com',
-  newEmail: '1240235512@qq.com',
+  originalEmail: '',
+  newEmail: '',
   captcha: '',
 })
 

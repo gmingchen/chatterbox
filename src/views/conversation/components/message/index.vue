@@ -1,9 +1,9 @@
 <template>
   <div class="message flex" :class="reverse ? 'reverse' : ''">
-    <el-avatar class="avatar" :src="message.avatar"></el-avatar>
+    <el-avatar class="avatar cursor-pointer" :src="message.avatar" @click="avatarClickHandle"></el-avatar>
     <div class="wrap flex-item_f-1 margin-n-10 flex_d-column flex_a_i-flex-start">
       <div class="nickname margin_b-6">
-        {{ message.nickname }}
+        {{ message.nickname }}<span class="email" v-if="message.email">({{ message.email }})</span>
       </div>
       <TextMessage :text="message.text" v-if="message.type === MESSAGE_TYPE.TEXT"></TextMessage>
       <ImageMessage :image="message.image" v-if="message.type === MESSAGE_TYPE.IMAGE"></ImageMessage>
@@ -21,7 +21,9 @@ import AudioMessage from './components/audio-message/index.vue'
 
 import { MESSAGE_TYPE } from '@enums/message'
 
-defineProps({
+const emits = defineEmits(['avatar-click'])
+
+const props = defineProps({
   message: {
     type: Object,
     required: true,
@@ -31,6 +33,10 @@ defineProps({
     default: () => false
   }
 })
+
+const avatarClickHandle = () => {
+  emits('avatar-click', props.message)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -38,10 +44,16 @@ defineProps({
   .avatar {
     flex-shrink: 0;
   }
-  
   .nickname {
     font-size: 12px;
-    color: var(--el-color-info-dark-2);;
+    color: var(--el-color-info-dark-2);
+    .email {
+      display: none;
+    }
+  }
+  &:hover .email {
+    display: inline;
+    font-size: 12px;
   }
 }
 .message.reverse {

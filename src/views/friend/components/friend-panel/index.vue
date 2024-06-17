@@ -8,7 +8,7 @@
           发送消息
         </el-button>
         <el-popconfirm
-          width="160"
+          width="170"
           confirm-button-text="确认"
           cancel-button-text="取消"
           title="确认删除该好友？"
