@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    class="user-dialog"
+    class="media-dialog"
     v-model="visible"
     width="300"
     :close-on-click-modal="false"
@@ -8,11 +8,11 @@
     append-to-body
     :show-close="false"
     :close-on-press-escape="false">
-    <div class="height-400 flex_d-column flex_j_c-space-between">
+    <div class="content height-400 flex_d-column flex_j_c-space-between">
       <UserBox :avatar="active.avatar" :name="active.name"></UserBox>
       <Status :active="active"></Status>
-      <Operation :active="active"></Operation>
-      <video id="video"></video>
+      <Operation class="opreation margin_b-10" :active="active"></Operation>
+      <video src="https://ovopark-oss-dev.oss-cn-hangzhou.aliyuncs.com/wanji/150/2024/3/4/17095188079602201" id="video" ></video>
     </div>
   </el-dialog>
 </template>
@@ -22,6 +22,8 @@ import UserBox from './components/user-box/index.vue'
 import Status from './components/status/index.vue'
 import Operation from './components/operation/index.vue'
 
+import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
+
 const mediaStore = useMediaStore()
 
 const visible = computed({
@@ -30,25 +32,30 @@ const visible = computed({
 })
 const active = computed(() => mediaStore.active || {})
 
-
-import { getUserMedia } from '@utils'
-
-watch(visible, async (value) => {
-  if(value) {
-      
-  }
-})
+const ontrack = (event) => {
+  console.log('ontrack', event);
+}
 
 onMounted(async () => {
-
-
-      })
-
-defineExpose({
+  mediaStore.init(ontrack)
 })
 </script>
 
 <style lang="scss">
-.user-dialog {
+.media-dialog {
+  padding: 0;
+  .content {
+    position: relative;
+    .opreation {
+      position: relative;
+      z-index: 10;
+    }
+    #video {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      background-color: transparent;
+    }
+  }
 }
 </style>

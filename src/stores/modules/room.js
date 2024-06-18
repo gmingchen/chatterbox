@@ -40,7 +40,7 @@ export const useRoomStore = defineStore('room', {
      * @param {*} size 数据量
      * @returns 
      */
-    async getUserList(roomId, lastId, size = 20) {
+    async getUserList(roomId, lastId, size = 40) {
       const r = await roomGroupUserPageApi({ roomId, lastId, size })
       if (r) {
         const userList = r.data

@@ -1,8 +1,50 @@
-import { clearJson } from '@utils'
-import { connection, channel, createChannel, offerHandler, answerHandler, remoteHandler, iceHandler } from '@utils/connection'
+import { clearJson, getUserMedia } from '@utils'
+
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 
 import { voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, videoCallApi } from '@/api/media'
+
+/**
+ * 通道处理器
+ * @param {*} channel 管道
+ */
+const channelHandler = (store) => {
+  const { channel } = store
+  channel.onopen = async () => {
+    const stream = await getUserMedia(true)
+    if (stream) {
+      stream.getTracks().forEach(track => {
+        console.log(track);
+        store.connection.addTrack(track, stream)
+      });
+    }
+    console.log('open');
+  }
+  channel.onclose = () =>{
+    store.updateStatus(store.active.id, MEDIA_STATUS.CLOSED)
+    console.log('close');
+  }
+  channel.onmessage = (e) => {
+    console.log('message', e);
+  }
+}
+/**
+ * 候选者处理器
+ * @param {*} connection 连接
+ */
+const candidateHandler = (connection) => {
+  return new Promise((resolve) => {
+    if (connection.localDescription) {
+      return resolve(connection.localDescription)
+    }
+    connection.onicecandidate = ({ candidate }) => {
+      if (!candidate) {
+        resolve(connection.localDescription)
+      }
+    }
+  })
+}
+
 
 /**
  * user 对象 属性
@@ -14,8 +56,6 @@ import { voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, videoCall
  * @param {*} description 描述
  * @param {*} notification 提醒
  */
-
-
 export const useMediaStore = defineStore('media', {
   state: () => ({
     visible: false,
@@ -23,30 +63,59 @@ export const useMediaStore = defineStore('media', {
     active: null,
     // 呼叫队列
     queue: [],
+
+    // 连接
+    connection: null,
+    // 通道
+    channel: null,
   }),
   actions: {
+    /**
+     * 初始化
+     */
+    init(ontrack) {
+      this.connection = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: 'turn:luoyisen.com:3478',
+            username: 'lys',
+            credential: '123',
+          }
+        ]
+      })
+      this.channel = this.connection.createDataChannel('channel')
+      channelHandler(this)
+
+      // this.connection.ondatachannel = (event) => {
+        // const { channel } = event
+        // this.channel =  channel
+        // channelHandler(this)
+      // }
+
+      this.connection.ontrack = ontrack
+    },
+
     /**
      * 呼叫
      * @param {*} user 用户
      */
     async call(user) {
-      createChannel()
+      const offer = await this.connection.createOffer()
+      this.connection.setLocalDescription(offer);
 
-      iceHandler(async localDescription => {
-        const { id, type } = user
-        const params = {
-          description: JSON.stringify(localDescription),
-          userId: id
-        }
-        const r = type === MEDIA_TYPE.VOICE ? await voiceCallApi(params) : await videoCallApi(params)
-        if (r) {
-          this.visible = true
-          user = { ...user, status: MEDIA_STATUS.INVITING }
-          this.open(user)
-        }    
-      })
-      
-      await offerHandler()
+      const localDescription = await candidateHandler(this.connection) 
+
+      const { id, type } = user
+      const params = {
+        description: JSON.stringify(localDescription),
+        userId: id
+      }
+      const r = type === MEDIA_TYPE.VOICE ? await voiceCallApi(params) : await videoCallApi(params)
+      if (r) {
+        this.visible = true
+        user = { ...user, status: MEDIA_STATUS.INVITING }
+        this.open(user)
+      }
     },
     /**
      * 取消呼叫
@@ -76,22 +145,21 @@ export const useMediaStore = defineStore('media', {
      */
     async accept(id) {
       const { description } = this.getUser(id)
-      remoteHandler(description)
+      this.connection.setRemoteDescription(description)
 
-      iceHandler(async localDescription => {
-        const params = {
-          description: JSON.stringify(localDescription),
-          userId: id
-        }
-        const r = await voiceAcceptApi(params)
-        if (r) {
-          this.updateStatus(id, MEDIA_STATUS.ING)
-        }
-      })
-      
-      await answerHandler()
+      const answer = await this.connection.createAnswer()
+      this.connection.setLocalDescription(answer);
+
+      const localDescription = await candidateHandler(this.connection) 
+      const params = {
+        description: JSON.stringify(localDescription),
+        userId: id
+      }
+      const r = await voiceAcceptApi(params)
+      if (r) {
+        this.updateStatus(id, MEDIA_STATUS.ING)
+      }
     },
-    
 
     /**
      * 打开窗口

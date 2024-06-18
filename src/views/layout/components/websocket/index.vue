@@ -5,7 +5,6 @@ import { WEBSOCKET_TYPE } from '@enums/websocket'
 import { APPLY_TYPE } from '@enums/apply'
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 import { notification } from '@utils'
-import { connection, remoteHandler } from '@utils/connection'
 
 export default defineComponent({
   render() { return '' },
@@ -121,7 +120,7 @@ export default defineComponent({
       const notification = ElNotification({
         title: title,
         message: message,
-        duration: 50000,
+        duration: 0,
         showClose: false,
         onClick: () => {
           mediaStore.open(user)
@@ -182,12 +181,9 @@ export default defineComponent({
     const acceptHandler = (data) => {
       let { id, description } = data
       description = JSON.parse(description)
-      remoteHandler(description)
+      mediaStore.connection.setRemoteDescription(description)
       mediaStore.updateStatus(id, MEDIA_STATUS.ING)
       mediaStore.updateDescription(id, description)
-
-
-      console.log(connection);
     }
 
     watch(() => response.value, (newVal) => {

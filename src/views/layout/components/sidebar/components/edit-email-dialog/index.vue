@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    class="user-dialog"
+    class="edit-email-dialog"
     v-model="visible"
     width="350"
     :close-on-click-modal="false"

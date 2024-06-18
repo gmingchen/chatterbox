@@ -10,5 +10,10 @@ export const MEDIA_STATUS = {
   CALLING: 3, // 被呼叫中
   CANCELED: 4, // 被取消
 
-  ING: 5, // 进行中
+  UNANSWERED: 5, // 未接听
+
+  ING: 6, // 进行中
+
+  HANGUP: 7, // 挂断
+  CLOSED: 8, // 中断
 }

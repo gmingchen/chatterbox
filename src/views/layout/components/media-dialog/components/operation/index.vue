@@ -16,9 +16,6 @@
 
 <script setup>
 import { MEDIA_STATUS } from '@enums/media'
-import { connection, channel, offerHandler, answerHandler, remoteHandler } from '@utils/connection'
-
-
 
 const mediaStore = useMediaStore()
 
@@ -39,7 +36,8 @@ const showClose = computed(() => {
     status === MEDIA_STATUS.REJECTED ||
     status === MEDIA_STATUS.CALLING ||
     status === MEDIA_STATUS.CANCELED ||
-    status === MEDIA_STATUS.ING
+    status === MEDIA_STATUS.ING ||
+    status === MEDIA_STATUS.CLOSED
 })
 
 
@@ -72,20 +70,22 @@ const finishHandler = () => {
 
 const clickHandle = () => {
   const { status } = props.active
-  // if (status === MEDIA_STATUS.INVITING) {
-  //   cancelHandler()
-  // } else if (status === MEDIA_STATUS.CALLING) {
-  //   rejectHandler()
-  // } else if (status === MEDIA_STATUS.ING) {
-  //   finishHandler()
-  // } else if (status === MEDIA_STATUS.CANCELED) {
-  //   closeHandler()
-  // } else if (status === MEDIA_STATUS.REJECTED) {
-  //   closeHandler()
-  // }
-  // channel.send(111)
-  console.log(connection);
-  console.log(channel);
+  if (status === MEDIA_STATUS.INVITING) {
+    cancelHandler()
+  } else if (status === MEDIA_STATUS.CALLING) {
+    rejectHandler()
+  } else if (status === MEDIA_STATUS.ING) {
+    finishHandler()
+  } else if (status === MEDIA_STATUS.CANCELED) {
+    closeHandler()
+  } else if (status === MEDIA_STATUS.REJECTED) {
+    closeHandler()
+  } else if (status === MEDIA_STATUS.HANGUP) {
+    closeHandler()
+  } else if (status === MEDIA_STATUS.CLOSED) {
+    closeHandler()
+  }
+  // mediaStore.channel.send(111)
 }
 </script>
 
