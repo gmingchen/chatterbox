@@ -14,7 +14,7 @@ import {
 const channelHandler = (store) => {
   const { channel } = store
   channel.onopen = async () => {
-    const stream = await getUserMedia(true)
+    const stream = await getUserMedia(true, store.active.status === MEDIA_TYPE.VIDEO)
     if (stream) {
       stream.getTracks().forEach(track => {
         console.log(track);
