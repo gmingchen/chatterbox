@@ -1,5 +1,5 @@
 <template>
-  <el-image class="image-message width-120 height-120" :src="image" :preview-src-list="[image]">
+  <el-image class="image-message width-120 height-120" :src="image" :preview-src-list="[image]" fit="cover">
     <template #error>
       <div class="error-wrap height-full flex_j_c-center flex_a_i-center">
         <el-icon :size="50"><EpPicture /></el-icon>

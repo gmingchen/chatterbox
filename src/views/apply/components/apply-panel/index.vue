@@ -9,7 +9,7 @@
             接受
           </el-button>
           <el-popconfirm
-            width="160"
+            width="190"
             confirm-button-text="确认"
             cancel-button-text="取消"
             title="确认拒绝该好友申请？"

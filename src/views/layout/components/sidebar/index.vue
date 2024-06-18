@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar width-80 flex_d-column flex_a_i-center">
-    <Avatar class="avatar" @click="openUserDialog"></Avatar>
+    <Avatar :avatar="user.avatar" :name="user.nickname" class="avatar" @click="openUserDialog"></Avatar>
     <el-scrollbar class="width-full flex_d-column flex_a_i-center" view-class="min-height-full flex_d-column">
       <Tabbar class="margin_t-20 flex-item_f-1"></Tabbar>
       <Publicize class="margin_t-20"></Publicize>

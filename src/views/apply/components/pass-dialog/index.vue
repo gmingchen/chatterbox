@@ -47,7 +47,7 @@ const getList = async () => {
 
 const user = ref({})
 const getUser = async () => {
-  const r = await getUserInfoApi({ id: id.value })
+  const r = await getUserInfoApi({ id: userId.value })
   if (r) {
     user.value = r.data
   }

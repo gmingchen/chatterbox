@@ -1,8 +1,6 @@
 <template>
   <div class="user-box flex_d-column flex_j_c-center flex_a_i-center">
-    <el-avatar class="cursor-pointer" :src="avatar" :size="80">
-      {{ name }}
-    </el-avatar>
+    <Avatar class="cursor-pointer" :src="avatar" :name="name" :size="80"></Avatar>
     <div class="margin_t-20 font-size-18">{{ name }}</div>
   </div>
 </template>
