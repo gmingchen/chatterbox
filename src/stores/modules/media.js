@@ -128,7 +128,6 @@ export const useMediaStore = defineStore('media', {
      * @param {*} user 用户
      */
     async call(user) {
-      console.log(user);
       const offer = await this.connection.createOffer()
       this.connection.setLocalDescription(offer);
 
