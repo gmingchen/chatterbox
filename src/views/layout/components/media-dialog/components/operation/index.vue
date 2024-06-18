@@ -66,6 +66,8 @@ const closeHandler = () => {
 
 const finishHandler = () => {
   console.log('终止');
+  const { id } = props.active
+  mediaStore.finish(id)
 }
 
 const clickHandle = () => {

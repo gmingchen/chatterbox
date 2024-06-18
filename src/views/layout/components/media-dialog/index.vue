@@ -8,11 +8,14 @@
     append-to-body
     :show-close="false"
     :close-on-press-escape="false">
-    <div class="content height-400 flex_d-column flex_j_c-space-between">
-      <UserBox :avatar="active.avatar" :name="active.name"></UserBox>
-      <Status :active="active"></Status>
+    <div class="content height-400 flex_d-column" :class="!showVideo ? 'flex_j_c-space-between' : 'flex_j_c-flex-end'">
+      <UserBox v-if="!showVideo" :avatar="active.avatar" :name="active.name"></UserBox>
+      <Status v-if="!showVideo" :active="active"></Status>
       <Operation class="opreation margin_b-10" :active="active"></Operation>
-      <video src="https://ovopark-oss-dev.oss-cn-hangzhou.aliyuncs.com/wanji/150/2024/3/4/17095188079602201" id="video" ></video>
+      <video id="video"></video>
+      <div v-if="showVideo" class="video-empty">
+        <Empty icon="VideoCamera"></Empty>
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -32,7 +35,15 @@ const visible = computed({
 })
 const active = computed(() => mediaStore.active || {})
 
+const showVideo = computed(() => {
+  const { status, type } = active.value
+  return status === MEDIA_STATUS.ING && type === MEDIA_TYPE.VIDEO
+})
+
 const ontrack = (event) => {
+  const video = document.getElementById('video')
+  video.srcObject = event.streams[0];
+  video.play()
   console.log('ontrack', event);
 }
 
@@ -50,11 +61,14 @@ onMounted(async () => {
       position: relative;
       z-index: 10;
     }
-    #video {
+    #video, .video-empty {
       height: 100%;
       width: 100%;
       position: absolute;
       background-color: transparent;
+    }
+    #video {
+      z-index: 1;
     }
   }
 }

@@ -2,7 +2,10 @@ import { clearJson, getUserMedia } from '@utils'
 
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 
-import { voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, videoCallApi } from '@/api/media'
+import { 
+  voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, voiceCloseApi, 
+  videoCallApi, videoCancelApi, videoRejectApi, videoAcceptApi, videoCloseApi, 
+} from '@/api/media'
 
 /**
  * 通道处理器
@@ -44,7 +47,6 @@ const candidateHandler = (connection) => {
     }
   })
 }
-
 
 /**
  * user 对象 属性
@@ -94,12 +96,39 @@ export const useMediaStore = defineStore('media', {
 
       this.connection.ontrack = ontrack
     },
+    /**
+     * 销毁
+     */
+    destroy() {
+      // 关闭所有的媒体流
+      const streams = this.connection.getSenders()
+      streams.forEach(stream => {
+        if ('stop' in stream) {
+          stream.stop();
+        }
+      })
+      // // 关闭所有的数据通道
+      // const dataChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.track);
+      // dataChannels.forEach(channel => {
+      //   channel.receiver.track.stop();
+      // });
+      // // 关闭信令通道
+      // const rtcChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.rtpReceiver);
+      // rtcChannels.forEach(channel => {
+      //   if (channel.receiver && channel.receiver.rtpReceiver) {
+      //     channel.receiver.rtpReceiver.stop();
+      //   }
+      // });
+      // // 关闭 RTCPeerConnection 实例
+      // this.connection.close()
+    },
 
     /**
      * 呼叫
      * @param {*} user 用户
      */
     async call(user) {
+      console.log(user);
       const offer = await this.connection.createOffer()
       this.connection.setLocalDescription(offer);
 
@@ -123,7 +152,7 @@ export const useMediaStore = defineStore('media', {
     async cancel() {
       const { id, type } = this.active
       const params = { userId: id }
-      const r = type === MEDIA_TYPE.VOICE ? await voiceCancelApi(params) : await voiceCancelApi(params)
+      const r = type === MEDIA_TYPE.VOICE ? await voiceCancelApi(params) : await videoCancelApi(params)
       if (r) {
         this.close()
       }
@@ -133,8 +162,9 @@ export const useMediaStore = defineStore('media', {
      * @param {*} id 用户ID
      */
     async reject(id) {
+      const { type } = this.getUser(id)
       const params = { userId: id }
-      const r = await voiceRejectApi(params)
+      const r = type === MEDIA_TYPE.VOICE ? await voiceRejectApi(params) : await videoRejectApi(params)
       if (r) {
         this.remove(id)
       }
@@ -144,7 +174,7 @@ export const useMediaStore = defineStore('media', {
      * @param {*} id 
      */
     async accept(id) {
-      const { description } = this.getUser(id)
+      const { description, type } = this.getUser(id)
       this.connection.setRemoteDescription(description)
 
       const answer = await this.connection.createAnswer()
@@ -155,9 +185,22 @@ export const useMediaStore = defineStore('media', {
         description: JSON.stringify(localDescription),
         userId: id
       }
-      const r = await voiceAcceptApi(params)
+      const r = type === MEDIA_TYPE.VOICE ? await voiceAcceptApi(params) : await videoAcceptApi(params)
       if (r) {
         this.updateStatus(id, MEDIA_STATUS.ING)
+      }
+    },
+    /**
+     * 挂断
+     * @param {*} id 
+     */
+    async finish(id) {
+      const { type } = this.getUser(id)
+      const params = { userId: id }
+      const r = type === MEDIA_TYPE.VOICE ? await voiceCloseApi(params) : await videoCloseApi(params)
+      if (r) {
+        this.close()
+        this.destroy()
       }
     },
 
