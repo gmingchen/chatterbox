@@ -14,12 +14,18 @@ const mediaStore = useMediaStore()
 
 const active = computed(() => conversationStore.active)
 
+const loading = ref(false)
+
 const call = async () => {
+  loading.value = true
+
   const { userId, avatar, remark, nickname } = active.value.friend
   const user = {
     id: userId, avatar, name: nickname, type: MEDIA_TYPE.VIDEO
   }
-  mediaStore.call(user)
+  await mediaStore.call(user)
+
+  nextTick(() => loading.value = false)
 }
 </script>
 
