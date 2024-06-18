@@ -1,8 +1,6 @@
 <template>
   <div class="panel text-align-center">
-    <el-avatar :src="image" :size="80">
-      {{ title }}
-    </el-avatar>
+    <Avatar :src="image" :name="title" :size="80"></Avatar>
     <div class="font-size-16 margin_t-20 flex_j_c-center flex_a_i-center" v-if="title">
       <span>{{ title }}</span>
     </div>

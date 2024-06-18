@@ -1,29 +1,33 @@
 <template>
-  <el-avatar class="cursor-pointer" :src="avatar" :size="size">
-    {{ nickname }}
+  <el-avatar class="cursor-pointer" v-bind="$attrs" :size="size">
+    {{ nameFormat }}
   </el-avatar>
 </template>
 
 <script setup>
 
-defineProps({
+const props = defineProps({
+  name: {
+    type: String,
+    default: ''
+  },
   size: {
     type: Number,
     default: () => 50
+  },
+  sliceLength: {
+    type: [Number, String],
+    default: () => 3
   }
 })
 
-const userStore = useUserStore()
-
-const nickname = computed(() => {
-  const name = userStore.nickname
-  const length = 3
-  if (name && name.length > length) {
-    return name.slice(0, length)
+const nameFormat = computed(() => {
+  const { name, sliceLength } = props
+  if (name && name.length > +sliceLength) {
+    return name.slice(0, +sliceLength)
   }
   return name
 })
-const avatar = computed(() => userStore.avatar)
 
 </script>
 

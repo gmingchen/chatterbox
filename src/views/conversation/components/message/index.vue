@@ -1,6 +1,6 @@
 <template>
   <div class="message flex" :class="reverse ? 'reverse' : ''">
-    <el-avatar class="avatar cursor-pointer" :src="message.avatar" @click="avatarClickHandle"></el-avatar>
+    <Avatar :src="message.avatar" :name="message.nickname" :size="40" @click="avatarClickHandle"></Avatar>
     <div class="wrap flex-item_f-1 margin-n-10 flex_d-column flex_a_i-flex-start">
       <div class="nickname margin_b-6">
         {{ message.nickname }}<span class="email" v-if="message.email">({{ message.email }})</span>

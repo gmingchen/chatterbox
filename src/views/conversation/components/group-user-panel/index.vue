@@ -7,7 +7,7 @@
           v-for="item in users"
           :key="item.id"
           @click="clickHandle(item)">
-          <el-avatar :src="item.avatar" :size="30"></el-avatar>
+          <Avatar :src="item.avatar" :name="item.roomUserNickname || item.nickname" :size="30" slice-length="2"></Avatar>
           <div class="flex-item_f-1 font-size-12 margin_l-10 ellipse">{{ item.roomUserNickname || item.nickname }}</div>
         </div>
         <div class="margin_t-10 width-full height-20" v-show="loading">
