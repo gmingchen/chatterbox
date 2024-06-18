@@ -36,7 +36,6 @@ export function voiceAcceptApi(data) {
     data
   })
 }
-
 /**
  * 拒绝语音请求
  * @param {*} params
@@ -49,7 +48,6 @@ export function voiceRejectApi(data) {
     data
   })
 }
-
 /**
  * 挂断语音通话
  * @param {*} params
@@ -71,6 +69,54 @@ export function voiceCloseApi(data) {
 export function videoCallApi(data) {
   return service({
     url: '/media/video/call',
+    method: 'post',
+    data
+  })
+}
+/**
+ * 取消视频请求
+ * @param {*} params
+ * @returns
+ */
+export function videoCancelApi(data) {
+  return service({
+    url: '/media/video/cancel',
+    method: 'post',
+    data
+  })
+}
+/**
+ * 接受视频请求
+ * @param {*} params
+ * @returns
+ */
+export function videoAcceptApi(data) {
+  return service({
+    url: '/media/video/accept',
+    method: 'post',
+    data
+  })
+}
+/**
+ * 拒绝视频请求
+ * @param {*} params
+ * @returns
+ */
+export function videoRejectApi(data) {
+  return service({
+    url: '/media/video/reject',
+    method: 'post',
+    data
+  })
+}
+/**
+ * 挂断视频通话
+ * @param {*} params
+ * @returns
+ */
+export function videoCloseApi(data) {
+  return service({
+    url: '/media/video/close',
     method: 'post',
     data
   })

@@ -1,8 +1,52 @@
-import { clearJson } from '@utils'
-import { connection, channel, createChannel, offerHandler, answerHandler, remoteHandler, iceHandler } from '@utils/connection'
+import { clearJson, getUserMedia } from '@utils'
+
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 
-import { voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, videoCallApi } from '@/api/media'
+import { 
+  voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, voiceCloseApi, 
+  videoCallApi, videoCancelApi, videoRejectApi, videoAcceptApi, videoCloseApi, 
+} from '@/api/media'
+
+/**
+ * 通道处理器
+ * @param {*} channel 管道
+ */
+const channelHandler = (store) => {
+  const { channel } = store
+  channel.onopen = async () => {
+    const stream = await getUserMedia(true, store.active.status === MEDIA_TYPE.VIDEO)
+    if (stream) {
+      stream.getTracks().forEach(track => {
+        console.log(track);
+        store.connection.addTrack(track, stream)
+      });
+    }
+    console.log('open');
+  }
+  channel.onclose = () =>{
+    store.updateStatus(store.active.id, MEDIA_STATUS.CLOSED)
+    console.log('close');
+  }
+  channel.onmessage = (e) => {
+    console.log('message', e);
+  }
+}
+/**
+ * 候选者处理器
+ * @param {*} connection 连接
+ */
+const candidateHandler = (connection) => {
+  return new Promise((resolve) => {
+    if (connection.localDescription) {
+      return resolve(connection.localDescription)
+    }
+    connection.onicecandidate = ({ candidate }) => {
+      if (!candidate) {
+        resolve(connection.localDescription)
+      }
+    }
+  })
+}
 
 /**
  * user 对象 属性
@@ -14,8 +58,6 @@ import { voiceCallApi, voiceCancelApi, voiceRejectApi, voiceAcceptApi, videoCall
  * @param {*} description 描述
  * @param {*} notification 提醒
  */
-
-
 export const useMediaStore = defineStore('media', {
   state: () => ({
     visible: false,
@@ -23,30 +65,86 @@ export const useMediaStore = defineStore('media', {
     active: null,
     // 呼叫队列
     queue: [],
+
+    // 连接
+    connection: null,
+    // 通道
+    channel: null,
   }),
   actions: {
+    /**
+     * 初始化
+     */
+    init(ontrack) {
+      this.connection = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: 'turn:luoyisen.com:3478',
+            username: 'lys',
+            credential: '123',
+          }
+        ]
+      })
+      this.channel = this.connection.createDataChannel('channel')
+      channelHandler(this)
+
+      // this.connection.ondatachannel = (event) => {
+        // const { channel } = event
+        // this.channel =  channel
+        // channelHandler(this)
+      // }
+
+      this.connection.ontrack = ontrack
+    },
+    /**
+     * 销毁
+     */
+    destroy() {
+      // 关闭所有的媒体流
+      const streams = this.connection.getSenders()
+      streams.forEach(stream => {
+        if ('stop' in stream) {
+          stream.stop();
+        }
+      })
+      // // 关闭所有的数据通道
+      // const dataChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.track);
+      // dataChannels.forEach(channel => {
+      //   channel.receiver.track.stop();
+      // });
+      // // 关闭信令通道
+      // const rtcChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.rtpReceiver);
+      // rtcChannels.forEach(channel => {
+      //   if (channel.receiver && channel.receiver.rtpReceiver) {
+      //     channel.receiver.rtpReceiver.stop();
+      //   }
+      // });
+      // // 关闭 RTCPeerConnection 实例
+      // this.connection.close()
+    },
+
     /**
      * 呼叫
      * @param {*} user 用户
      */
     async call(user) {
-      createChannel()
+      console.log(user);
+      const offer = await this.connection.createOffer()
+      this.connection.setLocalDescription(offer);
 
-      iceHandler(async localDescription => {
-        const { id, type } = user
-        const params = {
-          description: JSON.stringify(localDescription),
-          userId: id
-        }
-        const r = type === MEDIA_TYPE.VOICE ? await voiceCallApi(params) : await videoCallApi(params)
-        if (r) {
-          this.visible = true
-          user = { ...user, status: MEDIA_STATUS.INVITING }
-          this.open(user)
-        }    
-      })
-      
-      await offerHandler()
+      const localDescription = await candidateHandler(this.connection) 
+
+      const { id, type } = user
+      const params = {
+        description: JSON.stringify(localDescription),
+        userId: id
+      }
+      const r = type === MEDIA_TYPE.VOICE ? await voiceCallApi(params) : await videoCallApi(params)
+      if (r) {
+        this.visible = true
+        user = { ...user, status: MEDIA_STATUS.INVITING }
+        this.open(user)
+      }
     },
     /**
      * 取消呼叫
@@ -54,7 +152,7 @@ export const useMediaStore = defineStore('media', {
     async cancel() {
       const { id, type } = this.active
       const params = { userId: id }
-      const r = type === MEDIA_TYPE.VOICE ? await voiceCancelApi(params) : await voiceCancelApi(params)
+      const r = type === MEDIA_TYPE.VOICE ? await voiceCancelApi(params) : await videoCancelApi(params)
       if (r) {
         this.close()
       }
@@ -64,8 +162,9 @@ export const useMediaStore = defineStore('media', {
      * @param {*} id 用户ID
      */
     async reject(id) {
+      const { type } = this.getUser(id)
       const params = { userId: id }
-      const r = await voiceRejectApi(params)
+      const r = type === MEDIA_TYPE.VOICE ? await voiceRejectApi(params) : await videoRejectApi(params)
       if (r) {
         this.remove(id)
       }
@@ -75,23 +174,35 @@ export const useMediaStore = defineStore('media', {
      * @param {*} id 
      */
     async accept(id) {
-      const { description } = this.getUser(id)
-      remoteHandler(description)
+      const { description, type } = this.getUser(id)
+      this.connection.setRemoteDescription(description)
 
-      iceHandler(async localDescription => {
-        const params = {
-          description: JSON.stringify(localDescription),
-          userId: id
-        }
-        const r = await voiceAcceptApi(params)
-        if (r) {
-          this.updateStatus(id, MEDIA_STATUS.ING)
-        }
-      })
-      
-      await answerHandler()
+      const answer = await this.connection.createAnswer()
+      this.connection.setLocalDescription(answer);
+
+      const localDescription = await candidateHandler(this.connection) 
+      const params = {
+        description: JSON.stringify(localDescription),
+        userId: id
+      }
+      const r = type === MEDIA_TYPE.VOICE ? await voiceAcceptApi(params) : await videoAcceptApi(params)
+      if (r) {
+        this.updateStatus(id, MEDIA_STATUS.ING)
+      }
     },
-    
+    /**
+     * 挂断
+     * @param {*} id 
+     */
+    async finish(id) {
+      const { type } = this.getUser(id)
+      const params = { userId: id }
+      const r = type === MEDIA_TYPE.VOICE ? await voiceCloseApi(params) : await videoCloseApi(params)
+      if (r) {
+        this.close()
+        this.destroy()
+      }
+    },
 
     /**
      * 打开窗口

@@ -4,10 +4,10 @@
       <Expression @select="expressionSelectHandle"></Expression>
       <Image class="tool" @select="imageSelectHandle"></Image>
       <File class="tool" @select="fileSelectHandle"></File>
-      <!-- <template v-if="active.friend">
+      <template v-if="active.friend">
         <VoiceCall class="tool"></VoiceCall>
         <VideoCall class="tool"></VideoCall>
-      </template> -->
+      </template>
     </div>
     <div class="margin_t-10 flex flex_a_i-flex-end">
       <el-input

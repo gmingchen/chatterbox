@@ -1,5 +1,10 @@
 <template>
   <el-empty class="empty height-full width-full" :class="absolute ? 'position-center' : ''">
+    <template v-if="icon" #image>
+      <el-icon class="cursor-pointer" size="160">
+        <component :is="component"></component>
+      </el-icon>
+    </template>
     <template #description>
       <div class="margin_t-20" v-if="text">{{ text }}</div>
     </template>
@@ -7,7 +12,13 @@
 </template>
 
 <script setup>
-defineProps({
+import { VideoCamera } from '@element-plus/icons-vue'
+
+const props = defineProps({
+  icon: {
+    type: String,
+    default: () => ''
+  },
   text: {
     type: String,
     default: () => ''
@@ -17,6 +28,14 @@ defineProps({
     default: () => false
   }
 })
+
+const component = computed(() => {
+  if (props.icon === 'VideoCamera') {
+    return VideoCamera
+  }
+  return null
+})
+
 </script>
 
 <style lang="scss" scoped>

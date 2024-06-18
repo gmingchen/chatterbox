@@ -5,7 +5,6 @@ import { WEBSOCKET_TYPE } from '@enums/websocket'
 import { APPLY_TYPE } from '@enums/apply'
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
 import { notification } from '@utils'
-import { connection, remoteHandler } from '@utils/connection'
 
 export default defineComponent({
   render() { return '' },
@@ -114,6 +113,8 @@ export default defineComponent({
     const mediaApplyHandler = (data, type) => {
       const { id, avatar, nickname, description } = data
 
+      console.log('@@@', type);
+
       const describe = type === MEDIA_TYPE.VOICE ? '语音' : '视频'
       const title = `收到一条${ describe }邀请` 
       const message = `${ data.nickname }想要邀请你进行${ describe }通话`
@@ -121,7 +122,7 @@ export default defineComponent({
       const notification = ElNotification({
         title: title,
         message: message,
-        duration: 50000,
+        duration: 0,
         showClose: false,
         onClick: () => {
           mediaStore.open(user)
@@ -177,17 +178,22 @@ export default defineComponent({
     /**
      * 语音 视频 邀请被接受处理器
      * @param {*} data 
-     * @param {*} type 
      */
     const acceptHandler = (data) => {
       let { id, description } = data
       description = JSON.parse(description)
-      remoteHandler(description)
+      mediaStore.connection.setRemoteDescription(description)
       mediaStore.updateStatus(id, MEDIA_STATUS.ING)
       mediaStore.updateDescription(id, description)
+    }
 
-
-      console.log(connection);
+    /**
+     * 语音 视频 被挂断处理器
+     * @param {*} data 
+     */
+    const finishHandler = (data) => {
+      mediaStore.destroy()
+      mediaStore.updateStatus(data, MEDIA_STATUS.CLOSED)
     }
 
     watch(() => response.value, (newVal) => {
@@ -211,6 +217,18 @@ export default defineComponent({
         mediaRejectHandler(body, MEDIA_TYPE.VOICE)
       } else if (type === WEBSOCKET_TYPE.VOICE_ACCEPT) {
         acceptHandler(body)
+      } else if (type === WEBSOCKET_TYPE.VOICE_CLOSE) {
+        finishHandler(body)
+      } else if (type === WEBSOCKET_TYPE.VIDEO_APPLY) {
+        mediaApplyHandler(body, MEDIA_TYPE.VIDEO)
+      } else if (type === WEBSOCKET_TYPE.VIDEO_CANCEL) {
+        mdeiaCancelHandler(body, MEDIA_TYPE.VIDEO)
+      } else if (type === WEBSOCKET_TYPE.VIDEO_REJECT) {
+        mediaRejectHandler(body, MEDIA_TYPE.VIDEO)
+      } else if (type === WEBSOCKET_TYPE.VIDEO_ACCEPT) {
+        acceptHandler(body)
+      } else if (type === WEBSOCKET_TYPE.VIDEO_CLOSE) {
+        finishHandler(body)
       }
       
     }, { deep: true })

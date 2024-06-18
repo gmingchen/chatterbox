@@ -110,7 +110,6 @@ export async function getUserMedia(audio = false, video = false) {
       type: 'warning'
     })
   }
-
 }
 /**
  * 录制语音
