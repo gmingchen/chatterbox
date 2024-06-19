@@ -87,6 +87,7 @@ const scrollToBottom = () => {
 }
 
 watch(active, async () => {
+  finished.value = false
   if (!messages.value.length) {
     await getData()
   }
@@ -110,13 +111,13 @@ const scrollHandle = async (scroll) => {
   scrollTop.value = scroll.scrollTop
   if (scroll.scrollTop < 1 && !loading.value && !finished.value) {
     loading.value = true
-    setTimeout(async () => {
+    // setTimeout(async () => {
       const height = refInner.value.clientHeight
       await getData()
       const top = refInner.value.clientHeight - height
       scrollTop.value = top
       refScrollbar.value.setScrollTop(top)
-    }, 1000)
+    // }, 1000)
   }
   
 }
