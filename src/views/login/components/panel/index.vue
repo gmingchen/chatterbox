@@ -12,6 +12,6 @@
 .panel {
   box-shadow: var(--el-box-shadow);
   border-radius: var(--el-border-radius-round);
-  background-color: #272a37;
+  background-color: var(--wrap-background-color);
 }
 </style>

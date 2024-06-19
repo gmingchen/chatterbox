@@ -4,6 +4,7 @@
       <Panel v-if="visible">
         <LoginForm></LoginForm>
         <el-button class="margin_t-18 width-full" @click="changeHandle">未有账号？去注册</el-button>
+        <Other class="margin_t-20"></Other>
       </Panel>
       <Panel v-else>
         <RegisterForm></RegisterForm>
@@ -17,6 +18,7 @@
 import Panel from './components/panel/index.vue'
 import LoginForm from './components/login-form/index.vue'
 import RegisterForm from './components/register-form/index.vue'
+import Other from './components/other/index.vue'
 
 const visible = ref(true)
 
