@@ -113,8 +113,6 @@ export default defineComponent({
     const mediaApplyHandler = (data, type) => {
       const { id, avatar, nickname, description } = data
 
-      console.log('@@@', type);
-
       const describe = type === MEDIA_TYPE.VOICE ? '语音' : '视频'
       const title = `收到一条${ describe }邀请` 
       const message = `${ data.nickname }想要邀请你进行${ describe }通话`

@@ -75,7 +75,7 @@ export const useMediaStore = defineStore('media', {
     /**
      * 初始化
      */
-    init(ontrack) {
+    async init(ontrack) {
       this.connection = new RTCPeerConnection({
         iceServers: [
           {
@@ -85,6 +85,16 @@ export const useMediaStore = defineStore('media', {
           }
         ]
       })
+// 这边要先获取 stream 才能 触发 ontrack 事件
+      const stream = await getUserMedia(true, true)
+    if (stream) {
+      stream.getTracks().forEach(track => {
+        console.log(track);
+        this.connection.addTrack(track, stream)
+      });
+    }
+    console.log('open');
+
       this.channel = this.connection.createDataChannel('channel')
       channelHandler(this)
 
