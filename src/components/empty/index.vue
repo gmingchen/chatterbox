@@ -1,6 +1,7 @@
 <template>
-  <el-empty class="empty height-full width-full" :class="absolute ? 'position-center' : ''">
-    <template v-if="icon" #image>
+  <el-empty class="empty height-full width-full" :class="absolute ? 'position-center' : ''" :image="Logo">
+    <template v-if="icon">
+      <el-image :src="Logo"></el-image>
       <el-icon class="cursor-pointer" size="160">
         <component :is="component"></component>
       </el-icon>
@@ -13,6 +14,8 @@
 
 <script setup>
 import { VideoCamera } from '@element-plus/icons-vue'
+
+import Logo from '@/assets/images/logo.png'
 
 const props = defineProps({
   icon: {
@@ -45,6 +48,9 @@ const component = computed(() => {
     margin: 0;
     color: var(--el-text-color-secondary);
     font-size: var(--el-font-size-base);
+  }
+  ::v-deep(.el-empty__image) {
+    opacity: 0.5;
   }
 }
 </style>
