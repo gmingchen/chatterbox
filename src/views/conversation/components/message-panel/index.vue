@@ -1,7 +1,10 @@
 <template>
   <div class="message-panel flex flex_d-column">
     <template v-if="active && active.id">
-      <div class="header padding-15">{{ name }}</div>
+      <div class="header flex_a_i-center">
+        <Avatar :src="avatar" :name="name" :size="36"></Avatar>
+        <span class="margin_l-10">{{ name }}</span>
+      </div>
       <el-scrollbar ref="refScrollbar" @scroll="scrollHandle">
         <div ref="refInner" class="flex-item_f-1 padding-15">
           <Loading class="loading" text="消息加载中" v-show="loading"></Loading>
@@ -39,6 +42,20 @@ const name = computed(() => {
     }
     if (group) {
       return group.name
+    }
+  }
+  
+  return ''
+})
+
+const avatar = computed(() => {
+  if (active.value) {
+    const { friend, group } = active.value
+    if (friend) {
+      return friend.avatar
+    }
+    if (group) {
+      return group.avatar
     }
   }
   
@@ -143,6 +160,7 @@ onActivated(() => {
   background-color: var(--card-background-color);
   border-radius: var(--box-border-radius);
   .header {
+    padding: 10px 15px;
     border-bottom: 1px solid var(--wrap-background-color);
   }
   .message-wrap + .message-wrap {

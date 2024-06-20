@@ -1,29 +1,81 @@
-<p align="center">
+<center>
+  <a href="https://chatterbox.gumingchen.icu">
+    <img src="https://chatterbox.gumingchen.icu/resource/static/logo-black.png" alt="chatterbox" width="200px">
+  </a>
+</center>
+
+<center>
+
+  <font size="7"> **Chatterbox（话匣子）** </font>
+</center>
+
+<center>
   <a href="https://github.com/vuejs/vue-next">
-    <img src="https://img.shields.io/badge/vue-3.0-brightgreen.svg" alt="vue">
+    <img src="https://img.shields.io/badge/vue-3.x-brightgreen.svg" alt="vue">
   </a>
   <a href="https://github.com/element-plus/element-plus">
     <img src="https://img.shields.io/badge/element--plus-2.x-brightgreen.svg" alt="element-plus">
   </a>
-</p>
+</center>
+
+<center>
+  <a href="https://github.com/vuejs/vue-next">
+    <img src="https://img.shields.io/github/stars/gmingchen/chatterbox.svg?logo=github&color=brightgreen">
+  </a>
+  <a href="https://github.com/element-plus/element-plus">
+    <img src="https://img.shields.io/github/forks/gmingchen/chatterbox.svg?logo=github&color=brightgreen">
+  </a>
+  <a href="https://gitee.com/shychen/chatterbox">
+    <img src="https://gitee.com/shychen/chatterbox/badge/star.svg?theme=dark">
+  </a>
+  <a href="https://gitee.com/shychen/chatterbox">
+    <img src="https://gitee.com/shychen/chatterbox/badge/fork.svg?theme=dark">
+  </a>
+</center>
 
 ### 简介 
 
-[chatterbox](https://github.com/gmingchen/chatterbox)是`im-vue`重构后的即时聊天系统🆕，抛弃了原来自己注册帐号的方式，改为使用邮箱注册📮。
+🎈[Chatterbox（话匣子）](https://github.com/gmingchen/chatterbox)是`im-vue`重构后的即时聊天系统🆕。
 
-`如果想要旧版本相关内容请移步👉` [old分支](https://github.com/gmingchen/chatterbox/tree/old)
+🎃目前前端只有基于 [vue3](https://github.com/vuejs/vue-next)、[element-plus](https://github.com/element-plus/element-plus) 实现的相关内容，后续会分别实现 `react`、`h5`版本。
+🤿后端是基于 __`java`__ 的 __`springboot`__ 、 __`netty`__  实现。
 
-目前只有基于 [vue3](https://github.com/vuejs/vue-next)、[element-plus](https://github.com/element-plus/element-plus) 实现的相关内容。后续会分别实现 `react`、`h5`版本。
-如果觉得还不错的话，请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励！😏
-后续会 __`持续迭代更新`__。
+🔔比较关键的技术点是通过 `Websocket` 实现了消息的实时传递 和 通过 `RTCPeerConnection` 实现语音通话、视频通话。
 
-后端是基于 __`java`__ 的 __`springboot`__ 、 __`netty`__  实现。<br>
+###### 已内置如下功能：
+- [X] 邮箱登录、注册、个人信息编辑
+- [X] 用户搜索
+- [X] 好友申请
+- [X] 好友私聊、群聊
+  - [X] 文字消息
+  - [X] 图片消息
+  - [X] 音频消息
+  - [X] 文件消息
+- [X] 好友通话
+  - [X] 语音通话
+  - [X] 视频通话
 
-- [在线预览(备用-服务器比较low，访问有点慢！等有条件了再加配！😬)](https://chatterbox.gumingchen.icu)
+🏷️🏷️🏷️后续会 __`持续迭代更新`__，点个 ⭐star 不错过更多的功能更新😎。
+
+> ☀️
+> [👉 在线预览 👀](https://chatterbox.gumingchen.icu)
+>
+> 服务器比较low，访问有点慢！等有条件了再加配！😬
+>
+> 如果觉得还不错的话，请点个 ⭐star 支持一下吧，这将是对我最大的支持和鼓励☕！
+> 🌙
+
+> ⚠️
+> 如果想要旧版本相关内容请移步👉` [old分支](https://github.com/gmingchen/chatterbox/tree/old)
+> 🛑
 
 ### 开发
-
+> ⚠️
+> 前提条件: 已安装 18.3 或更高版本的 Node.js `
+> 建议不要用直接使用 cnpm 安装，可以通过配置 registry 来解决 npm 安装速度慢或中断的问题。
+> 🛑
 ```bash
+
 # 克隆项目
 git clone https://github.com/gmingchen/chatterbox.git
 
@@ -41,14 +93,17 @@ npm run build
 ```
 
 ### 联系方式
-`目前暂时不搞群。有什么问题可以加微信联系作者！🥰`
 <table>
   <tr align="center">
+    <td>交流群</td>
     <td>公众号</td>
     <td>微信</td>
     <td>QQ</td>
   </tr>
   <tr>
+    <td>
+      <img src="https://chatterbox.gumingchen.icu/resource/static/chatterbox-wechat-group.png" width="200px" title="公众号" alt="公众号:loafer-man" />
+    </td>
     <td>
       <img src="https://admin.gumingchen.icu/file/static/official-account-qr-code.jpg" width="200px" title="公众号" alt="公众号:loafer-man" />
     </td>
@@ -60,6 +115,12 @@ npm run build
     </td>
   </tr>
 </table>
+
+> 🤑
+> 如果有需要完整代码的可以加作者微信📨，联系作者👦
+> 🎯不免费，有偿💸获取完整代码
+> 📃开发文档暂时没有编写，空闲了会补上的哦🎮
+> 💰
 
 ### 其它开源项目
 
