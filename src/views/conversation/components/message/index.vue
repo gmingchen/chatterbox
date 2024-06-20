@@ -2,8 +2,10 @@
   <div class="message flex" :class="reverse ? 'reverse' : ''">
     <Avatar :src="message.avatar" :name="message.nickname" :size="40" @click="avatarClickHandle"></Avatar>
     <div class="wrap flex-item_f-1 margin-n-10 flex_d-column flex_a_i-flex-start">
-      <div class="nickname margin_b-6">
-        {{ message.nickname }}<span class="email" v-if="message.email">({{ message.email }})</span>
+      <div class="info margin_b-6 flex">
+        <span>{{ message.nickname }}</span>
+        <span class="email" v-if="message.email">({{ message.email }})</span>
+        <span class="time margin-n-10">{{ time }}</span>
       </div>
       <TextMessage :text="message.text" v-if="message.type === MESSAGE_TYPE.TEXT"></TextMessage>
       <ImageMessage :image="message.image" v-if="message.type === MESSAGE_TYPE.IMAGE"></ImageMessage>
@@ -18,6 +20,8 @@ import TextMessage from './components/text-message/index.vue'
 import ImageMessage from './components/image-message/index.vue'
 import FileMessage from './components/file-message/index.vue'
 import AudioMessage from './components/audio-message/index.vue'
+
+import { dateFormat } from '@utils'
 
 import { MESSAGE_TYPE } from '@enums/message'
 
@@ -34,6 +38,10 @@ const props = defineProps({
   }
 })
 
+const time = computed(() => {
+  return dateFormat(props.message.createdAt)
+})
+
 const avatarClickHandle = () => {
   emits('avatar-click', props.message)
 }
@@ -44,22 +52,24 @@ const avatarClickHandle = () => {
   .avatar {
     flex-shrink: 0;
   }
-  .nickname {
+  .info {
     font-size: 12px;
     color: var(--el-color-info-dark-2);
-    .email {
+    .email, .time {
       display: none;
     }
   }
-  &:hover .email {
+  &:hover .email, &:hover .time {
     display: inline;
-    font-size: 12px;
   }
 }
 .message.reverse {
   flex-direction: row-reverse;
   .wrap {
     align-items: flex-end;
+  }
+  .info {
+    flex-direction: row-reverse;
   }
 }
 </style>
