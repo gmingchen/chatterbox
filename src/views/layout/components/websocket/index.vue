@@ -190,7 +190,7 @@ export default defineComponent({
      * @param {*} data 
      */
     const finishHandler = (data) => {
-      mediaStore.destroy()
+      mediaStore.destroyConnection()
       mediaStore.updateStatus(data, MEDIA_STATUS.CLOSED)
     }
 

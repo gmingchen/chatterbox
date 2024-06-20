@@ -14,17 +14,12 @@ import {
 const channelHandler = (store) => {
   const { channel } = store
   channel.onopen = async () => {
-    const stream = await getUserMedia(true, store.active.status === MEDIA_TYPE.VIDEO)
-    if (stream) {
-      stream.getTracks().forEach(track => {
-        console.log(track);
-        store.connection.addTrack(track, stream)
-      });
-    }
     console.log('open');
   }
   channel.onclose = () =>{
-    store.updateStatus(store.active.id, MEDIA_STATUS.CLOSED)
+    if (store.active) {
+      store.updateStatus(store.active.id, MEDIA_STATUS.CLOSED)
+    }
     console.log('close');
   }
   channel.onmessage = (e) => {
@@ -70,12 +65,21 @@ export const useMediaStore = defineStore('media', {
     connection: null,
     // 通道
     channel: null,
+    // 媒体流
+    mediaStream: null,
+    // ontrack 事件
+    ontrack: (event) => {
+      const video = document.getElementById('video')
+      video.srcObject = event.streams[0];
+      video.play()
+      console.log('ontrack', event);
+    },
   }),
   actions: {
     /**
      * 初始化
      */
-    async init(ontrack) {
+    async createConnection(type) {
       this.connection = new RTCPeerConnection({
         iceServers: [
           {
@@ -85,31 +89,23 @@ export const useMediaStore = defineStore('media', {
           }
         ]
       })
-// 这边要先获取 stream 才能 触发 ontrack 事件
-      const stream = await getUserMedia(true, true)
-    if (stream) {
-      stream.getTracks().forEach(track => {
-        console.log(track);
-        this.connection.addTrack(track, stream)
-      });
-    }
-    console.log('open');
+      // 要先获取 stream 才能 触发 ontrack 事件
+      this.mediaStream = await getUserMedia(true, type === MEDIA_TYPE.VIDEO)
+      if (this.mediaStream) {
+        this.mediaStream.getTracks().forEach(track => {
+          this.connection.addTrack(track, this.mediaStream)
+        });
+      }
 
       this.channel = this.connection.createDataChannel('channel')
       channelHandler(this)
 
-      // this.connection.ondatachannel = (event) => {
-        // const { channel } = event
-        // this.channel =  channel
-        // channelHandler(this)
-      // }
-
-      this.connection.ontrack = ontrack
+      this.connection.ontrack = this.ontrack
     },
     /**
      * 销毁
      */
-    destroy() {
+    destroyConnection() {
       // 关闭所有的媒体流
       const streams = this.connection.getSenders()
       streams.forEach(stream => {
@@ -117,20 +113,25 @@ export const useMediaStore = defineStore('media', {
           stream.stop();
         }
       })
-      // // 关闭所有的数据通道
-      // const dataChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.track);
-      // dataChannels.forEach(channel => {
-      //   channel.receiver.track.stop();
-      // });
-      // // 关闭信令通道
-      // const rtcChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.rtpReceiver);
-      // rtcChannels.forEach(channel => {
-      //   if (channel.receiver && channel.receiver.rtpReceiver) {
-      //     channel.receiver.rtpReceiver.stop();
-      //   }
-      // });
-      // // 关闭 RTCPeerConnection 实例
-      // this.connection.close()
+      if (this.mediaStream) {
+        this.mediaStream.getTracks().forEach(track => {
+          track.stop();
+        });
+      }
+      // 关闭所有的数据通道
+      const dataChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.track);
+      dataChannels.forEach(channel => {
+        channel.receiver.track.stop();
+      });
+      // 关闭信令通道
+      const rtcChannels = this.connection.getTransceivers().filter(transceiver => transceiver.receiver && transceiver.receiver.rtpReceiver);
+      rtcChannels.forEach(channel => {
+        if (channel.receiver && channel.receiver.rtpReceiver) {
+          channel.receiver.rtpReceiver.stop();
+        }
+      });
+      // 关闭 RTCPeerConnection 实例
+      this.connection.close()
     },
 
     /**
@@ -138,12 +139,15 @@ export const useMediaStore = defineStore('media', {
      * @param {*} user 用户
      */
     async call(user) {
+      const { id, type } = user
+
+      await this.createConnection(type)
+
       const offer = await this.connection.createOffer()
       this.connection.setLocalDescription(offer);
 
       const localDescription = await candidateHandler(this.connection) 
-
-      const { id, type } = user
+      
       const params = {
         description: JSON.stringify(localDescription),
         userId: id
@@ -153,6 +157,8 @@ export const useMediaStore = defineStore('media', {
         this.visible = true
         user = { ...user, status: MEDIA_STATUS.INVITING }
         this.open(user)
+      } else {
+        this.destroyConnection()
       }
     },
     /**
@@ -163,6 +169,7 @@ export const useMediaStore = defineStore('media', {
       const params = { userId: id }
       const r = type === MEDIA_TYPE.VOICE ? await voiceCancelApi(params) : await videoCancelApi(params)
       if (r) {
+        this.destroyConnection()
         this.close()
       }
     },
@@ -184,6 +191,9 @@ export const useMediaStore = defineStore('media', {
      */
     async accept(id) {
       const { description, type } = this.getUser(id)
+
+      await this.createConnection(type)
+
       this.connection.setRemoteDescription(description)
 
       const answer = await this.connection.createAnswer()
@@ -208,8 +218,8 @@ export const useMediaStore = defineStore('media', {
       const params = { userId: id }
       const r = type === MEDIA_TYPE.VOICE ? await voiceCloseApi(params) : await videoCloseApi(params)
       if (r) {
+        this.destroyConnection()
         this.close()
-        this.destroy()
       }
     },
 

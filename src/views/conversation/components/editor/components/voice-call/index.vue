@@ -27,7 +27,7 @@ const call = async () => {
   const user = {
     id: userId, avatar, name: nickname, type: MEDIA_TYPE.VOICE
   }
-  await mediaStore.call(user)
+  mediaStore.call(user)
   
   setTimeout(() => loading.value = false, 1000)
 }

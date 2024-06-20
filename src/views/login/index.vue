@@ -4,7 +4,7 @@
       <Panel v-if="visible">
         <LoginForm></LoginForm>
         <el-button class="margin_t-18 width-full" @click="changeHandle">未有账号？去注册</el-button>
-        <Other class="margin_t-20"></Other>
+        <!-- <Other class="margin_t-20"></Other> -->
       </Panel>
       <Panel v-else>
         <RegisterForm></RegisterForm>

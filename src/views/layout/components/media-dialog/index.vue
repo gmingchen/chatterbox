@@ -48,7 +48,7 @@ const ontrack = (event) => {
 }
 
 onMounted(async () => {
-  mediaStore.init(ontrack)
+  // mediaStore.init(ontrack)
 })
 </script>
 
