@@ -1,16 +1,20 @@
 <template>
-  <div class="brand text-align-center">
+  <div class="brand flex_j_c-center flex_a_i-center">
+    <el-image class="width-48 margin_r-10" :src="Logo"></el-image>
     <span v-for="(character, index) in name" :key="index" :class="`character-${ index }`">{{ character }}</span>
   </div>
 </template>
 
 <script setup>
+import Logo from '@/assets/images/logo.png'
+
 const name = ref('Chatterbox')
 </script>
 
 <style lang="scss" scoped>
 .brand {
-  font-family: 'JoinedUp';position: relative;
+  font-family: 'JoinedUp';
+  position: relative;
   span {
     position: relative;
     display: inline-block;
