@@ -4,10 +4,12 @@
   </a>
 </p>
 
-<p align="center">
 
-  <font size="7"> **Chatterbox（话匣子）** </font>
-</p>
+<h1>
+  <p align="center" style="font-size:40px;">
+    Chatterbox（话匣子）
+  </p>
+</h1>
 
 <p align="center">
   <a href="https://github.com/vuejs/vue-next">
