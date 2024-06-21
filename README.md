@@ -21,10 +21,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/vuejs/vue-next">
+  <a href="https://github.com/gmingchen/chatterbox">
     <img src="https://img.shields.io/github/stars/gmingchen/chatterbox.svg?logo=github&color=brightgreen">
   </a>
-  <a href="https://github.com/element-plus/element-plus">
+  <a href="https://github.com/gmingchen/chatterbox">
     <img src="https://img.shields.io/github/forks/gmingchen/chatterbox.svg?logo=github&color=brightgreen">
   </a>
   <a href="https://gitee.com/shychen/chatterbox">
