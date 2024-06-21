@@ -57,6 +57,7 @@
 
 🏷️🏷️🏷️后续会 __`持续迭代更新`__，点个 ⭐star 不错过更多的功能更新😎。
 
+### 在线预览
 > ☀️
 > [👉 在线预览 👀](https://chatterbox.gumingchen.icu)
 >
@@ -68,6 +69,31 @@
 > ⚠️
 > 如果想要旧版本相关内容请移步👉` [old分支](https://github.com/gmingchen/chatterbox/tree/old)
 > 🛑
+
+#### 演示图片
+
+<table>
+  <tr>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/login.jpg" title="演示图片" alt="演示图片" /></td>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/conversation.jpg" title="演示图片" alt="演示图片" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/message.jpg" title="演示图片" alt="演示图片" /></td>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/friend.jpg" title="演示图片" alt="演示图片" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/search.jpg" title="演示图片" alt="演示图片" /></td>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/add-friend.jpg" title="演示图片" alt="演示图片" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/call.jpg" title="演示图片" alt="演示图片" /></td>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/accept.jpg" title="演示图片" alt="演示图片" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/ing.jpg" title="演示图片" alt="演示图片" /></td>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/apply.jpg" title="演示图片" alt="演示图片" /></td>
+  </tr>
+</table>
 
 ### 开发
 > ⚠️
@@ -92,7 +118,20 @@ npm run dev
 npm run build
 ```
 
-### 联系方式
+### 关于作者
+Hi there, I'm [Slipper](https://github.com/gmingchen)（拖孩）👋. Thank you for your attention ⭐!
+I'm a code enthusiast who has been working in the IT industry for many years.
+I like open source and all interesting things and want to try to do it.
+I want to be an interesting person and create something that can be remembered by others.
+If you want to write code with me, you can contact me for internal promotion.
+
+- 🔭 I’m currently working on [万店掌](https://www.ovopark.com/)
+- 📫 How to reach me: ```🐧1240235512``` ```🛰️Gy1240235512``` ```📪gumingchen@foxmail.com```
+- 🌏 How to follow me: [Github](https://github.com/gmingchen) [Gitee](https://gitee.com/shychen) [掘金](https://juejin.cn/user/4103845398710846) [简书](https://www.jianshu.com/u/81a5a02678d3)
+- ❤️ I like playing 🎮, sleeping in 🛌 and coding 👨‍💻.
+
+![Github stats](https://github-readme-stats.vercel.app/api?username=gmingchen&show_icons=true&title_color=fff&icon_color=79ff97&text_color=9f9f9f&bg_color=151515&include_all_commits=true&hide=["contribs"])
+
 <table>
   <tr align="center">
     <td>交流群</td>
