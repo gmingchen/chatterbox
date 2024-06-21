@@ -4,11 +4,9 @@
   </a>
 </p>
 
-<h1>
-  <p align="center" style="font-size:40px;">
-    Chatterbox（话匣子）
-  </p>
-</h1>
+<p align="center" style="font-size:40px;font-weight: bold">
+  Chatterbox（话匣子）
+</p>
 
 <p align="center">
   <a href="https://github.com/vuejs/vue-next">
@@ -161,6 +159,26 @@ If you want to write code with me, you can contact me for internal promotion.
 > 🎯不免费，有偿💸获取完整代码
 > 📃开发文档暂时没有编写，空闲了会补上的哦🎮
 > 💰
+
+### 捐赠
+>💖
+>如果你觉得这个项目帮助到了你，你可以帮作者买一杯热饮表示鼓励 ☕
+>🦀🦀
+
+<table>
+  <tr align="center">
+    <td>微信捐赠</td>
+    <td>支付宝捐赠</td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://admin.gumingchen.icu/file/static/wechat-collection-code.jpg" width="200px" title="微信捐赠" alt="微信捐赠" />
+    </td>
+    <td>
+      <img src="https://admin.gumingchen.icu/file/static/ali-collection-code.jpg" width="200px" title="支付宝捐赠" alt="支付宝捐赠" />
+    </td>
+  </tr>
+</table>
 
 ### 其它开源项目
 
