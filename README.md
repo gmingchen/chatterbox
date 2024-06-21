@@ -1,24 +1,24 @@
-<center>
+<p align="center">
   <a href="https://chatterbox.gumingchen.icu">
     <img src="https://chatterbox.gumingchen.icu/resource/static/logo-black.png" alt="chatterbox" width="200px">
   </a>
-</center>
+</p>
 
-<center>
+<p align="center">
 
   <font size="7"> **Chatterbox（话匣子）** </font>
-</center>
+</p>
 
-<center>
+<p align="center">
   <a href="https://github.com/vuejs/vue-next">
     <img src="https://img.shields.io/badge/vue-3.x-brightgreen.svg" alt="vue">
   </a>
   <a href="https://github.com/element-plus/element-plus">
     <img src="https://img.shields.io/badge/element--plus-2.x-brightgreen.svg" alt="element-plus">
   </a>
-</center>
+</p>
 
-<center>
+<p align="center">
   <a href="https://github.com/vuejs/vue-next">
     <img src="https://img.shields.io/github/stars/gmingchen/chatterbox.svg?logo=github&color=brightgreen">
   </a>
@@ -31,7 +31,7 @@
   <a href="https://gitee.com/shychen/chatterbox">
     <img src="https://gitee.com/shychen/chatterbox/badge/fork.svg?theme=dark">
   </a>
-</center>
+</p>
 
 ### 简介 
 
