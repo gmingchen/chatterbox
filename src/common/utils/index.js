@@ -89,6 +89,47 @@ export function dateFormat(date) {
 }
 
 /**
+ * @description: json 转 param
+ * @param {Object} json json数据
+ * @return {*}
+ * @author: gumingchen
+ */
+export function parseJson2Param(json) {
+  let result = ''
+  result = Object.keys(json)
+    .map(key => {
+      if (!json[key]) return ''
+      const temp = encodeURIComponent(key) + '=' + encodeURIComponent(json[key])
+      return temp
+    })
+    .join('&')
+  return result
+}
+
+/**
+ * @description: param 转 json
+ * @param {String} url 链接
+ * @return {*}
+ * @author: gumingchen
+ */
+export function parseParam2Json(url) {
+  const result = {}
+  const search = decodeURIComponent(url.split('?')[1]).replace(/\+/gu, ' ')
+  if (search) {
+    const searchArr = search.split('&')
+    searchArr.forEach(r => {
+      const index = r.indexOf('=')
+      if (index !== -1) {
+        const key = r.substring(0, index)
+        const val = r.substring(index + 1, r.length)
+        result[key] = val
+      }
+    })
+  }
+  return result
+}
+
+/**
  * 获取用户媒体
  * @param {*} audio 音频 
  * @param {*} video 视频

@@ -2,7 +2,7 @@ import { dayjs } from 'element-plus'
 import { clearJson } from '@utils'
 import { getAuth, setAuth, clearAuth } from '@utils/storage'
 
-import { loginApi, registerApi, logoutApi } from '@/api/auth'
+import { loginApi, registerApi, loginQQApi, logoutApi } from '@/api/auth'
 
 const auth = getAuth()
 
@@ -15,12 +15,13 @@ export const useAuthStore = defineStore('auth', {
   }),
   actions: {
     /**
-     * 登录
-     * @param {*} params
-     * @returns
+     * 登入系统
+     * @param {*} api 接口
+     * @param {*} params 参数
+     * @returns 
      */
-    async login(params) {
-      const r = await loginApi(params)
+    async sign(api, params) {
+      const r = await api(params)
       if (r) {
         setAuth(r.data)
         this.$state = r.data
@@ -28,17 +29,28 @@ export const useAuthStore = defineStore('auth', {
       return r
     },
     /**
+     * 登录
+     * @param {*} params
+     * @returns
+     */
+    login(params) {
+      return this.sign(loginApi, params)
+    },
+    /**
      * 注册
      * @param {*} params
      * @returns
      */
     async register(params) {
-      const r = await registerApi(params)
-      if (r) {
-        setAuth(r.data)
-        this.$state = r.data
-      }
-      return r
+      return this.sign(registerApi, params)
+    },
+    /**
+     * QQ登录
+     * @param {*} params
+     * @returns
+     */
+    async qqLogin(params) {
+      return this.sign(loginQQApi, params)
     },
     /**
      * 退出登录

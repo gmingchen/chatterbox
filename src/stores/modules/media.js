@@ -193,6 +193,10 @@ export const useMediaStore = defineStore('media', {
       const { description, type } = this.getUser(id)
 
       await this.createConnection(type)
+      this.connection.ondatachannel = (e) => {
+        this.channel = e.channel 
+        channelHandler(this)
+      }
 
       this.connection.setRemoteDescription(description)
 

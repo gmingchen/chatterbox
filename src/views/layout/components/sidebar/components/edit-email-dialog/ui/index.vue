@@ -6,9 +6,9 @@
     label-width="auto"
     label-position="left"
     :disabled="loading">
-    <el-form-item label="原邮箱" prop="originalEmail">
+    <!-- <el-form-item label="原邮箱" prop="originalEmail">
       <el-input v-model="form.originalEmail" />
-    </el-form-item>
+    </el-form-item> -->
     <el-form-item label="新邮箱" prop="newEmail">
       <el-input v-model="form.newEmail" />
     </el-form-item>

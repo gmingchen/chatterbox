@@ -41,6 +41,7 @@ const submit = async () => {
     await userStore.getUserInfo()
   }
   nextTick(() => {
+    visible.value = false
     loading.value = false
   })
 }

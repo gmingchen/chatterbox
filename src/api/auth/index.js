@@ -52,6 +52,19 @@ export function loginApi(data) {
   })
 }
 
+/**
+ * QQ登录
+ * @param {*} params
+ * @returns
+ */
+export function loginQQApi(params) {
+  return service({
+    url: '/auth/login/qq',
+    method: 'get',
+    params
+  })
+}
+
 
 /**
  * 获取当前用户信息

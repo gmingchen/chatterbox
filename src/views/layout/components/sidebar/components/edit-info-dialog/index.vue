@@ -39,8 +39,8 @@ const submit = async () => {
     })
   }
   nextTick(() => {
-    loading.value = false
     visible.value = false
+    loading.value = false
   })
 }
 

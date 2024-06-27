@@ -17,7 +17,7 @@
           <el-icon class="margin_r-5">
             <EpEditPen></EpEditPen>
           </el-icon>
-          编辑邮箱
+          更新邮箱
         </el-button>
       </div>
     </UserDialog>
