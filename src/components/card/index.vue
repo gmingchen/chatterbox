@@ -7,7 +7,10 @@
           <span>{{ label }}</span>
         </el-tooltip>
       </div>
-      <div class="content margin_t-4 ellipse" v-if="content">{{ content }}</div>
+      <div class="content margin_t-4 ellipse" v-if="$slots.content || content">
+        <slot v-if="$slots.content" name="content"></slot>
+        <span v-else>{{ content }}</span>
+      </div>
     </div>
     <div class="tips">{{ tips }}</div>
   </div>
@@ -35,6 +38,8 @@ defineProps({
     default: () => false
   }
 })
+
+
 </script>
 
 <style lang="scss" scoped>

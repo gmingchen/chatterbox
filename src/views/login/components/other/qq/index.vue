@@ -4,6 +4,8 @@
 </template>
 
 <script setup>
+import { ElLoading } from 'element-plus'
+
 import QQ from '@/assets/images/qq.png'
 
 import { parseJson2Param, parseParam2Json } from '@utils'
@@ -31,9 +33,13 @@ const grantCallback = async () => {
   const path = route.fullPath.replace('#', '?')
   const accessToken = parseParam2Json(path).access_token
   if (accessToken) {
+    const loading = ElLoading.service({
+      text: 'QQ授权登录中...'
+    })
     router.replace({ name: route.name })
     const r = await authStore.qqLogin({ accessToken })
     if (r) {
+      loading.close()
       router.push({ name: 'conversation' })
     }
   }

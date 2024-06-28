@@ -34,6 +34,23 @@ export const useRoomStore = defineStore('room', {
       }
     },
     /**
+     * 更新消息
+     * @param {*} id 消息ID
+     * @param {*} conversation 会话
+     */
+    updateMessage(messageId, conversation){
+      const { roomId, message } = conversation
+      for (let i = 0; i < this.list.length; i++) {
+        const { messages } = this.list[i];
+        for (let j = 0; j < messages.length; j++) {
+          if (messageId === messages[j].id) {
+            messages[j] = message
+            return
+          }
+        }
+      }
+    },
+    /**
      * 获取房间用户
      * @param {*} roomId 房间ID
      * @param {*} lastId 最后一个ID

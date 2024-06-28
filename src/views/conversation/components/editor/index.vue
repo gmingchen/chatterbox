@@ -39,11 +39,13 @@ import VoiceCall from './components/voice-call/index.vue'
 import VideoCall from './components/video-call/index.vue'
 import Audio from './components/audio/index.vue'
 
-import { MESSAGE_TYPE } from '@enums/message'
+import { generateUUID } from '@utils'
+import { MESSAGE_TYPE, MESSAGE_SEND_STATUS } from '@enums/message'
 import { sendApi } from '@/api/message'
 
 const conversationStore = useConversationStore()
 const rootStore = useRootStore()
+const userStore = useUserStore()
 
 const active = computed(() => conversationStore.active)
 
@@ -60,14 +62,36 @@ const sendHandle = async (type, content) => {
     })
     return
   }
+  const { id, nickname, avatar, sex, email } = userStore
+
+  const uuid = generateUUID()
+  const message = {
+    id: uuid,
+    type: type,
+    text: type === MESSAGE_TYPE.TEXT ? content : '',
+    image: type === MESSAGE_TYPE.IMAGE ? content : '',
+    audio: type === MESSAGE_TYPE.AUDIO ? content : '',
+    file: type === MESSAGE_TYPE.FILE ? content : '',
+    status: 1,
+    createdAt: new Date(),
+    userId: id, nickname, avatar, sex, email,
+    sendStatus: MESSAGE_SEND_STATUS.PENDING
+  }
+
+  const conversation = { ...active.value, message }
+
+  rootStore.addMessage(conversation)
 
   text.value = ''
   loading.value = true
-  const roomId = conversationStore.active.roomId
+  const { roomId } = active.value
   const params = { roomId, type, content }
   const r = await sendApi(params)
   if (r) {
-    rootStore.addMessage(r.data)
+    // rootStore.addMessage(r.data)
+    rootStore.updateMessage(uuid, r.data, MESSAGE_SEND_STATUS.SUCCESS, )
+  } else {
+    rootStore.updateMessage(uuid, conversation, MESSAGE_SEND_STATUS.FAIL)
   }
   loading.value = false
 }

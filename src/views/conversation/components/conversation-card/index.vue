@@ -7,6 +7,12 @@
       :tips="time"
       :active="conversation.id === active.id"
       @click="clickHandle">
+      <template #content>
+        <div class="flex_a_i-center">
+          <div class="flex-item_f-1 ellipse">{{ message }}</div>
+          <MessageSendStatus :message="conversation.message"></MessageSendStatus>
+        </div>
+      </template>
     </Card>
   </el-badge>
 </template>

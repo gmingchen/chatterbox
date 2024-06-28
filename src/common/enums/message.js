@@ -11,3 +11,9 @@ export const messageTypeList = [
   { label: '语音', value: MESSAGE_TYPE.AUDIO },
   { label: '文件', value: MESSAGE_TYPE.FILE },
 ]
+
+export const MESSAGE_SEND_STATUS = {
+  PENDING: 1, // 发送中
+  SUCCESS: 2, // 发送成功
+  FAIL: 3, // 发送失败
+}

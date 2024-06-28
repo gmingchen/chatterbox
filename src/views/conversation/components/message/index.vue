@@ -7,10 +7,13 @@
         <span class="email" v-if="message.email">({{ message.email }})</span>
         <span class="time margin-n-10">{{ time }}</span>
       </div>
-      <TextMessage :text="message.text" v-if="message.type === MESSAGE_TYPE.TEXT"></TextMessage>
-      <ImageMessage :image="message.image" v-if="message.type === MESSAGE_TYPE.IMAGE"></ImageMessage>
-      <FileMessage :file="message.file" v-if="message.type === MESSAGE_TYPE.FILE"></FileMessage>
-      <AudioMessage :audio="message.audio" v-if="message.type === MESSAGE_TYPE.AUDIO"></AudioMessage>
+      <div class="message-wrap flex">
+        <TextMessage :text="message.text" v-if="message.type === MESSAGE_TYPE.TEXT"></TextMessage>
+        <ImageMessage :image="message.image" v-if="message.type === MESSAGE_TYPE.IMAGE"></ImageMessage>
+        <FileMessage :file="message.file" v-if="message.type === MESSAGE_TYPE.FILE"></FileMessage>
+        <AudioMessage :audio="message.audio" v-if="message.type === MESSAGE_TYPE.AUDIO"></AudioMessage>
+        <MessageSendStatus class="margin-n-15" :message="message"></MessageSendStatus>
+      </div>
     </div>
   </div>
 </template> 
@@ -23,7 +26,7 @@ import AudioMessage from './components/audio-message/index.vue'
 
 import { dateFormat } from '@utils'
 
-import { MESSAGE_TYPE } from '@enums/message'
+import { MESSAGE_TYPE, MESSAGE_SEND_STATUS } from '@enums/message'
 
 const emits = defineEmits(['avatar-click'])
 
@@ -59,6 +62,9 @@ const avatarClickHandle = () => {
       display: none;
     }
   }
+  .message-wrap {
+    max-width: 70%;
+  }
   &:hover .email, &:hover .time {
     display: inline;
   }
@@ -69,6 +75,9 @@ const avatarClickHandle = () => {
     align-items: flex-end;
   }
   .info {
+    flex-direction: row-reverse;
+  }
+  .message-wrap {
     flex-direction: row-reverse;
   }
 }

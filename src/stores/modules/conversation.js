@@ -38,6 +38,20 @@ export const useConversationStore = defineStore('conversation', {
       }
     },
     /**
+     * 更新消息
+     * @param {*} id 消息ID
+     * @param {*} conversation 会话
+     */
+    updateMessage(messageId, conversation){
+      for (let i = 0; i < this.list.length; i++) {
+        const row = this.list[i];
+        if (messageId === row.message.id){
+          row.message = conversation.message
+          return
+        }
+      }
+    },
+    /**
      * 设置未读
      * @param {*} id 
      */

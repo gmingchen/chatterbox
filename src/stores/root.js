@@ -20,6 +20,14 @@ export const useRootStore = defineStore('root', {
       useConversationStore().setUnread(conversation.id)
     },
     /**
+     * 更新消息状态
+     */
+    updateMessage(id, conversation, sendStatus){
+      conversation.message.sendStatus = sendStatus
+      useConversationStore().updateMessage(id, conversation)
+      useRoomStore().updateMessage(id, conversation)
+    },
+    /**
      * 清除用户数据 用户信息
      * @param {*}
      */

@@ -6,6 +6,7 @@
         <span class="margin_l-10">{{ name }}</span>
       </div>
       <el-scrollbar ref="refScrollbar" @scroll="scrollHandle">
+      
         <div ref="refInner" class="flex-item_f-1 padding-15">
           <Loading class="loading" text="消息加载中" v-show="loading"></Loading>
           <div class="message-wrap" v-for="item in messages" :key="item.id" >
