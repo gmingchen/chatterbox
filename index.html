@@ -5,9 +5,84 @@
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatterbox</title>
+    <style>
+      .loading {
+        font-family: 'JoinedUp';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 60px;
+        font-weight: bold;
+        color: black;
+        display: flex;
+        align-items: center;
+      }
+      .loading > .logo {
+        width: 120px;
+        height: 120px;
+      }
+      .loading > span {
+        position: relative;
+        display: inline-block;
+        animation: wavyAnimate 1.5s ease-in-out infinite;
+      }
+      .loading > .character-0 {
+        animation-delay: calc(0.1s * 0);
+      }
+      .loading > .character-1 {
+        animation-delay: calc(0.1s * 1);
+      }
+      .loading > .character-2 {
+        animation-delay: calc(0.1s * 2);
+      }
+      .loading > .character-3 {
+        animation-delay: calc(0.1s * 3);
+      }
+      .loading > .character-4 {
+        animation-delay: calc(0.1s * 4);
+      }
+      .loading > .character-5 {
+        animation-delay: calc(0.1s * 5);
+      }
+      .loading > .character-6 {
+        animation-delay: calc(0.1s * 6);
+      }
+      .loading > .character-7 {
+        animation-delay: calc(0.1s * 7);
+      }
+      .loading > .character-8 {
+        animation-delay: calc(0.1s * 8);
+      }
+      .loading > .character-9 {
+        animation-delay: calc(0.1s * 9);
+      }
+      @keyframes wavyAnimate {
+        0%,45%,100%{
+          transform: translateY(0);
+        }
+        90%{
+          transform: translateY(-4px);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="loading">
+        <img class="logo" src="https://chatterbox.gumingchen.icu/resource/static/logo-black.png" />
+        <span class="character-0">C</span>
+        <span class="character-1">h</span>
+        <span class="character-2">a</span>
+        <span class="character-3">t</span>
+        <span class="character-4">t</span>
+        <span class="character-5">e</span>
+        <span class="character-6">r</span>
+        <span class="character-7">b</span>
+        <span class="character-8">o</span>
+        <span class="character-9">x</span>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

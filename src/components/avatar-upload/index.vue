@@ -1,7 +1,7 @@
 <template>
   <Upload
     class="avatar-upload height-80 width-80"
-    :accept="accept.join(',')"
+    :accept="IMAGE_ACCEPT.join(',')"
     :show-file-list="false"
     :action="uploadAvatarUrl()"
     :before-upload="beforeUploadHandle"
@@ -16,6 +16,8 @@
 <script setup>
 import { ElMessage } from 'element-plus'
 import useModel from '@/hooks/model'
+
+import { IMAGE_ACCEPT } from '@constants/file'
 import { uploadAvatarUrl } from '@/api/file'
 
 const props = defineProps({
@@ -28,11 +30,9 @@ const props = defineProps({
 
 const value = useModel(props)
 
-const accept = ['IMAGE/JPG', 'IMAGE/PNG', 'IMAGE/GIF', 'IMAGE/JPEG']
-
 const beforeUploadHandle = (file) => {
   const { type } = file
-  if (accept.includes(type.toUpperCase())) {
+  if (IMAGE_ACCEPT.includes(type.toUpperCase())) {
     return true
   }
   

@@ -14,7 +14,7 @@
           </div>
         </div>
       </el-scrollbar>
-      <Editor class="editor"></Editor>
+      <Editor></Editor>
     </template>
     <Empty v-else></Empty>
     <ApplyFriendDialog ref="refApplyFriendDialog"></ApplyFriendDialog>
@@ -166,10 +166,6 @@ onActivated(() => {
   }
   .message-wrap + .message-wrap {
     margin-top: 20px;
-  }
-  .editor {
-    border-radius: var(--el-border-radius-round);
-    border-top: 1px solid var(--wrap-background-color);
   }
 }
 </style>
