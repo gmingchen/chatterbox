@@ -24,7 +24,7 @@ import ImageMessage from './components/image-message/index.vue'
 import FileMessage from './components/file-message/index.vue'
 import AudioMessage from './components/audio-message/index.vue'
 
-import { dateFormat } from '@utils'
+import { dateFormat, timeFormat } from '@utils'
 
 import { MESSAGE_TYPE, MESSAGE_SEND_STATUS } from '@enums/message'
 
@@ -42,7 +42,7 @@ const props = defineProps({
 })
 
 const time = computed(() => {
-  return dateFormat(props.message.createdAt)
+  return timeFormat(props.message.createdAt)
 })
 
 const avatarClickHandle = () => {

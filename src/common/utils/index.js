@@ -74,8 +74,8 @@ export function dateFormat(date) {
 
   const formats = [
     { compare: 'YYYY-MM-DD', result: 'HH:mm' },
-    { compare: 'YYYY-MM', result: 'MM-DD' },
-    { compare: 'YYYY', result: 'YYYY-MM' },
+    { compare: 'YYYY-MM', result: 'MM/DD' },
+    { compare: 'YYYY', result: 'MM/DD' },
   ]
 
   for (let i = 0; i < formats.length; i++) {
@@ -85,7 +85,31 @@ export function dateFormat(date) {
     }
   }
 
-  return currentDate.format('YYYY-MM')
+  return currentDate.format('YY/MM')
+}
+
+/**
+ * @param {*} time
+ * @returns {string}
+ */
+export function timeFormat(time) {
+  const currentTime = dayjs()
+  const targetTime = dayjs(time)
+
+  const formats = [
+    { compare: 'YYYY-MM-DD', result: 'HH:mm:ss' },
+    { compare: 'YYYY-MM', result: 'MM/DD HH:mm' },
+    { compare: 'YYYY', result: 'MM/DD HH:mm' },
+  ]
+
+  for (let i = 0; i < formats.length; i++) {
+    const { compare, result } = formats[i];
+    if (currentTime.format(compare) === targetTime.format(compare)) {
+      return targetTime.format(result)
+    }
+  }
+
+  return currentTime.format('YY/MM HH:mm')
 }
 
 /**
