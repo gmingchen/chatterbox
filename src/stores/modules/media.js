@@ -72,7 +72,6 @@ export const useMediaStore = defineStore('media', {
     // ontrack 事件
     ontrack: (event) => {
       const video = document.getElementById('video')
-      console.log(video);
       video.srcObject = event.streams[0];
       video.play()
       console.log('ontrack', event);
@@ -200,8 +199,6 @@ export const useMediaStore = defineStore('media', {
         this.channel = e.channel 
         channelHandler(this)
       }
-
-      console.log(1233);
 
       this.connection.setRemoteDescription(description)
 

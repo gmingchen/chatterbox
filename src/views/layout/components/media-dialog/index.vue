@@ -71,7 +71,6 @@ onMounted(async () => {
       z-index: 1;
     }
     .video-empty {
-      bottom: 10%;
     }
   }
 }
