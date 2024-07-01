@@ -10,7 +10,7 @@
       <template #content>
         <div class="flex_a_i-center">
           <div class="flex-item_f-1 ellipse">{{ message }}</div>
-          <MessageSendStatus :message="conversation.message"></MessageSendStatus>
+          <MessageSendStatus :message="conversation.message" v-if="conversation.message"></MessageSendStatus>
         </div>
       </template>
     </Card>

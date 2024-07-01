@@ -12,9 +12,9 @@
       <UserBox v-if="!showVideo" :avatar="active.avatar" :name="active.name"></UserBox>
       <Status v-if="!showVideo" :active="active"></Status>
       <Operation class="opreation margin_b-10" :active="active"></Operation>
-      <video id="video"></video>
+      <video id="video" v-show="showVideo"></video>
       <div v-if="showVideo" class="video-empty">
-        <Empty icon="VideoCamera"></Empty>
+        <Empty></Empty>
       </div>
     </div>
   </el-dialog>
@@ -69,6 +69,9 @@ onMounted(async () => {
     }
     #video {
       z-index: 1;
+    }
+    .video-empty {
+      bottom: 10%;
     }
   }
 }
