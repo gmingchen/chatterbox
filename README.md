@@ -93,6 +93,9 @@
   </tr>
   <tr>
     <td><img src="https://chatterbox.gumingchen.icu/resource/demo/ing.jpg" title="演示图片" alt="演示图片" /></td>
+    <td><img src="https://chatterbox.gumingchen.icu/resource/demo/video.jpg" title="演示图片" alt="演示图片" /></td>
+  </tr>
+  <tr>
     <td><img src="https://chatterbox.gumingchen.icu/resource/demo/apply.jpg" title="演示图片" alt="演示图片" /></td>
   </tr>
 </table>

@@ -11,6 +11,8 @@
 </template>
 
 <script setup>
+import { ElMessage } from 'element-plus';
+
 defineProps({
   audio: {
     type: String,
@@ -19,24 +21,37 @@ defineProps({
 })
 const refAudio = ref()
 
+const loading = ref(true)
 const duration = ref('')
 const playing = ref(false)
+
+const play = () => {
+  if (loading.value) {
+    return ElMessage({ 
+      message: '语音加载中，请稍后播放~',
+      type: 'warning',
+      duration: 3000
+    })
+  }
+  const audios = document.getElementsByTagName('audio')
+  for (let i = 0; i < audios.length; i++) {
+    const audio = audios[i];
+    audio.pause()
+  }
+  refAudio.value.currentTime = 0
+  refAudio.value.play()
+}
 
 const clickHandle = () => {
   if (playing.value) {
     refAudio.value.pause()
   } else {
-    const audios = document.getElementsByTagName('audio')
-    for (let i = 0; i < audios.length; i++) {
-      const audio = audios[i];
-      audio.pause()
-    }
-    refAudio.value.currentTime = 0
-    refAudio.value.play()
+    play()
   }
 }
 
 const loadHandle = async () => {
+  loading.value = false
   const audio = refAudio.value;
   while (audio.duration === Infinity) {
     await new Promise(r => setTimeout(r, 200));
@@ -52,6 +67,8 @@ const playHandle = () => {
 const pauseHandle = () => {
   playing.value = false
 }
+
+defineExpose({ play })
 </script>
 
 <style lang="scss" scoped>

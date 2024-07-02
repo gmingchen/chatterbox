@@ -171,6 +171,38 @@ export function generateUUID() {
 }
 
 /**
+ * 请求文件
+ * @param {*} url 文件资源路径 
+ * @returns 
+ */
+export async function fetchFile(url) {
+  const r = await fetch(url)
+  console.log(r);
+  if (r.ok) {
+    return r.blob()
+  }
+}
+/**
+ * @description: 文件下载
+ * @param {*} blob
+ * @param {*} name 文件名称
+ * @return {*}
+ * @author: gumingchen
+ */
+export function downloadFile(blob, name) {
+  if (blob) {
+    const href = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = href
+    a.download = name
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(href)
+  }
+}
+
+/**
  * 获取用户媒体
  * @param {*} audio 音频 
  * @param {*} video 视频
@@ -264,9 +296,9 @@ export function notification(title, content, icon, data, onclick = () => {}) {
   if (window.Notification) {
     if (Notification.permission === 'granted') {
       notificationHandler(title, content, icon, data, onclick)
-    } else if (Notification.permission !== "denied") {
+    } else if (Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
+        if (permission === 'granted') {
           notificationHandler(title, content, icon, data, onclick)
         }
       })

@@ -92,6 +92,11 @@ export default defineConfig(({ mode }) => {
           target: 'https://chatterbox.gumingchen.icu',
           // target: 'http://localhost:8830',
           changeOrigin: true,
+        },
+        '^/resource': {
+          target: 'https://chatterbox.gumingchen.icu',
+          // target: 'http://localhost:8830',
+          changeOrigin: true,
         }
       },
       // 为开发服务器配置 CORS。
