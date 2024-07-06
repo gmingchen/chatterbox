@@ -10,7 +10,6 @@
   </p>
 </h1>
 
-
 <p align="center">
   <a href="https://github.com/vuejs/vue-next">
     <img src="https://img.shields.io/badge/vue-3.x-brightgreen.svg" alt="vue">
@@ -43,6 +42,8 @@
 🤿后端是基于 __`java`__ 的 __`springboot`__ 、 __`netty`__  实现。
 
 🔔比较关键的技术点是通过 `Websocket` 实现了消息的实时传递 和 通过 `RTCPeerConnection` 实现语音通话、视频通话。
+
+[![Star History](https://api.star-history.com/svg?repos=gmingchen/chatterbox&type=Date)](https://api.star-history.com/svg?repos=gmingchen/chatterbox&type=Date)
 
 ###### 已内置如下功能：
 - [X] 邮箱登录、注册、个人信息编辑
