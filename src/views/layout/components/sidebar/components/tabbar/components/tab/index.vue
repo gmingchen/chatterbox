@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="tab width-50 height-50 cursor-pointer flex_d-column flex_j_c-center flex_a_i-center"
+    class="tab width-60 height-50 cursor-pointer flex_d-column flex_j_c-center flex_a_i-center"
     :class="active ? 'active' : ''"
     @click="clickHandle">
       <el-icon size="26">
@@ -57,7 +57,7 @@ const clickHandle = async () => {
     background-color: var(--tabbar-background-color);
   }
   & + & {
-    margin-top: 10px;
+    margin-top: 15px;
   }
   &:last-child {
     margin-top: 30px;

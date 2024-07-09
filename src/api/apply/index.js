@@ -39,3 +39,14 @@ export function pageApi(params) {
     params
   })
 }
+
+/**
+ * 待审核数量
+ * @returns
+ */
+export function auditCountApi() {
+  return service({
+    url: '/apply/audit/count',
+    method: 'get'
+  })
+}

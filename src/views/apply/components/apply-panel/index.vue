@@ -89,7 +89,7 @@ const reviewHandle = async (status) => {
   } else if (status === APPLY_STATUS.REJECT) {
     const r = await reviewFriendApi({ id, status})
     if (r) {
-      active.value.status = status
+      applyStore.setStatus(id, APPLY_STATUS.REJECT)
     }
   }
 }

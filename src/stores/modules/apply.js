@@ -1,13 +1,23 @@
 import { clearJson } from '@utils'
 
-import { pageApi } from '@/api/apply'
+import { auditCountApi, pageApi } from '@/api/apply'
 
 export const useApplyStore = defineStore('apply', {
   state: () => ({
+    auditCount: 0,
     active: null,
     list: [],
   }),
   actions: {
+    /**
+     * 获取待审核数量
+     */
+    async getAuditCount() {
+      const r = await auditCountApi()
+      if (r) {
+        this.auditCount = r.data
+      }
+    },
     /**
      * 获取消息列表
      * @param {*} size 数据量
@@ -31,6 +41,7 @@ export const useApplyStore = defineStore('apply', {
      */
     addApply(apply) {
       this.list.unshift(apply)
+      this.auditCount += 1
     },
     /**
      * 设置选中
@@ -48,6 +59,7 @@ export const useApplyStore = defineStore('apply', {
     setStatus(id, status) {
       const apply = this.list.find(item => item.id === id)
       apply.status = status
+      this.auditCount = this.auditCount > 0 ? this.auditCount - 1 : 0
     },
     /**
      * 清除数据

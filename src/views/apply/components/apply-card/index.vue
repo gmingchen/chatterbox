@@ -1,12 +1,14 @@
 <template>
-  <Card
-    :image="image"
-    :content="content"
-    :label="label"
-    :tips="tips"
-    :active="apply.id === active.id"
-    @click="clickHandle">
-  </Card>
+  <el-badge class="apply-card width-full" :is-dot="hidden">
+    <Card
+      :image="image"
+      :content="content"
+      :label="label"
+      :tips="tips"
+      :active="apply.id === active.id"
+      @click="clickHandle">
+    </Card>
+  </el-badge>
 </template>
 
 <script setup>
@@ -55,6 +57,8 @@ const tips = computed(() => {
   }
 })
 
+const hidden = computed(() => props.apply.status === APPLY_STATUS.AUDIT)
+
 const applyStore = useApplyStore()
 const active = computed({
   get: () => applyStore.active || {},
@@ -66,4 +70,15 @@ const clickHandle = () => {
 </script>
 
 <style lang="scss" scoped>
+.apply-card {
+  ::v-deep(.el-badge__content.is-fixed){
+    --margin: 4px;
+    top: var(--margin);
+    right: calc(8px - var(--margin));
+    transform: translateY(20%)
+  }
+  & + & {
+    margin-top: 4px;
+  }
+}
 </style>
