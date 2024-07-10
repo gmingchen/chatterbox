@@ -85,6 +85,9 @@ const getData = async () => {
   const list = await roomStore.getUserList(roomId, lastId)
   if (!list.length) {
     // finished.value = true
+  } else {
+    // 自动加载人员
+    getData()
   }
 
   nextTick(() => loading.value = false)
