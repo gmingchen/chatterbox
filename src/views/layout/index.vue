@@ -20,7 +20,8 @@ import MediaDialog from './components/media-dialog/index.vue'
   padding: 10vh 0;
   .wrap {
     padding: 20px 20px 20px 0;
-    width: 80vw;
+    min-width: 900px;
+    max-width: 80vw;
     margin: auto;
     background-color: var(--wrap-background-color);
     box-shadow: var(--el-box-shadow);
