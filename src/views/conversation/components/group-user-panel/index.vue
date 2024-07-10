@@ -1,15 +1,22 @@
 <template>
-  <div class="group-user-panel">
-    <el-scrollbar ref="refScrollbar" @scroll="scrollHandle">
+  <div class="group-user-panel flex_d-column">
+    <div class="header padding-10 flex flex_a_i-baseline">
+      <div>群成员</div>
+      <div class="margin-n-5">·</div>
+      <div>{{ count.online }} / {{ count.total }}</div>
+    </div>
+    <el-scrollbar ref="refScrollbar" class="flex-item_f-1" @scroll="scrollHandle">
       <div ref="refInner" class="padding-n-5">
-        <div
-          class="wrap padding-5 cursor-pointer flex flex_a_i-center"
-          v-for="item in users"
-          :key="item.id"
-          @click="clickHandle(item)">
-          <Avatar :src="item.avatar" :name="item.roomUserNickname || item.nickname" :size="30" slice-length="2"></Avatar>
-          <div class="flex-item_f-1 font-size-12 margin_l-10 ellipse">{{ item.roomUserNickname || item.nickname }}</div>
-        </div>
+        <TransitionGroup tag="div" name="move">
+          <GroupUser 
+            v-for="item in users"
+            :key="item.id"
+            :avatar="item.avatar"
+            :name="item.roomUserNickname || item.nickname"
+            :online="item.online"
+            @click="clickHandle(item)">
+          </GroupUser>
+        </TransitionGroup>
         <div class="margin_t-10 width-full height-20" v-show="loading">
           <Loading text="数据加载中"></Loading>
         </div>
@@ -20,17 +27,39 @@
 </template>
 
 <script setup>
+import GroupUser from '../group-user/index.vue'
+
 const conversationStore = useConversationStore()
 const roomStore = useRoomStore()
 
 const active = computed(() => conversationStore.active)
+
+const count = computed(() => {
+  const result = {
+    total: 0,
+    online: 0
+  }
+  if (active.value) {
+    const { roomId } = active.value
+    const room = roomStore.list.find(room => room.id === roomId)
+    if (room) {
+      const { userTotalCount, userOnlineCount } = room
+      result.total = userTotalCount
+      result.online = userOnlineCount
+    }
+  }
+  return result
+})
 
 const users = computed(() => {
   if (active.value) {
     const { roomId } = active.value
     const room = roomStore.list.find(room => room.id === roomId)
     if (room) {
-      return room.users
+      const list = [...room.users]
+      return list.sort((a, b) => {
+        return b.online - a.online
+      })
     }
   }
   return []
@@ -38,6 +67,10 @@ const users = computed(() => {
 
 const loading = ref(false)
 const finished = ref(false)
+
+const getCount = async () => {
+  roomStore.getUserCount(active.value.roomId)
+}
 
 const getData = async () => {
   loading.value = true
@@ -76,6 +109,7 @@ const clickHandle = ({ id }) => {
 
 onBeforeMount(() => {
   if (!users.value.length) {
+    getCount()
     getData()
   }
 })
@@ -85,15 +119,9 @@ onBeforeMount(() => {
 .group-user-panel {
   background-color: var(--card-background-color);
   border-radius: var(--box-border-radius);
-  .wrap {
-    border-radius: var(--box-border-radius);
-    color: var(--el-color-info-dark-2);
-    &:hover {
-      background-color: var(--card-hover-background-color);
-    }
-    &:first-child {
-      margin-top: 10px;
-    }
+  .header {
+    font-size: 12px;
+    border-bottom: 1px solid var(--wrap-background-color);
   }
 }
 </style>

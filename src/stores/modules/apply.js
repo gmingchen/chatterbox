@@ -62,6 +62,19 @@ export const useApplyStore = defineStore('apply', {
       this.auditCount = this.auditCount > 0 ? this.auditCount - 1 : 0
     },
     /**
+     * 更新用户在线状态
+     * @param {*} userId 用户ID
+     * @param {*} online 在线状态
+     */
+    updateUserOnline(userId, online) {
+      for (let i = 0; i < this.list.length; i++) {
+        const { user } = this.list[i];
+        if (user.id === userId) {
+          user.online = online
+        }
+      }
+    },
+    /**
      * 清除数据
      */
     clear() {

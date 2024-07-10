@@ -82,6 +82,20 @@ export const useConversationStore = defineStore('conversation', {
       this.active = conversation
     },
     /**
+     * 更新用户在线状态
+     * @param {*} userId 用户ID
+     * @param {*} online 在线状态
+     */
+    updateUserOnline(userId, online) {
+      for (let i = 0; i < this.list.length; i++) {
+        const { friend } = this.list[i];
+        if (friend && friend.userId === userId) {
+          friend.online = online
+          break
+        }
+      }
+    },
+    /**
      * 清除数据
      */
     clear() {

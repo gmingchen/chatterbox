@@ -13,3 +13,8 @@ export const EDIT_TYPE = {
   INFO: 'info',
   EMAIL: 'email',
 }
+
+export const ONLINE_STATUS = {
+  OFFLINE: 0,
+  ONLINE: 1,
+}

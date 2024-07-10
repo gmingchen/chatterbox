@@ -4,6 +4,7 @@ import { ElMessage, ElNotification } from 'element-plus'
 import { WEBSOCKET_TYPE } from '@enums/websocket'
 import { APPLY_TYPE } from '@enums/apply'
 import { MEDIA_TYPE, MEDIA_STATUS } from '@enums/media'
+import { ONLINE_STATUS } from '@enums/user'
 import { notification } from '@utils'
 
 export default defineComponent({
@@ -159,7 +160,6 @@ export default defineComponent({
         mediaStore.remove(data)
       }
     }
-
     /**
      * 语音 视频 被拒绝处理器
      * @param {*} data 
@@ -172,7 +172,6 @@ export default defineComponent({
       ElMessage({ message, type: 'warning' })
       mediaStore.updateStatus(data, MEDIA_STATUS.REJECTED)
     }
-
     /**
      * 语音 视频 邀请被接受处理器
      * @param {*} data 
@@ -184,7 +183,6 @@ export default defineComponent({
       mediaStore.updateStatus(id, MEDIA_STATUS.ING)
       mediaStore.updateDescription(id, description)
     }
-
     /**
      * 语音 视频 被挂断处理器
      * @param {*} data 
@@ -192,6 +190,15 @@ export default defineComponent({
     const finishHandler = (data) => {
       mediaStore.destroyConnection()
       mediaStore.updateStatus(data, MEDIA_STATUS.CLOSED)
+    }
+    /**
+     * 用户上下线处理器
+     * @param {*} data 
+     * @param {*} type 
+     */
+    const userOnlineHandler = (data, type) => {
+      const online = type === WEBSOCKET_TYPE.USER_ONLINE ? ONLINE_STATUS.ONLINE : ONLINE_STATUS.OFFLINE
+      rootStore.updateUserOnline(data, online)
     }
 
     watch(() => response.value, (newVal) => {
@@ -227,8 +234,11 @@ export default defineComponent({
         acceptHandler(body)
       } else if (type === WEBSOCKET_TYPE.VIDEO_CLOSE) {
         finishHandler(body)
+      } else if (type === WEBSOCKET_TYPE.USER_ONLINE) {
+        userOnlineHandler(body, type)
+      } else if (type === WEBSOCKET_TYPE.USER_OFFLINE) {
+        userOnlineHandler(body, type)
       }
-      
     }, { deep: true })
 
     onBeforeMount(() => {

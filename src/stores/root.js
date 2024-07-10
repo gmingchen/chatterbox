@@ -1,3 +1,5 @@
+import { useApplyStore } from "./modules/apply"
+
 export const useRootStore = defineStore('root', {
   state: () => ({}),
   getters: {},
@@ -26,6 +28,17 @@ export const useRootStore = defineStore('root', {
       conversation.message.sendStatus = sendStatus
       useConversationStore().updateMessage(id, conversation)
       useRoomStore().updateMessage(id, conversation)
+    },
+    /**
+     * 更新好友，群用户在线状态
+     * @param {*} userId 用户ID
+     * @param {*} online 在线状态
+     */
+    updateUserOnline(userId, online) {
+      useConversationStore().updateUserOnline(userId, online)
+      useGroupingStore().updateUserOnline(userId, online)
+      useRoomStore().updateUserOnline(userId, online)
+      useApplyStore().updateUserOnline(userId, online)
     },
     /**
      * 清除用户数据 用户信息

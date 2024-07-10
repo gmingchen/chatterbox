@@ -14,12 +14,13 @@ export const useGroupingStore = defineStore('grouping', {
       const { list, keyword } = state
       list.forEach(grouping => {
         const exist = grouping.friends.filter(({ nickname , remark }) => nickname.includes(keyword) || remark.includes(keyword))
-        // if (exist.length) {
-          result.push({
-            ...grouping,
-            friends: exist
-          })
-        // }
+        exist.sort((a, b) => {
+          return b.online - a.online
+        })
+        result.push({
+          ...grouping,
+          friends: exist
+        })
       })
       return result
     }
@@ -87,6 +88,23 @@ export const useGroupingStore = defineStore('grouping', {
         }
       }
       this.active = friend
+    },
+    /**
+     * 更新用户在线状态
+     * @param {*} userId 用户ID
+     * @param {*} online 在线状态
+     */
+    updateUserOnline(userId, online) {
+      for (let i = 0; i < this.list.length; i++) {
+        const { friends } = this.list[i];
+        inner:for (let j = 0; j < friends.length; j++) {
+          const friend = friends[j];
+          if (friend.userId === userId) {
+            friend.online = online
+            break inner;
+          }
+        }
+      }
     },
     /**
      * 清除数据

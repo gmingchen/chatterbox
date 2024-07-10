@@ -1,6 +1,8 @@
 <template>
   <div class="card padding-10 cursor-pointer flex flex_a_i-center" :class="active ? 'active' : ''">
-    <Avatar :src="image" :name="label" :size="40"></Avatar>
+    <OnlineDot :visible="dotVisible">
+      <Avatar :src="image" :name="label" :size="40"></Avatar>
+    </OnlineDot>
     <div class="flex-item_f-1 margin-n-10">
       <div class="label ellipse" v-if="label">
         <el-tooltip :content="label" placement="top-start" :show-after="1000">
@@ -34,6 +36,10 @@ defineProps({
     default: () => '',
   },
   active: {
+    type: Boolean,
+    default: () => false
+  },
+  dotVisible: {
     type: Boolean,
     default: () => false
   }

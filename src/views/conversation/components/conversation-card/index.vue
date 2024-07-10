@@ -6,6 +6,7 @@
       :content="message"
       :tips="time"
       :active="conversation.id === active.id"
+      :dotVisible="visible"
       @click="clickHandle">
       <template #content>
         <div class="flex_a_i-center">
@@ -18,6 +19,7 @@
 </template>
 
 <script setup>
+import { ONLINE_STATUS } from '@enums/user'
 import { messageFormat, dateFormat } from '@utils'
 
 const props = defineProps({
@@ -63,6 +65,15 @@ const time = computed(() => {
   }
   return ''
 })
+
+const visible = computed(() => {
+  const { friend } = props.conversation
+  if (friend) {
+    return friend.online === ONLINE_STATUS.ONLINE
+  }
+  return false
+})
+
 
 
 const conversationStore = useConversationStore()

@@ -1,9 +1,9 @@
 <template>
-  <Card class="width-150" :image="user.avatar" :label="user.nickname" :content="sexLabel"></Card>
+  <Card class="width-150" :image="user.avatar" :label="user.nickname" :content="sexLabel" :dotVisible="visible"></Card>
 </template>
 
 <script setup>
-import { sexList } from '@enums/user'
+import { sexList, ONLINE_STATUS } from '@enums/user'
 
 const props = defineProps({
   user: {
@@ -16,6 +16,8 @@ const sexLabel = computed(() => {
   const sexItem = sexList.find(item => item.value === props.user.sex)
   return sexItem ? sexItem.label : ''
 })
+
+const visible = computed(() => props.user.online === ONLINE_STATUS.ONLINE)
 </script>
 
 <style lang="scss" scoped>

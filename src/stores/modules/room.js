@@ -1,7 +1,8 @@
+import { ONLINE_STATUS } from '@enums/user'
 import { clearJson } from '@utils'
 
 import { pageApi } from '@/api/message'
-import { roomGroupUserPageApi } from '@/api/room'
+import { roomGroupUserPageApi, roomGroupUserCountApi } from '@/api/room'
 
 export const useRoomStore = defineStore('room', {
   state: () => ({
@@ -27,6 +28,8 @@ export const useRoomStore = defineStore('room', {
           this.list.push({
             id: roomId,
             messages: messageList,
+            userTotalCount: 0,
+            userOnlineCount: 0,
             users: []
           })
         }
@@ -69,12 +72,40 @@ export const useRoomStore = defineStore('room', {
           this.list.push({
             id: roomId,
             messages: [],
+            userTotalCount: 0,
+            userOnlineCount: 0,
             users: userList
           })
         }
         return userList
       }
     },
+    /**
+     * 获取房间用户数量
+     * @param {*} roomId 房间ID
+     * @returns 
+     */
+    async getUserCount(roomId) {
+      const r = await roomGroupUserCountApi({ roomId })
+      if (r) {
+        const { totalCount, onlineCount } = r.data
+        const room = this.list.find(room => room.id === roomId)
+        if (room) {
+          room.userTotalCount = totalCount
+          room.userOnlineCount = onlineCount
+        } else {
+          this.list.push({
+            id: roomId,
+            messages: [],
+            userTotalCount: totalCount,
+            userOnlineCount: onlineCount,
+            users: [],
+          })
+        }
+        return r.data
+      }
+    },
+    
     /**
      * 新增房间 存在则新增消息 不存在则获取消息列表
      * @param {*} roomId 房间ID
@@ -99,6 +130,8 @@ export const useRoomStore = defineStore('room', {
         if (user.roomUserId === roomUserId + 1) {
           users.push(user)
         }
+        room.userTotalCount += 1
+        room.userOnlineCount += 1
       }
     },
     /**
@@ -119,6 +152,29 @@ export const useRoomStore = defineStore('room', {
           }
         }
       });
+    },
+    /**
+     * 更新用户在线状态
+     * @param {*} userId 用户ID
+     * @param {*} online 在线状态
+     */
+    updateUserOnline(userId, online) {
+      for (let i = 0; i < this.list.length; i++) {
+        const room = this.list[i];
+        const { users } = room
+        inner:for (let j = 0; j < users.length; j++) {
+          const user = users[j];
+          if (user.id === userId) {
+            user.online = online
+            if (online === ONLINE_STATUS.ONLINE) {
+              room.userOnlineCount += 1
+            } else if (online === ONLINE_STATUS.OFFLINE) {
+              room.userOnlineCount -= 1
+            }
+            break inner;
+          }
+        }
+      }
     },
     /**
      * 清除数据

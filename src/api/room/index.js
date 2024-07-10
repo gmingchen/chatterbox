@@ -12,3 +12,16 @@ export function roomGroupUserPageApi(params) {
     params
   })
 }
+
+/**
+ * 群房间用户数量
+ * @param {*} params
+ * @returns
+ */
+export function roomGroupUserCountApi(params) {
+  return service({
+    url: '/roomGroupUser/count',
+    method: 'get',
+    params
+  })
+}

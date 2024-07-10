@@ -45,3 +45,13 @@
   opacity: 0;
   transform: translateX(50px);
 }
+
+
+.move-move,
+.move-enter-active,
+.move-leave-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.move-leave-active {
+  position: absolute;
+}

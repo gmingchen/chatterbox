@@ -5,12 +5,14 @@
       <el-scrollbar class="width-280 padding-n-10">
         <el-collapse v-model="collapseActive">
           <el-collapse-item v-for="group in list" :key="group.id" :title="group.name" :name="group.fixed ? 'default' : group.id">
-            <FriendCard
-              class="card"
-              v-for="friend in group.friends"
-              :key="friend.id"
-              :friend="friend">
-            </FriendCard>
+            <TransitionGroup tag="div" name="move">
+              <FriendCard
+                class="card"
+                v-for="friend in group.friends"
+                :key="friend.id"
+                :friend="friend">
+              </FriendCard>
+            </TransitionGroup>
           </el-collapse-item>
         </el-collapse>
       </el-scrollbar>

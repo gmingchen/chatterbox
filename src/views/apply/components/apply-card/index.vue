@@ -6,6 +6,7 @@
       :label="label"
       :tips="tips"
       :active="apply.id === active.id"
+      :dotVisible="visible"
       @click="clickHandle">
     </Card>
   </el-badge>
@@ -13,6 +14,7 @@
 
 <script setup>
 import { APPLY_STATUS, applyStatusList } from '@enums/apply'
+import { ONLINE_STATUS } from '@enums/user'
 import { dateFormat } from '@utils'
 
 const props = defineProps({
@@ -58,6 +60,8 @@ const tips = computed(() => {
 })
 
 const hidden = computed(() => props.apply.status === APPLY_STATUS.AUDIT)
+
+const visible = computed(() => props.apply.user.online === ONLINE_STATUS.ONLINE)
 
 const applyStore = useApplyStore()
 const active = computed({
