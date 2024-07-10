@@ -83,21 +83,27 @@ const list = computed(() => {
   const groups = {}
   let lastKey = null
   if (messages.value.length) {
-    messages.value.reduce((pre, cur, index, array) => {
-      let key = null
-      const time = 60 * 60 * 1000
-      if (dayjs(pre.createdAt).valueOf() + time > dayjs(cur.createdAt).valueOf()) {
-        key = lastKey || timeFormat(pre.createdAt)
-      } else {
-        key = timeFormat(cur.createdAt)
-      }
-      lastKey = key
-      if (!Object.hasOwnProperty.call(groups, key)) {
-        groups[key] = []
-      }
-      groups[key].push(cur)
-      return cur
-    })
+    const time = 60 * 60 * 1000
+    let key = null
+    if (messages.value.length === 1) {
+      const message = messages.value[0]
+      key = timeFormat(message.createdAt)
+      groups[key] = [message]
+    } else {
+      messages.value.reduce((pre, cur, index, array) => {
+        if (dayjs(pre.createdAt).valueOf() + time > dayjs(cur.createdAt).valueOf()) {
+          key = lastKey || timeFormat(pre.createdAt)
+        } else {
+          key = timeFormat(cur.createdAt)
+        }
+        lastKey = key
+        if (!Object.hasOwnProperty.call(groups, key)) {
+          groups[key] = []
+        }
+        groups[key].push(cur)
+        return cur
+      })
+    }
   }
   return groups
 })
