@@ -14,7 +14,6 @@
               <Message :message="item" :reverse="item.userId === userId" @avatar-click="avatarClickHandle(item)"></Message>
             </div>
           </div>
-          
         </div>
       </el-scrollbar>
       <Editor></Editor>

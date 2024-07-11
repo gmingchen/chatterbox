@@ -9,11 +9,13 @@
       </div>
       <div class="message-wrap flex">
         <ContextMenu :menus="menus" @select="menuSelectHandle">
-          <TextMessage ref="refTextMessage" :text="message.text" v-if="message.type === MESSAGE_TYPE.TEXT"></TextMessage>
-          <ImageMessage ref="refImageMessage" :image="message.image" v-if="message.type === MESSAGE_TYPE.IMAGE"></ImageMessage>
-          <FileMessage :file="message.file" v-if="message.type === MESSAGE_TYPE.FILE"></FileMessage>
-          <AudioMessage ref="refAudioMessage" :audio="message.audio" v-if="message.type === MESSAGE_TYPE.AUDIO"></AudioMessage>
-          <MessageSendStatus class="margin-n-15" :message="message"></MessageSendStatus>
+          <div class="message-row flex">
+            <TextMessage ref="refTextMessage" :text="message.text" v-if="message.type === MESSAGE_TYPE.TEXT"></TextMessage>
+            <ImageMessage ref="refImageMessage" :image="message.image" v-if="message.type === MESSAGE_TYPE.IMAGE"></ImageMessage>
+            <FileMessage :file="message.file" v-if="message.type === MESSAGE_TYPE.FILE"></FileMessage>
+            <AudioMessage ref="refAudioMessage" :audio="message.audio" v-if="message.type === MESSAGE_TYPE.AUDIO"></AudioMessage>
+            <MessageSendStatus class="margin-n-15" :message="message"></MessageSendStatus>
+          </div>
         </ContextMenu>
       </div>
     </div>
@@ -117,10 +119,7 @@ const menuSelectHandle = async (row) => {
   .wrap {
     align-items: flex-end;
   }
-  .info {
-    flex-direction: row-reverse;
-  }
-  .message-wrap {
+  .info, .message-wrap, .message-row {
     flex-direction: row-reverse;
   }
 }
