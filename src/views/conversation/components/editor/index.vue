@@ -75,7 +75,7 @@ const sendHandle = async (type, content) => {
   const message = {
     id: uuid,
     type: type,
-    text: type === MESSAGE_TYPE.TEXT ? content : '',
+    text: type === MESSAGE_TYPE.TEXT ? content.trim() : '',
     image: type === MESSAGE_TYPE.IMAGE ? content : '',
     audio: type === MESSAGE_TYPE.AUDIO ? content : '',
     file: type === MESSAGE_TYPE.FILE ? content : '',

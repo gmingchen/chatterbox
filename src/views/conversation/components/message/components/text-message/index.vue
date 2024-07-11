@@ -1,5 +1,5 @@
 <template>
-  <pre class="text-message padding-10">{{ text }}</pre>
+  <pre class="text-message padding-10">{{ text.trim() }}</pre>
 </template>
 
 <script setup>
