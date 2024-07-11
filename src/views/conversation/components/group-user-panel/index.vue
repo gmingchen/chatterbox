@@ -51,16 +51,20 @@ const count = computed(() => {
   return result
 })
 
-const users = computed(() => {
+const room = computed(() => {
   if (active.value) {
     const { roomId } = active.value
-    const room = roomStore.list.find(room => room.id === roomId)
-    if (room) {
-      const list = [...room.users]
-      return list.sort((a, b) => {
-        return b.online - a.online
-      })
-    }
+    return roomStore.list.find(room => room.id === roomId)
+  }
+  return
+})
+
+const users = computed(() => {
+  if (room.value) {
+    const list = [...room.value.users]
+    return list.sort((a, b) => {
+      return b.online - a.online
+    })
   }
   return []
 })
@@ -69,20 +73,20 @@ const loading = ref(false)
 const finished = ref(false)
 
 const getCount = async () => {
-  roomStore.getUserCount(active.value.roomId)
+  await roomStore.getUserCount(active.value.roomId)
 }
 
 const getData = async () => {
   loading.value = true
 
-  const { roomId } = active.value
+  const { id, users } = room.value
   let lastId = ''
-  const length = users.value.length
+  const length = users.length
   if (length) {
-    lastId = users.value[length - 1].roomUserId
+    lastId = users[length - 1].roomUserId
   }
 
-  const list = await roomStore.getUserList(roomId, lastId)
+  const list = await roomStore.getUserList(id, lastId)
   if (!list.length) {
     // finished.value = true
   } else {
@@ -110,9 +114,9 @@ const clickHandle = ({ id }) => {
   refApplyFriendDialog.value.open(id)
 }
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   if (!users.value.length) {
-    getCount()
+    await getCount()
     getData()
   }
 })
