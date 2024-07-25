@@ -18,7 +18,7 @@ import { StorageType } from '@enums'
  * @return {*}
  * @author: gumingchen
  */
-function set(key, value = '', storage) {
+export function set(key, value = '', storage) {
   switch (storage) {
     case StorageType.COOKIE:
       cookie.set(key, value)
@@ -34,7 +34,7 @@ function set(key, value = '', storage) {
       break
   }
 }
-function get(key, storage) {
+export function get(key, storage) {
   let result
   switch (storage) {
     case StorageType.COOKIE:
@@ -52,7 +52,7 @@ function get(key, storage) {
   }
   return result
 }
-function clear(key, storage) {
+export function clear(key, storage) {
   switch (storage) {
     case StorageType.COOKIE:
       cookie.remove(key)

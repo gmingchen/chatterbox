@@ -6,6 +6,7 @@
     </div>
     <Websocket></Websocket>
     <MediaDialog></MediaDialog>
+    <Promote></Promote>
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 import Sidebar from './components/sidebar/index.vue'
 import Websocket from './components/websocket/index.vue'
 import MediaDialog from './components/media-dialog/index.vue'
+import Promote from './components/promote/index.vue'
 </script>
 
 <style lang="scss" scoped>
