@@ -147,7 +147,7 @@ If you want to write code with me, you can contact me for internal promotion.
   </tr>
   <tr>
     <td>
-      <img src="https://chatterbox.gumingchen.icu/resource/static/official-account-qr-code.jpg" width="200px" title="公众号" alt="公众号:loafer-man" />
+      <img src="https://admin.gumingchen.icu/file/static/official-account-qr-code.jpg" width="200px" title="公众号" alt="公众号:loafer-man" />
     </td>
     <td>
       <img src="https://chatterbox.gumingchen.icu/resource/static/wechat-qr-code.png" width="200px" title="微信" alt="微信:Gy1240235512" />
