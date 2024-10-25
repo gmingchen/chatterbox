@@ -37,7 +37,7 @@ const checked = ref(false)
 const key = ref('promote')
 
 const list = ref([
-  { label: '微信群', image: 'https://chatterbox.gumingchen.icu/resource/static/chatterbox-wechat-group.png' },
+  { label: '微信群', image: 'https://chatterbox.gumingchen.icu/resource/static/chatterbox-wechat-group.jpg' },
   { label: '公众号', image: officialAccountQrCode },
 ])
 

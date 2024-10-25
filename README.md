@@ -140,23 +140,23 @@ If you want to write code with me, you can contact me for internal promotion.
 
 <table>
   <tr align="center">
-    <td>交流群</td>
     <td>公众号</td>
-    <td>微信</td>
-    <td>QQ</td>
+    <td>个人微信</td>
+    <td>交流群</td>
+    <td>摸鱼群</td>
   </tr>
   <tr>
     <td>
-      <img src="https://chatterbox.gumingchen.icu/resource/static/chatterbox-wechat-group.png" width="200px" title="公众号" alt="公众号:loafer-man" />
-    </td>
-    <td>
-      <img src="https://admin.gumingchen.icu/file/static/official-account-qr-code.jpg" width="200px" title="公众号" alt="公众号:loafer-man" />
+      <img src="https://chatterbox.gumingchen.icu/resource/static/official-account-qr-code.jpg" width="200px" title="公众号" alt="公众号:loafer-man" />
     </td>
     <td>
       <img src="https://chatterbox.gumingchen.icu/resource/static/wechat-qr-code.png" width="200px" title="微信" alt="微信:Gy1240235512" />
     </td>
     <td>
-      <img src="https://admin.gumingchen.icu/file/static/qq-qr-code.jpg" width="200px" title="QQ" alt="QQ:1240235512" />
+      <img src="https://chatterbox.gumingchen.icu/resource/static/chatterbox-wechat-group.jpg" width="200px" title="交流群" alt="交流群" />
+    </td>
+    <td>
+      <img src="https://chatterbox.gumingchen.icu/resource/static/fish.jpg" width="200px" title="摸鱼群" alt="摸鱼群" />
     </td>
   </tr>
 </table>
@@ -179,10 +179,10 @@ If you want to write code with me, you can contact me for internal promotion.
   </tr>
   <tr>
     <td>
-      <img src="https://admin.gumingchen.icu/file/static/wechat-collection-code.jpg" width="200px" title="微信捐赠" alt="微信捐赠" />
+      <img src="https://chatterbox.gumingchen.icu/resource/static/wechat-collection-code.jpg" width="200px" title="微信捐赠" alt="微信捐赠" />
     </td>
     <td>
-      <img src="https://admin.gumingchen.icu/file/static/ali-collection-code.jpg" width="200px" title="支付宝捐赠" alt="支付宝捐赠" />
+      <img src="https://chatterbox.gumingchen.icu/resource/static/ali-collection-code.jpg" width="200px" title="支付宝捐赠" alt="支付宝捐赠" />
     </td>
   </tr>
 </table>

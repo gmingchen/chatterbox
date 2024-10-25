@@ -27,7 +27,7 @@ import github from '@/assets/images/github.png'
 import gitee from '@/assets/images/gitee.png'
 
 const list = [
-  { label: '微信群', logo: group, image: 'https://chatterbox.gumingchen.icu/resource/static/chatterbox-wechat-group.png' },
+  { label: '微信群', logo: group, image: 'https://chatterbox.gumingchen.icu/resource/static/chatterbox-wechat-group.jpg' },
   { label: '微信', logo: wechat, image: wechatQrCode },
   { label: '公众号', logo: officialAccount, image: officialAccountQrCode },
   { label: 'Github源码', logo: github, url: 'https://github.com/gmingchen/chatterbox' },
