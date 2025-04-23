@@ -85,7 +85,7 @@ export const useMediaStore = defineStore('media', {
       this.connection = new RTCPeerConnection({
         iceServers: [
           {
-            urls: 'turn:luoyisen.com:3478',
+            urls: 'stun:206.237.13.237:3478',
             username: 'lys',
             credential: '123',
           }
